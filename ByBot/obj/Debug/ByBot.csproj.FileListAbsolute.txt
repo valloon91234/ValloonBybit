@@ -1,0 +1,35 @@
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\obj\Debug\ByBot.csprojAssemblyReference.cache
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\ByBot.exe.config
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\ByBot.exe
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\ByBot.pdb
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\IO.Swagger.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\Newtonsoft.Json.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\RestSharp.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\IO.Swagger.pdb
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\RestSharp.xml
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\obj\Debug\ByBot.csproj.CopyComplete
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\obj\Debug\ByBot.exe
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\obj\Debug\ByBot.pdb
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\IO.Swagger.dll.config
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\bin\Debug\Newtonsoft.Json.xml
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot\ByBot\obj\Debug\ByBot.csproj.CoreCompileInputs.cache
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\ByBot.exe.config
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\ByBot.exe
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\ByBot.pdb
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\IO.Swagger.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\Newtonsoft.Json.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\RestSharp.dll
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\IO.Swagger.pdb
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\IO.Swagger.dll.config
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\Newtonsoft.Json.xml
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\bin\Debug\RestSharp.xml
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\obj\Debug\ByBot.csprojAssemblyReference.cache
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\obj\Debug\ByBot.csproj.CoreCompileInputs.cache
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\obj\Debug\ByBot.csproj.CopyComplete
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\obj\Debug\ByBot.exe
+D:\Workspace\Visual Studio 2019 BitCoin\ByBot2020\ByBot\obj\Debug\ByBot.pdb
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ByBot\obj\Debug\ByBot.csproj.AssemblyReference.cache
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ByBot\obj\Debug\ByBot.csproj.SuggestedBindingRedirects.cache
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ByBot\obj\Debug\ByBot.csproj.CoreCompileInputs.cache
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ByBot\obj\Debug\ByBot.exe
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ByBot\obj\Debug\ByBot.pdb

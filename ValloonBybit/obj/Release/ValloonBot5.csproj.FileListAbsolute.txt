@@ -1,0 +1,17 @@
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\ValloonBot5.exe.config
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\ValloonBot5.exe
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\ValloonBot5.pdb
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\IO.Swagger.dll
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\Newtonsoft.Json.dll
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\ValloonTrader.dll
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\RestSharp.dll
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\IO.Swagger.dll.config
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\ValloonTrader.dll.config
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\Newtonsoft.Json.xml
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\bin\Release\RestSharp.xml
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.csproj.AssemblyReference.cache
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.csproj.SuggestedBindingRedirects.cache
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.csproj.CoreCompileInputs.cache
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.csproj.CopyComplete
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.exe
+D:\Valloon\Workspace\ValloonBot\ValloonBot5\obj\Release\ValloonBot5.pdb

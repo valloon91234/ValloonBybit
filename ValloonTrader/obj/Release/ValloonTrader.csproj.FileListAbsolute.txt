@@ -1,0 +1,12 @@
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\ValloonTrader.dll.config
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\ValloonTrader.dll
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\IO.Swagger.dll
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\Newtonsoft.Json.dll
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\RestSharp.dll
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\IO.Swagger.dll.config
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\Newtonsoft.Json.xml
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Release\RestSharp.xml
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Release\ValloonTrader.csproj.AssemblyReference.cache
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Release\ValloonTrader.csproj.CoreCompileInputs.cache
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Release\ValloonTrader.csproj.CopyComplete
+D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Release\ValloonTrader.dll

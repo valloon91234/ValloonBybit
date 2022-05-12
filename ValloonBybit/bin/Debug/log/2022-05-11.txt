@@ -1,0 +1,96 @@
+
+[2022-05-11  15:21:18]  Config loaded.
+{
+  "username": "by",
+  "api_key": "ukDuebk5JPbCVWRAZ2",
+  "api_secret": "lvKG4pVbDpscU6MBD45uUM2S9Uo8P8MgscNl",
+  "testnet_mode": false,
+  "symbol": "ALGOUSDT",
+  "strategy": "PSAR",
+  "leverage": 0.01,
+  "buy_or_sell": 3,
+  "qty": 0,
+  "start_price": 0.0,
+  "price_height": 0.0,
+  "min_price": 0.0,
+  "max_price": 0.0,
+  "upper_stop": 0.025,
+  "lower_stop": 0.025,
+  "close": 0.0,
+  "stop": 0.0,
+  "interval": 30,
+  "exit": 0
+}
+
+[2022-05-11  15:21:18]  ParamMap loaded.
+{
+  "bin": 15,
+  "start": 0.022,
+  "step": 0.022,
+  "max": 0.03,
+  "stop": 0.01
+}
+
+[2022-05-11  15:29:31]  Config loaded.
+{
+  "username": "by",
+  "api_key": "ukDuebk5JPbCVWRAZ2",
+  "api_secret": "lvKG4pVbDpscU6MBD45uUM2S9Uo8P8MgscNl",
+  "testnet_mode": false,
+  "symbol": "ALGOUSDT",
+  "strategy": "PSAR",
+  "leverage": 0.01,
+  "buy_or_sell": 3,
+  "qty": 0,
+  "start_price": 0.0,
+  "price_height": 0.0,
+  "min_price": 0.0,
+  "max_price": 0.0,
+  "upper_stop": 0.025,
+  "lower_stop": 0.025,
+  "close": 0.0,
+  "stop": 0.0,
+  "interval": 30,
+  "exit": 0
+}
+
+[2022-05-11  15:29:31]  ParamMap loaded.
+{
+  "bin": 15,
+  "start": 0.022,
+  "step": 0.022,
+  "max": 0.03,
+  "stop": 0.01
+}
+
+[2022-05-11  06:48:44]  Config loaded.
+{
+  "username": "by",
+  "api_key": "ukDuebk5JPbCVWRAZ2",
+  "api_secret": "lvKG4pVbDpscU6MBD45uUM2S9Uo8P8MgscNl",
+  "testnet_mode": false,
+  "symbol": "ALGOUSDT",
+  "strategy": "PSAR",
+  "leverage": 0.01,
+  "buy_or_sell": 3,
+  "qty": 0,
+  "start_price": 0.0,
+  "price_height": 0.0,
+  "min_price": 0.0,
+  "max_price": 0.0,
+  "upper_stop": 0.025,
+  "lower_stop": 0.025,
+  "close": 0.0,
+  "stop": 0.0,
+  "interval": 30,
+  "exit": 0
+}
+
+[2022-05-11  06:48:45]  ParamMap loaded.
+{
+  "bin": 15,
+  "start": 0.022,
+  "step": 0.022,
+  "max": 0.03,
+  "stop": 0.01
+}

@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e24e5787-e84a-48b5-9103-a83c2410c709": {
+      "ProjectGuid": "e24e5787-e84a-48b5-9103-a83c2410c709",
+      "DisplayName": "Backtest",
+      "ColorIndex": 0
+    },
+    "2fc808bf-158c-4579-aa6c-70d3fbf78cf0": {
+      "ProjectGuid": "2fc808bf-158c-4579-aa6c-70d3fbf78cf0",
+      "DisplayName": "IO.Swagger",
+      "ColorIndex": 1
+    },
+    "4d7245f7-bc3c-4f2d-ad19-beaa912a3149": {
+      "ProjectGuid": "4d7245f7-bc3c-4f2d-ad19-beaa912a3149",
+      "DisplayName": "ValloonTrader",
+      "ColorIndex": 2
+    },
+    "c2ef531e-9075-4cce-97b8-993e1f9d7beb": {
+      "ProjectGuid": "c2ef531e-9075-4cce-97b8-993e1f9d7beb",
+      "DisplayName": "ByBot",
+      "ColorIndex": 3
+    },
+    "765c8c11-0e07-4a67-ba33-9c92d7848e05": {
+      "ProjectGuid": "765c8c11-0e07-4a67-ba33-9c92d7848e05",
+      "DisplayName": "ValloonBybit",
+      "ColorIndex": 4
+    }
+  },
+  "NextColorIndex": 5
+}

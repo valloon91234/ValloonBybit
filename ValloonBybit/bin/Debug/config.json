@@ -1,0 +1,11 @@
+{
+	"username": "by",
+	"api_key": "ukDuebk5JPbCVWRAZ2",
+	"api_secret": "lvKG4pVbDpscU6MBD45uUM2S9Uo8P8MgscNl",
+	"testnet_mode": false,
+	"symbol": "ALGOUSDT",
+	"strategy": "PSAR",
+	"leverage": 0.01,
+	"buy_or_sell": 3,
+	"exit": 0
+}
