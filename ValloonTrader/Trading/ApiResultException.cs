@@ -12,5 +12,7 @@ namespace Valloon.Trading
             this.Name = name;
             this.ResponseJson = responseJson.ToString();
         }
+
+        public override string Message => $"ApiResultException on {Name}: {ResponseJson}";
     }
 }

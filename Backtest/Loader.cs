@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using Valloon.Stock.Indicators;
+using Valloon.Indicators;
 using Valloon.Trading;
 using Valloon.Utils;
 

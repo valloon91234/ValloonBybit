@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Valloon.Trading;
 
-namespace Valloon.Stock.Indicators
+namespace Valloon.Indicators
 {
     /**
      * https://daveskender.github.io/Stock.Indicators/indicators/

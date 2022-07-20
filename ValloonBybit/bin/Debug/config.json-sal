@@ -1,11 +1,11 @@
 {
 	"username": "BBB",
-	"api_key": "nK9Ey4wr3PNRB7CtZf",
-	"api_secret": "68fzIBr3JbGbFgiROA76xi8slVu7UB09YJ2n",
+	"api_key": "2LHyIsfqTzO6oAVYSB",
+	"api_secret": "U268tc1EYGNuInpWQl0glz3qxiwl4cnSPRzT",
 	"testnet_mode": false,
 	"symbol": "SOLUSDT",
 	"strategy": "MACD",
-	"leverage": 0.1,
+	"leverage": 1,
 	"buy_or_sell": 3,
 	"exit": 0
 }

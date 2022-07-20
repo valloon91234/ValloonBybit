@@ -32,6 +32,8 @@ namespace Valloon.Trading
         {
             switch (symbol)
             {
+                case SYMBOL_SOLUSDT:
+                    return 1000;
                 case SYMBOL_ALGOUSDT:
                     return 10000;
                 default:
@@ -123,7 +125,8 @@ namespace Valloon.Trading
             var paramListOrdered = paramList.OrderBy(n => n.Key);
             foreach (var param in paramListOrdered)
             {
-                message += $"&{param.Key}={param.Value}";
+                if (param.Value != null && param.Value != "")
+                    message += $"&{param.Key}={param.Value}";
             }
             message = message.Substring(1);
             var signatureBytes = Hmacsha256(Encoding.UTF8.GetBytes(API_SECRET), Encoding.UTF8.GetBytes(message));
@@ -143,7 +146,7 @@ namespace Valloon.Trading
             JObject jObject = (JObject)KlineApiInstance.LinearKlineGet(symbol, interval, from, limit);
             ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
             var result = jObject.ToObject<KlineBase>().Result;
-            if (result == null) throw new ApiResultException("GetWalletBalance", jObject);
+            if (result == null) throw new ApiResultException("GetCandleList", jObject);
             return result;
         }
 
@@ -175,7 +178,7 @@ namespace Valloon.Trading
             var obj = jObject.ToObject<LinearOrderRecordsResponseBase>();
             if (obj.Result == null) throw new ApiResultException("GetActiveOrders", jObject);
             var data = ((JObject)obj.Result).ToObject<LinearOrderRecordsResponse>();
-            return data.Data;
+            return data.Data ?? new List<LinearListOrderResult>();
         }
 
         public QueryOrderRes GetQueryActiveOrder(string symbol, string orderId, string orderLinkId = null)
@@ -231,21 +234,25 @@ namespace Valloon.Trading
         public OrderRes NewOrder(OrderRes order)
         {
             RequestCount++;
+            if (order.TimeInForce == null) order.TimeInForce = TIME_IN_FORCE_GTC;
+            if (order.ReduceOnly == null) order.ReduceOnly = false;
+            if (order.CloseOnTrigger == null) order.CloseOnTrigger = false;
+            if (order.PositionIdx == null) order.PositionIdx = 0;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("side", order.Side),
                 new KeyValuePair<string, string>("symbol", order.Symbol),
                 new KeyValuePair<string, string>("order_type", order.OrderType),
-                new KeyValuePair<string, string>("qty", order.Qty.ToString()),
-                new KeyValuePair<string, string>("price", order.Price.ToString()),
-                new KeyValuePair<string, string>("time_in_force", order.TimeInForce?? TIME_IN_FORCE_GTC),
-                new KeyValuePair<string, string>("reduce_only",order.ReduceOnly.ToString()),
-                new KeyValuePair<string, string>("close_on_trigger",order.CloseOnTrigger.ToString()),
-                new KeyValuePair<string, string>("order_link_id",order.OrderLinkId.ToString()),
-                new KeyValuePair<string, string>("take_profit",order.TakeProfit.ToString()),
-                new KeyValuePair<string, string>("stop_loss",order.StopLoss.ToString()),
-                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy.ToString()),
+                new KeyValuePair<string, string>("qty", order.Qty?.ToString()),
+                new KeyValuePair<string, string>("price", order.Price?.ToString()),
+                new KeyValuePair<string, string>("time_in_force", order.TimeInForce ),
+                new KeyValuePair<string, string>("reduce_only", order.ReduceOnly?.ToString()),
+                new KeyValuePair<string, string>("close_on_trigger",order.CloseOnTrigger?.ToString()),
+                new KeyValuePair<string, string>("order_link_id",order.OrderLinkId),
+                new KeyValuePair<string, string>("take_profit",order.TakeProfit?.ToString()),
+                new KeyValuePair<string, string>("stop_loss",order.StopLoss?.ToString()),
+                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy),
+                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy),
                 new KeyValuePair<string, string>("position_idx",order.PositionIdx.ToString()),
             };
             CreateSignature(paramList);
@@ -265,12 +272,12 @@ namespace Valloon.Trading
                 new KeyValuePair<string, string>("order_id", order.OrderId),
                 new KeyValuePair<string, string>("order_link_id", order.OrderLinkId),
                 new KeyValuePair<string, string>("symbol", order.Symbol),
-                new KeyValuePair<string, string>("p_r_qty", order.Qty.ToString()),
-                new KeyValuePair<string, string>("p_r_price", order.Price.ToString()),
-                new KeyValuePair<string, string>("take_profit",order.TakeProfit.ToString()),
-                new KeyValuePair<string, string>("stop_loss",order.StopLoss.ToString()),
-                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy.ToString()),
+                new KeyValuePair<string, string>("p_r_qty", order.Qty?.ToString()),
+                new KeyValuePair<string, string>("p_r_price", order.Price?.ToString()),
+                new KeyValuePair<string, string>("take_profit", order.TakeProfit?.ToString()),
+                new KeyValuePair<string, string>("stop_loss", order.StopLoss?.ToString()),
+                new KeyValuePair<string, string>("tp_trigger_by", order.TpTriggerBy),
+                new KeyValuePair<string, string>("sl_trigger_by", order.SlTriggerBy),
             };
             CreateSignature(paramList);
             JObject jObject = (JObject)OrderApiInstance.LinearOrderReplace(order.Symbol, order.OrderId, order.OrderLinkId, order.Qty, order.Price, order.TakeProfit, order.StopLoss, order.TpTriggerBy, order.SlTriggerBy);
@@ -296,7 +303,7 @@ namespace Valloon.Trading
             JObject jObject = (JObject)ConditionalApiInstance.LinearConditionalGetOrders(null, null, symbol, null, null, limit, orderStatus);
             ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
             var obj = jObject.ToObject<LinearStopOrderRecordsResponseBase>();
-            if (obj.Result == null) throw new ApiResultException("GetActiveOrders", jObject);
+            if (obj.Result == null) throw new ApiResultException("GetActiveStopOrders", jObject);
             var data = ((JObject)obj.Result).ToObject<LinearStopOrderRecordsResponse>();
             return data.Data ?? new List<LinearListStopOrderResult>();
         }
@@ -318,16 +325,16 @@ namespace Valloon.Trading
             return result;
         }
 
-        public OrderRes CancelActiveStopOrder(string symbol, string orderId, string orderLinkId = null)
+        public OrderRes CancelActiveStopOrder(string symbol, string stopOrderId, string orderLinkId = null)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("symbol", symbol),
-                new KeyValuePair<string, string>("order_id", orderId)
+                new KeyValuePair<string, string>("stop_order_id", stopOrderId)
             };
             CreateSignature(paramList);
-            JObject jObject = (JObject)ConditionalApiInstance.LinearConditionalCancel(orderId, orderLinkId, symbol);
+            JObject jObject = (JObject)ConditionalApiInstance.LinearConditionalCancel(stopOrderId, orderLinkId, symbol);
             ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
             var obj = jObject.ToObject<OrderCancelBase>();
             if (obj.Result == null) return null;
@@ -354,24 +361,28 @@ namespace Valloon.Trading
         public ConditionalRes NewStopOrder(ConditionalRes order)
         {
             RequestCount++;
+            if (order.TimeInForce == null) order.TimeInForce = TIME_IN_FORCE_GTC;
+            if (order.ReduceOnly == null) order.ReduceOnly = false;
+            if (order.CloseOnTrigger == null) order.CloseOnTrigger = false;
+            if (order.PositionIdx == null) order.PositionIdx = 0;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("side", order.Side),
                 new KeyValuePair<string, string>("symbol", order.Symbol),
                 new KeyValuePair<string, string>("order_type", order.OrderType),
-                new KeyValuePair<string, string>("qty", order.Qty.ToString()),
-                new KeyValuePair<string, string>("price", order.Price.ToString()),
-                new KeyValuePair<string, string>("base_price", order.BasePrice.ToString()),
-                new KeyValuePair<string, string>("stop_px", order.StopPx.ToString()),
-                new KeyValuePair<string, string>("time_in_force", order.TimeInForce?? TIME_IN_FORCE_GTC),
-                new KeyValuePair<string, string>("trigger_by",order.TriggerBy.ToString()),
-                new KeyValuePair<string, string>("reduce_only",order.ReduceOnly.ToString()),
-                new KeyValuePair<string, string>("close_on_trigger",order.CloseOnTrigger.ToString()),
-                new KeyValuePair<string, string>("order_link_id",order.OrderLinkId.ToString()),
-                new KeyValuePair<string, string>("take_profit",order.TakeProfit.ToString()),
-                new KeyValuePair<string, string>("stop_loss",order.StopLoss.ToString()),
-                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy.ToString()),
+                new KeyValuePair<string, string>("qty", order.Qty?.ToString()),
+                new KeyValuePair<string, string>("price", order.Price?.ToString()),
+                new KeyValuePair<string, string>("base_price", order.BasePrice?.ToString()),
+                new KeyValuePair<string, string>("stop_px", order.StopPx?.ToString()),
+                new KeyValuePair<string, string>("time_in_force", order.TimeInForce),
+                new KeyValuePair<string, string>("trigger_by",order.TriggerBy?.ToString()),
+                new KeyValuePair<string, string>("reduce_only",order.ReduceOnly?.ToString()),
+                new KeyValuePair<string, string>("close_on_trigger",order.CloseOnTrigger?.ToString()),
+                new KeyValuePair<string, string>("order_link_id",order.OrderLinkId),
+                new KeyValuePair<string, string>("take_profit",order.TakeProfit?.ToString()),
+                new KeyValuePair<string, string>("stop_loss",order.StopLoss?.ToString()),
+                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy),
+                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy),
                 new KeyValuePair<string, string>("position_idx",order.PositionIdx.ToString()),
             };
             CreateSignature(paramList);
@@ -391,13 +402,13 @@ namespace Valloon.Trading
                 new KeyValuePair<string, string>("stop_order_id", order.StopOrderId),
                 new KeyValuePair<string, string>("order_link_id", order.OrderLinkId),
                 new KeyValuePair<string, string>("symbol", order.Symbol),
-                new KeyValuePair<string, string>("p_r_qty", order.Qty.ToString()),
-                new KeyValuePair<string, string>("p_r_price", order.Price.ToString()),
-                new KeyValuePair<string, string>("p_r_trigger_price", order.StopPx.ToString()),
-                new KeyValuePair<string, string>("take_profit",order.TakeProfit.ToString()),
-                new KeyValuePair<string, string>("stop_loss",order.StopLoss.ToString()),
-                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy.ToString()),
+                new KeyValuePair<string, string>("p_r_qty", order.Qty?.ToString()),
+                new KeyValuePair<string, string>("p_r_price", order.Price?.ToString()),
+                new KeyValuePair<string, string>("p_r_trigger_price", order.StopPx?.ToString()),
+                new KeyValuePair<string, string>("take_profit",order.TakeProfit?.ToString()),
+                new KeyValuePair<string, string>("stop_loss",order.StopLoss?.ToString()),
+                new KeyValuePair<string, string>("tp_trigger_by",order.TpTriggerBy),
+                new KeyValuePair<string, string>("sl_trigger_by",order.SlTriggerBy),
             };
             CreateSignature(paramList);
             JObject jObject = (JObject)ConditionalApiInstance.LinearConditionalReplace(order.Symbol, order.StopOrderId, order.OrderLinkId, order.Qty, order.Price, order.StopPx, order.TakeProfit, order.StopLoss, order.TpTriggerBy, order.SlTriggerBy);
@@ -408,7 +419,7 @@ namespace Valloon.Trading
             return data;
         }
 
-        public List<PositionInfo> GetPosition(string symbol, out PositionInfo buyPosition, out PositionInfo sellPosition)
+        public List<PositionInfo> GetPositionList(string symbol, out PositionInfo buyPosition, out PositionInfo sellPosition)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>

@@ -77,15 +77,15 @@ namespace Valloon.Trading
         {
             QuickEditMode(false);
             //Console.BufferHeight = Int16.MaxValue - 1;
-            MoveWindow(GetConsoleWindow(), 24, 0, 1080, 280, true);
+            MoveWindow(GetConsoleWindow(), 20, 0, 900, 280, true);
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
             Config config = Config.Load();
             switch (config.Strategy.ToUpper())
             {
-                case "PSAR":
-                    new PSarStopStrategy().Run();
+                case "MACD":
+                    new MacdStrategy().Run();
                     break;
                 default:
                     Console.WriteLine($"\r\nInvalid Strategy.");

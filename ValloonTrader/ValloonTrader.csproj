@@ -48,8 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Stock.Indicators\Sma.cs" />
-    <Compile Include="Stock.Indicators\Rsi.cs" />
+    <Compile Include="Indicators\Sma.cs" />
+    <Compile Include="Indicators\Rsi.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\Dns\DefaultDnsResolver.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\Dns\IDnsResolver.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\Enums\AddressType.cs" />
@@ -62,9 +62,9 @@
     <Compile Include="Test\HttpToSocks5Proxy\ProxyInfo.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\SocketRelay.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\Socks5.cs" />
-    <Compile Include="Stock.Indicators\CandleQuote.cs" />
-    <Compile Include="Stock.Indicators\ParabolicSar.cs" />
-    <Compile Include="Stock.Indicators\IndicatorHelper.cs" />
+    <Compile Include="Indicators\CandleQuote.cs" />
+    <Compile Include="Indicators\ParabolicSar.cs" />
+    <Compile Include="Indicators\IndicatorHelper.cs" />
     <Compile Include="Trading\ApiResultException.cs" />
     <Compile Include="Trading\BybitLinearApiHelper.cs" />
     <Compile Include="Trading\Logger.cs" />

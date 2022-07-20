@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
-using Valloon.Stock.Indicators;
-using Valloon.Trading;
+using Valloon.Indicators;
 
 namespace Valloon.Trading.Backtest
 {

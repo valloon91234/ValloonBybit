@@ -1,5 +1,3 @@
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\ValloonBot5.exe.config
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\ValloonBot5.exe
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\IO.Swagger.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\Newtonsoft.Json.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\Skender.Stock.Indicators.dll
@@ -14,4 +12,6 @@ D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\Valloo
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.csproj.SuggestedBindingRedirects.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.csproj.CoreCompileInputs.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.csproj.CopyComplete
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBot5.exe
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\ValloonBybit.exe.config
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\ValloonBybit.exe
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.exe

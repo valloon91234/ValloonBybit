@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Valloon.Trading;
 
-namespace Valloon.Stock.Indicators
+namespace Valloon.Indicators
 {
     /*
      * https://github.com/DaveSkender/Stock.Indicators/blob/main/src/_common/Candles/Candles.cs

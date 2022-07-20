@@ -28,12 +28,14 @@ namespace IO.Swagger.Model
     /// PositionInfo.
     /// </summary>
     [DataContract]
-    public partial class PositionInfo :  IEquatable<PositionInfo>, IValidatableObject
+    public partial class PositionInfo : IEquatable<PositionInfo>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PositionInfo" /> class.
         /// </summary>
         /// <param name="id">id.</param>
+        /// <param name="positionIdx">positionIdx.</param>
+        /// <param name="mode">mode.</param>
         /// <param name="userId">userId.</param>
         /// <param name="riskId">riskId.</param>
         /// <param name="symbol">symbol.</param>
@@ -41,6 +43,7 @@ namespace IO.Swagger.Model
         /// <param name="size">size.</param>
         /// <param name="positionValue">positionValue.</param>
         /// <param name="entryPrice">entryPrice.</param>
+        /// <param name="isIsolated">isIsolated.</param>
         /// <param name="leverage">leverage.</param>
         /// <param name="autoAddMargin">autoAddMargin.</param>
         /// <param name="positionMargin">positionMargin.</param>
@@ -63,9 +66,11 @@ namespace IO.Swagger.Model
         /// <param name="positionSeq">positionSeq.</param>
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
-        public PositionInfo(decimal? id = default(decimal?), decimal? userId = default(decimal?), decimal? riskId = default(decimal?), string symbol = default(string), string side = default(string), decimal? size = default(decimal?), decimal? positionValue = default(decimal?), decimal? entryPrice = default(decimal?), decimal? leverage = default(decimal?), decimal? autoAddMargin = default(decimal?), decimal? positionMargin = default(decimal?), decimal? liqPrice = default(decimal?), decimal? bustPrice = default(decimal?), decimal? occClosingFee = default(decimal?), decimal? occFundingFee = default(decimal?), decimal? takeProfit = default(decimal?), decimal? stopLoss = default(decimal?), string positionStatus = default(string), string deleverageIndicator = default(string), string ocCalcData = default(string), decimal? orderMargin = default(decimal?), decimal? walletBalance = default(decimal?), decimal? unrealisedPnl = default(decimal?), decimal? realisedPnl = default(decimal?), decimal? cumRealisedPnl = default(decimal?), decimal? cumCommission = default(decimal?), decimal? crossSeq = default(decimal?), decimal? positionSeq = default(decimal?), string createdAt = default(string), string updatedAt = default(string))
+        public PositionInfo(decimal? id = default, int? positionIdx = default, string mode = default, decimal? userId = default, decimal? riskId = default, string symbol = default(string), string side = default(string), decimal? size = default, decimal? positionValue = default, decimal? entryPrice = default, bool? isIsolated = default, decimal? leverage = default, decimal? autoAddMargin = default, decimal? positionMargin = default, decimal? liqPrice = default, decimal? bustPrice = default, decimal? occClosingFee = default, decimal? occFundingFee = default, decimal? takeProfit = default, decimal? stopLoss = default, string positionStatus = default(string), string deleverageIndicator = default(string), string ocCalcData = default(string), decimal? orderMargin = default, decimal? walletBalance = default, decimal? unrealisedPnl = default, decimal? realisedPnl = default, decimal? cumRealisedPnl = default, decimal? cumCommission = default, decimal? crossSeq = default, decimal? positionSeq = default, string createdAt = default(string), string updatedAt = default(string))
         {
             this.Id = id;
+            this.PositionIdx = positionIdx;
+            this.Mode = mode;
             this.UserId = userId;
             this.RiskId = riskId;
             this.Symbol = symbol;
@@ -96,185 +101,194 @@ namespace IO.Swagger.Model
             this.CreatedAt = createdAt;
             this.UpdatedAt = updatedAt;
         }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public decimal? Id { get; set; }
+
+        [DataMember(Name = "position_idx", EmitDefaultValue = false)]
+        public int? PositionIdx { get; set; }
+
+        [DataMember(Name = "mode", EmitDefaultValue = false)]
+        public string Mode { get; set; }
 
         /// <summary>
         /// Gets or Sets UserId
         /// </summary>
-        [DataMember(Name="user_id", EmitDefaultValue=false)]
+        [DataMember(Name = "user_id", EmitDefaultValue = false)]
         public decimal? UserId { get; set; }
 
         /// <summary>
         /// Gets or Sets RiskId
         /// </summary>
-        [DataMember(Name="risk_id", EmitDefaultValue=false)]
+        [DataMember(Name = "risk_id", EmitDefaultValue = false)]
         public decimal? RiskId { get; set; }
 
         /// <summary>
         /// Gets or Sets Symbol
         /// </summary>
-        [DataMember(Name="symbol", EmitDefaultValue=false)]
+        [DataMember(Name = "symbol", EmitDefaultValue = false)]
         public string Symbol { get; set; }
 
         /// <summary>
         /// Gets or Sets Side
         /// </summary>
-        [DataMember(Name="side", EmitDefaultValue=false)]
+        [DataMember(Name = "side", EmitDefaultValue = false)]
         public string Side { get; set; }
 
         /// <summary>
         /// Gets or Sets Size
         /// </summary>
-        [DataMember(Name="size", EmitDefaultValue=false)]
+        [DataMember(Name = "size", EmitDefaultValue = false)]
         public decimal? Size { get; set; }
 
         /// <summary>
         /// Gets or Sets PositionValue
         /// </summary>
-        [DataMember(Name="position_value", EmitDefaultValue=false)]
+        [DataMember(Name = "position_value", EmitDefaultValue = false)]
         public decimal? PositionValue { get; set; }
 
         /// <summary>
         /// Gets or Sets EntryPrice
         /// </summary>
-        [DataMember(Name="entry_price", EmitDefaultValue=false)]
+        [DataMember(Name = "entry_price", EmitDefaultValue = false)]
         public decimal? EntryPrice { get; set; }
+
+        [DataMember(Name = "is_isolated", EmitDefaultValue = false)]
+        public bool? IsIsolated { get; set; }
 
         /// <summary>
         /// Gets or Sets Leverage
         /// </summary>
-        [DataMember(Name="leverage", EmitDefaultValue=false)]
+        [DataMember(Name = "leverage", EmitDefaultValue = false)]
         public decimal? Leverage { get; set; }
 
         /// <summary>
         /// Gets or Sets AutoAddMargin
         /// </summary>
-        [DataMember(Name="auto_add_margin", EmitDefaultValue=false)]
+        [DataMember(Name = "auto_add_margin", EmitDefaultValue = false)]
         public decimal? AutoAddMargin { get; set; }
 
         /// <summary>
         /// Gets or Sets PositionMargin
         /// </summary>
-        [DataMember(Name="position_margin", EmitDefaultValue=false)]
+        [DataMember(Name = "position_margin", EmitDefaultValue = false)]
         public decimal? PositionMargin { get; set; }
 
         /// <summary>
         /// Gets or Sets LiqPrice
         /// </summary>
-        [DataMember(Name="liq_price", EmitDefaultValue=false)]
+        [DataMember(Name = "liq_price", EmitDefaultValue = false)]
         public decimal? LiqPrice { get; set; }
 
         /// <summary>
         /// Gets or Sets BustPrice
         /// </summary>
-        [DataMember(Name="bust_price", EmitDefaultValue=false)]
+        [DataMember(Name = "bust_price", EmitDefaultValue = false)]
         public decimal? BustPrice { get; set; }
 
         /// <summary>
         /// Gets or Sets OccClosingFee
         /// </summary>
-        [DataMember(Name="occ_closing_fee", EmitDefaultValue=false)]
+        [DataMember(Name = "occ_closing_fee", EmitDefaultValue = false)]
         public decimal? OccClosingFee { get; set; }
 
         /// <summary>
         /// Gets or Sets OccFundingFee
         /// </summary>
-        [DataMember(Name="occ_funding_fee", EmitDefaultValue=false)]
+        [DataMember(Name = "occ_funding_fee", EmitDefaultValue = false)]
         public decimal? OccFundingFee { get; set; }
 
         /// <summary>
         /// Gets or Sets TakeProfit
         /// </summary>
-        [DataMember(Name="take_profit", EmitDefaultValue=false)]
+        [DataMember(Name = "take_profit", EmitDefaultValue = false)]
         public decimal? TakeProfit { get; set; }
 
         /// <summary>
         /// Gets or Sets StopLoss
         /// </summary>
-        [DataMember(Name="stop_loss", EmitDefaultValue=false)]
+        [DataMember(Name = "stop_loss", EmitDefaultValue = false)]
         public decimal? StopLoss { get; set; }
 
         /// <summary>
         /// Gets or Sets PositionStatus
         /// </summary>
-        [DataMember(Name="position_status", EmitDefaultValue=false)]
+        [DataMember(Name = "position_status", EmitDefaultValue = false)]
         public string PositionStatus { get; set; }
 
         /// <summary>
         /// Gets or Sets DeleverageIndicator
         /// </summary>
-        [DataMember(Name="deleverage_indicator", EmitDefaultValue=false)]
+        [DataMember(Name = "deleverage_indicator", EmitDefaultValue = false)]
         public string DeleverageIndicator { get; set; }
 
         /// <summary>
         /// Gets or Sets OcCalcData
         /// </summary>
-        [DataMember(Name="oc_calc_data", EmitDefaultValue=false)]
+        [DataMember(Name = "oc_calc_data", EmitDefaultValue = false)]
         public string OcCalcData { get; set; }
 
         /// <summary>
         /// Gets or Sets OrderMargin
         /// </summary>
-        [DataMember(Name="order_margin", EmitDefaultValue=false)]
+        [DataMember(Name = "order_margin", EmitDefaultValue = false)]
         public decimal? OrderMargin { get; set; }
 
         /// <summary>
         /// Gets or Sets WalletBalance
         /// </summary>
-        [DataMember(Name="wallet_balance", EmitDefaultValue=false)]
+        [DataMember(Name = "wallet_balance", EmitDefaultValue = false)]
         public decimal? WalletBalance { get; set; }
 
         /// <summary>
         /// Gets or Sets UnrealisedPnl
         /// </summary>
-        [DataMember(Name="unrealised_pnl", EmitDefaultValue=false)]
+        [DataMember(Name = "unrealised_pnl", EmitDefaultValue = false)]
         public decimal? UnrealisedPnl { get; set; }
 
         /// <summary>
         /// Gets or Sets RealisedPnl
         /// </summary>
-        [DataMember(Name="realised_pnl", EmitDefaultValue=false)]
+        [DataMember(Name = "realised_pnl", EmitDefaultValue = false)]
         public decimal? RealisedPnl { get; set; }
 
         /// <summary>
         /// Gets or Sets CumRealisedPnl
         /// </summary>
-        [DataMember(Name="cum_realised_pnl", EmitDefaultValue=false)]
+        [DataMember(Name = "cum_realised_pnl", EmitDefaultValue = false)]
         public decimal? CumRealisedPnl { get; set; }
 
         /// <summary>
         /// Gets or Sets CumCommission
         /// </summary>
-        [DataMember(Name="cum_commission", EmitDefaultValue=false)]
+        [DataMember(Name = "cum_commission", EmitDefaultValue = false)]
         public decimal? CumCommission { get; set; }
 
         /// <summary>
         /// Gets or Sets CrossSeq
         /// </summary>
-        [DataMember(Name="cross_seq", EmitDefaultValue=false)]
+        [DataMember(Name = "cross_seq", EmitDefaultValue = false)]
         public decimal? CrossSeq { get; set; }
 
         /// <summary>
         /// Gets or Sets PositionSeq
         /// </summary>
-        [DataMember(Name="position_seq", EmitDefaultValue=false)]
+        [DataMember(Name = "position_seq", EmitDefaultValue = false)]
         public decimal? PositionSeq { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedAt
         /// </summary>
-        [DataMember(Name="created_at", EmitDefaultValue=false)]
+        [DataMember(Name = "created_at", EmitDefaultValue = false)]
         public string CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedAt
         /// </summary>
-        [DataMember(Name="updated_at", EmitDefaultValue=false)]
+        [DataMember(Name = "updated_at", EmitDefaultValue = false)]
         public string UpdatedAt { get; set; }
 
         /// <summary>
@@ -286,6 +300,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class PositionInfo {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  PositionIdx: ").Append(PositionIdx).Append("\n");
+            sb.Append("  Mode: ").Append(Mode).Append("\n");
             sb.Append("  UserId: ").Append(UserId).Append("\n");
             sb.Append("  RiskId: ").Append(RiskId).Append("\n");
             sb.Append("  Symbol: ").Append(Symbol).Append("\n");
@@ -293,6 +309,7 @@ namespace IO.Swagger.Model
             sb.Append("  Size: ").Append(Size).Append("\n");
             sb.Append("  PositionValue: ").Append(PositionValue).Append("\n");
             sb.Append("  EntryPrice: ").Append(EntryPrice).Append("\n");
+            sb.Append("  IsIsolated: ").Append(IsIsolated).Append("\n");
             sb.Append("  Leverage: ").Append(Leverage).Append("\n");
             sb.Append("  AutoAddMargin: ").Append(AutoAddMargin).Append("\n");
             sb.Append("  PositionMargin: ").Append(PositionMargin).Append("\n");
@@ -318,7 +335,7 @@ namespace IO.Swagger.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -348,152 +365,152 @@ namespace IO.Swagger.Model
             if (input == null)
                 return false;
 
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.UserId == input.UserId ||
                     (this.UserId != null &&
                     this.UserId.Equals(input.UserId))
-                ) && 
+                ) &&
                 (
                     this.RiskId == input.RiskId ||
                     (this.RiskId != null &&
                     this.RiskId.Equals(input.RiskId))
-                ) && 
+                ) &&
                 (
                     this.Symbol == input.Symbol ||
                     (this.Symbol != null &&
                     this.Symbol.Equals(input.Symbol))
-                ) && 
+                ) &&
                 (
                     this.Side == input.Side ||
                     (this.Side != null &&
                     this.Side.Equals(input.Side))
-                ) && 
+                ) &&
                 (
                     this.Size == input.Size ||
                     (this.Size != null &&
                     this.Size.Equals(input.Size))
-                ) && 
+                ) &&
                 (
                     this.PositionValue == input.PositionValue ||
                     (this.PositionValue != null &&
                     this.PositionValue.Equals(input.PositionValue))
-                ) && 
+                ) &&
                 (
                     this.EntryPrice == input.EntryPrice ||
                     (this.EntryPrice != null &&
                     this.EntryPrice.Equals(input.EntryPrice))
-                ) && 
+                ) &&
                 (
                     this.Leverage == input.Leverage ||
                     (this.Leverage != null &&
                     this.Leverage.Equals(input.Leverage))
-                ) && 
+                ) &&
                 (
                     this.AutoAddMargin == input.AutoAddMargin ||
                     (this.AutoAddMargin != null &&
                     this.AutoAddMargin.Equals(input.AutoAddMargin))
-                ) && 
+                ) &&
                 (
                     this.PositionMargin == input.PositionMargin ||
                     (this.PositionMargin != null &&
                     this.PositionMargin.Equals(input.PositionMargin))
-                ) && 
+                ) &&
                 (
                     this.LiqPrice == input.LiqPrice ||
                     (this.LiqPrice != null &&
                     this.LiqPrice.Equals(input.LiqPrice))
-                ) && 
+                ) &&
                 (
                     this.BustPrice == input.BustPrice ||
                     (this.BustPrice != null &&
                     this.BustPrice.Equals(input.BustPrice))
-                ) && 
+                ) &&
                 (
                     this.OccClosingFee == input.OccClosingFee ||
                     (this.OccClosingFee != null &&
                     this.OccClosingFee.Equals(input.OccClosingFee))
-                ) && 
+                ) &&
                 (
                     this.OccFundingFee == input.OccFundingFee ||
                     (this.OccFundingFee != null &&
                     this.OccFundingFee.Equals(input.OccFundingFee))
-                ) && 
+                ) &&
                 (
                     this.TakeProfit == input.TakeProfit ||
                     (this.TakeProfit != null &&
                     this.TakeProfit.Equals(input.TakeProfit))
-                ) && 
+                ) &&
                 (
                     this.StopLoss == input.StopLoss ||
                     (this.StopLoss != null &&
                     this.StopLoss.Equals(input.StopLoss))
-                ) && 
+                ) &&
                 (
                     this.PositionStatus == input.PositionStatus ||
                     (this.PositionStatus != null &&
                     this.PositionStatus.Equals(input.PositionStatus))
-                ) && 
+                ) &&
                 (
                     this.DeleverageIndicator == input.DeleverageIndicator ||
                     (this.DeleverageIndicator != null &&
                     this.DeleverageIndicator.Equals(input.DeleverageIndicator))
-                ) && 
+                ) &&
                 (
                     this.OcCalcData == input.OcCalcData ||
                     (this.OcCalcData != null &&
                     this.OcCalcData.Equals(input.OcCalcData))
-                ) && 
+                ) &&
                 (
                     this.OrderMargin == input.OrderMargin ||
                     (this.OrderMargin != null &&
                     this.OrderMargin.Equals(input.OrderMargin))
-                ) && 
+                ) &&
                 (
                     this.WalletBalance == input.WalletBalance ||
                     (this.WalletBalance != null &&
                     this.WalletBalance.Equals(input.WalletBalance))
-                ) && 
+                ) &&
                 (
                     this.UnrealisedPnl == input.UnrealisedPnl ||
                     (this.UnrealisedPnl != null &&
                     this.UnrealisedPnl.Equals(input.UnrealisedPnl))
-                ) && 
+                ) &&
                 (
                     this.RealisedPnl == input.RealisedPnl ||
                     (this.RealisedPnl != null &&
                     this.RealisedPnl.Equals(input.RealisedPnl))
-                ) && 
+                ) &&
                 (
                     this.CumRealisedPnl == input.CumRealisedPnl ||
                     (this.CumRealisedPnl != null &&
                     this.CumRealisedPnl.Equals(input.CumRealisedPnl))
-                ) && 
+                ) &&
                 (
                     this.CumCommission == input.CumCommission ||
                     (this.CumCommission != null &&
                     this.CumCommission.Equals(input.CumCommission))
-                ) && 
+                ) &&
                 (
                     this.CrossSeq == input.CrossSeq ||
                     (this.CrossSeq != null &&
                     this.CrossSeq.Equals(input.CrossSeq))
-                ) && 
+                ) &&
                 (
                     this.PositionSeq == input.PositionSeq ||
                     (this.PositionSeq != null &&
                     this.PositionSeq.Equals(input.PositionSeq))
-                ) && 
+                ) &&
                 (
                     this.CreatedAt == input.CreatedAt ||
                     (this.CreatedAt != null &&
                     this.CreatedAt.Equals(input.CreatedAt))
-                ) && 
+                ) &&
                 (
                     this.UpdatedAt == input.UpdatedAt ||
                     (this.UpdatedAt != null &&
@@ -512,6 +529,10 @@ namespace IO.Swagger.Model
                 int hashCode = 41;
                 if (this.Id != null)
                     hashCode = hashCode * 59 + this.Id.GetHashCode();
+                if (this.PositionIdx != null)
+                    hashCode = hashCode * 59 + this.PositionIdx.GetHashCode();
+                if (this.Mode != null)
+                    hashCode = hashCode * 59 + this.Mode.GetHashCode();
                 if (this.UserId != null)
                     hashCode = hashCode * 59 + this.UserId.GetHashCode();
                 if (this.RiskId != null)

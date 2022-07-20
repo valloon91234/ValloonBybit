@@ -39,33 +39,6 @@ namespace Valloon.Trading
         [JsonProperty("buy_or_sell")]
         public int BuyOrSell { get; set; } = 3;
 
-        [JsonProperty("qty")]
-        public int Qty { get; set; }
-
-        [JsonProperty("start_price")]
-        public decimal StartPrice { get; set; }
-
-        [JsonProperty("price_height")]
-        public decimal PriceHeight { get; set; }
-
-        [JsonProperty("min_price")]
-        public decimal MinPrice { get; set; }
-
-        [JsonProperty("max_price")]
-        public decimal MaxPrice { get; set; }
-
-        [JsonProperty("upper_stop")]
-        public decimal UpperStopX { get; set; } = 0.025m;
-
-        [JsonProperty("lower_stop")]
-        public decimal LowerStopX { get; set; } = 0.025m;
-
-        [JsonProperty("close")]
-        public decimal Close { get; set; }
-
-        [JsonProperty("stop")]
-        public decimal Stop { get; set; }
-
         [JsonProperty("interval")]
         public int Interval { get; set; } = 30;
 
@@ -101,9 +74,7 @@ namespace Valloon.Trading
         }
 
         [JsonIgnore]
-        public const string APP_NAME = "ValloonBot";
-        [JsonIgnore]
-        public const string APP_VERSION = "2022.03.06";
+        public const string APP_NAME = "ValloonBybit";
 
     }
 }

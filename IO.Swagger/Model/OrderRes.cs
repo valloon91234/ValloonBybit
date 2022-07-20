@@ -52,7 +52,7 @@ namespace IO.Swagger.Model
         /// <param name="orderLinkId">orderLinkId.</param>
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
-        public OrderRes(string orderId = default, decimal? userId = default(decimal?), string symbol = default, string side = default, string orderType = default, decimal? price = default, decimal? qty = default, string timeInForce = default, string orderStatus = default, decimal? lastExecTime = default, decimal? lastExecPrice = default, decimal? leavesQty = default(decimal?), decimal? cumExecQty = default(decimal?), decimal? cumExecValue = default(decimal?), decimal? cumExecFee = default, string rejectReason = default, string orderLinkId = default, string createdAt = default, string updatedAt = default)
+        public OrderRes(string orderId = default, decimal? userId = default, string symbol = default, string side = default, string orderType = default, decimal? price = default, decimal? qty = default, string timeInForce = default, string orderStatus = default, decimal? lastExecTime = default, decimal? lastExecPrice = default, decimal? leavesQty = default, decimal? cumExecQty = default, decimal? cumExecValue = default, decimal? cumExecFee = default, string rejectReason = default, string orderLinkId = default, string createdAt = default, string updatedAt = default)
         {
             this.OrderId = orderId;
             this.UserId = userId;
@@ -427,7 +427,7 @@ namespace IO.Swagger.Model
         public string SlTriggerBy { get; set; }
 
         [DataMember(Name = "position_idx", EmitDefaultValue = false)]
-        public int PositionIdx { get; set; }
+        public int? PositionIdx { get; set; }
     }
 
 }

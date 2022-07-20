@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Valloon.Stock.Indicators
+namespace Valloon.Indicators
 {
     [Serializable]
     public class SmaResult
