@@ -89,7 +89,7 @@ namespace Valloon.Trading
                     }
                     string symbol = config.Symbol.ToUpper();
                     int symbolX = BybitLinearApiHelper.GetX(symbol);
-                    if (param == null || BybitLinearApiHelper.ServerTime.Minute == 0 && BybitLinearApiHelper.ServerTime.Second == 0)
+                    if (param == null || BybitLinearApiHelper.ServerTime.Minute == 0 && BybitLinearApiHelper.ServerTime.Second < 3)
                     {
                         string url = $"https://raw.githubusercontent.com/valloon91234/_shared/master/bybit-solusdt-macd-0719.json";
                         string paramText = HttpClient2.HttpGet(url);
@@ -121,11 +121,11 @@ namespace Valloon.Trading
                         {
                             decimal value = (walletBalance - lastWalletBalance) / lastWalletBalance * 100;
                             if (value >= 0)
-                                balanceChange = $"    ( +{value:N4} % )";
+                                balanceChange = $"    (+{value:N4} %)";
                             else
-                                balanceChange = $"    ( {value:N4} % )";
+                                balanceChange = $"    ({value:N4} %)";
                         }
-                        logger.WriteLine($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss fff}  ({++loopIndex})]    $ {lastPrice:F2}  /  $ {markPrice:F3}    {walletBalance:N8}    {activeOrderList.Count} / {botOrderList.Count} / {unavailableMarginPercent:N2} %{balanceChange}", ConsoleColor.White);
+                        logger.WriteLine($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss fff}  ({++loopIndex})]    $ {lastPrice:F3}  /  {markPrice:F3}    {walletBalance:N8}    {activeOrderList.Count} / {botOrderList.Count} / {unavailableMarginPercent:N2} %{balanceChange}", ConsoleColor.White);
                     }
                     decimal positionEntryPrice = 0;
                     decimal positionQty = position.Side == "Buy" ? position.Size.Value : -position.Size.Value;
@@ -296,7 +296,7 @@ namespace Valloon.Trading
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
                             botOrderList = null;
                         }
-                        if (positionQty > 0 && macdList[macdList.Count - 2].Histogram < 0)
+                        if (positionQty > 0 && macdList[macdList.Count - 3].Histogram >= 0 && macdList[macdList.Count - 2].Histogram < 0)
                         {
                             var resultOrder = apiHelper.NewOrder(new OrderRes
                             {
@@ -310,7 +310,7 @@ namespace Valloon.Trading
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Long position closed by market.");
                             logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
                         }
-                        else if (positionQty < 0 && macdList[macdList.Count - 2].Histogram > 0)
+                        else if (positionQty < 0 && macdList[macdList.Count - 2].Histogram <= 0 && macdList[macdList.Count - 2].Histogram > 0)
                         {
                             var resultOrder = apiHelper.NewOrder(new OrderRes
                             {
@@ -343,7 +343,7 @@ namespace Valloon.Trading
                         lastWalletBalance = walletBalance;
                     }
 
-                    int waitMilliseconds = (int)(candleList.Last().Timestamp().Value.AddMinutes(param.BinSize) - BybitLinearApiHelper.ServerTime).TotalMilliseconds % 300000;
+                    int waitMilliseconds = (int)(candleList.Last().Timestamp().Value.AddMinutes(param.BinSize) - BybitLinearApiHelper.ServerTime).TotalMilliseconds % 300000 + 1000;
                     if (waitMilliseconds >= 0)
                     {
                         int waitSeconds = waitMilliseconds / 1000;
