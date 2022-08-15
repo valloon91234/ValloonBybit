@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Valloon.Stock.Indicators;
+using Valloon.Indicators;
 using Valloon.Trading;
 
 namespace Valloon.Trading.Backtest
@@ -15,6 +15,7 @@ namespace Valloon.Trading.Backtest
         {
             Program.MoveWindow(20, 0, 1600, 140);
 
+            Loader.LoadCSV(BybitLinearApiHelper.SYMBOL_SOLUSDT, 60, new DateTime(2022, 8, 1, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.LoadCSV(SYMBOL, 1, new DateTime(2022, 1, 29, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.Load(SYMBOL, 1, new DateTime(2022, 5, 10, 0, 0, 0, DateTimeKind.Utc)); return;
 

@@ -1,0 +1,14 @@
+{
+	"username": "BBB",
+	"api_key": "K0bGd382eCxLYKKAgM",
+	"api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+	"testnet_mode": false,
+	"symbol": "SOLUSDT",
+	"strategy": "MACD",
+	"leverage": 4,
+	"buy_or_sell": 3,
+	"telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+	"telegram_admin": "valloon427428",
+	"telegram_broadcast": "5590193797",
+	"exit": 0
+}

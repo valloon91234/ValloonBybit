@@ -42,6 +42,15 @@ namespace Valloon.Trading
         [JsonProperty("interval")]
         public int Interval { get; set; } = 30;
 
+        [JsonProperty("telegram_token")]
+        public string TelegramToken { get; set; }
+
+        [JsonProperty("telegram_admin")]
+        public string TelegramAdmin { get; set; }
+
+        [JsonProperty("telegram_broadcast")]
+        public string TelegramBroadcast { get; set; }
+
         [JsonProperty("exit")]
         public int Exit { get; set; }
 

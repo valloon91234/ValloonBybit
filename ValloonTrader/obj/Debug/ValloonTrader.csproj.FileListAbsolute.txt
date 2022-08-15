@@ -12,9 +12,6 @@ D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Debug\ValloonTrader.csproj.Cop
 D:\Valloon\Workspace\ValloonBot\ValloonTrader\obj\Debug\ValloonTrader.dll
 D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Debug\Skender.Stock.Indicators.dll
 D:\Valloon\Workspace\ValloonBot\ValloonTrader\bin\Debug\Skender.Stock.Indicators.xml
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.csproj.AssemblyReference.cache
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.csproj.CoreCompileInputs.cache
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\ValloonTrader.dll.config
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\ValloonTrader.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\IO.Swagger.dll
@@ -25,4 +22,7 @@ D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\IO.Sw
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\Newtonsoft.Json.xml
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\Skender.Stock.Indicators.xml
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Debug\RestSharp.xml
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.csproj.AssemblyReference.cache
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.csproj.CoreCompileInputs.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.csproj.CopyComplete
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\obj\Debug\ValloonTrader.dll

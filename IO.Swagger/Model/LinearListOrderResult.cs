@@ -45,6 +45,7 @@ namespace IO.Swagger.Model
         /// <param name="price">price.</param>
         /// <param name="qty">qty.</param>
         /// <param name="reduceOnly">reduceOnly.</param>
+        /// <param name="closeOnTrigger">closeOnTrigger.</param>
         /// <param name="side">side.</param>
         /// <param name="symbol">symbol.</param>
         /// <param name="timeInForce">timeInForce.</param>
@@ -54,7 +55,7 @@ namespace IO.Swagger.Model
         /// <param name="stopLoss">stopLoss.</param>
         /// <param name="tpTriggerBy">tpTriggerBy.</param>
         /// <param name="slTriggerBy">slTriggerBy.</param>
-        public LinearListOrderResult(string createdTime = default(string), decimal? cumExecFee = default(decimal?), decimal? cumExecQty = default(decimal?), decimal? cumExecValue = default(decimal?), decimal? lastExecPrice = default(decimal?), string orderId = default(string), string orderLinkId = default(string), string orderStatus = default(string), string orderType = default(string), decimal? price = default(decimal?), decimal? qty = default(decimal?), bool? reduceOnly = default(bool?), string side = default(string), string symbol = default(string), string timeInForce = default(string), string updatedTime = default(string), long? userId = default(long?), decimal? takeProfit = default(decimal?), decimal? stopLoss = default(decimal?), string tpTriggerBy = default(string), string slTriggerBy = default(string))
+        public LinearListOrderResult(string createdTime = default, decimal? cumExecFee = default, decimal? cumExecQty = default, decimal? cumExecValue = default, decimal? lastExecPrice = default, string orderId = default, string orderLinkId = default, string orderStatus = default, string orderType = default, decimal? price = default, decimal? qty = default, bool? reduceOnly = default, bool? closeOnTrigger = default, string side = default, string symbol = default, string timeInForce = default, string updatedTime = default, long? userId = default, decimal? takeProfit = default, decimal? stopLoss = default, string tpTriggerBy = default, string slTriggerBy = default)
         {
             this.CreatedTime = createdTime;
             this.CumExecFee = cumExecFee;
@@ -68,6 +69,7 @@ namespace IO.Swagger.Model
             this.Price = price;
             this.Qty = qty;
             this.ReduceOnly = reduceOnly;
+            this.CloseOnTrigger = closeOnTrigger;
             this.Side = side;
             this.Symbol = symbol;
             this.TimeInForce = timeInForce;
@@ -152,6 +154,12 @@ namespace IO.Swagger.Model
         public bool? ReduceOnly { get; set; }
 
         /// <summary>
+        /// Gets or Sets CloseOnTrigger
+        /// </summary>
+        [DataMember(Name = "close_on_trigger", EmitDefaultValue = false)]
+        public bool? CloseOnTrigger { get; set; }
+
+        /// <summary>
         /// Gets or Sets Side
         /// </summary>
         [DataMember(Name="side", EmitDefaultValue=false)]
@@ -225,6 +233,7 @@ namespace IO.Swagger.Model
             sb.Append("  Price: ").Append(Price).Append("\n");
             sb.Append("  Qty: ").Append(Qty).Append("\n");
             sb.Append("  ReduceOnly: ").Append(ReduceOnly).Append("\n");
+            sb.Append("  CloseOnTrigger: ").Append(CloseOnTrigger).Append("\n");
             sb.Append("  Side: ").Append(Side).Append("\n");
             sb.Append("  Symbol: ").Append(Symbol).Append("\n");
             sb.Append("  TimeInForce: ").Append(TimeInForce).Append("\n");
@@ -327,7 +336,12 @@ namespace IO.Swagger.Model
                     this.ReduceOnly == input.ReduceOnly ||
                     (this.ReduceOnly != null &&
                     this.ReduceOnly.Equals(input.ReduceOnly))
-                ) && 
+                ) &&
+                (
+                    this.CloseOnTrigger == input.CloseOnTrigger ||
+                    (this.CloseOnTrigger != null &&
+                    this.CloseOnTrigger.Equals(input.CloseOnTrigger))
+                ) &&
                 (
                     this.Side == input.Side ||
                     (this.Side != null &&
@@ -408,6 +422,8 @@ namespace IO.Swagger.Model
                     hashCode = hashCode * 59 + this.Qty.GetHashCode();
                 if (this.ReduceOnly != null)
                     hashCode = hashCode * 59 + this.ReduceOnly.GetHashCode();
+                if (this.CloseOnTrigger != null)
+                    hashCode = hashCode * 59 + this.CloseOnTrigger.GetHashCode();
                 if (this.Side != null)
                     hashCode = hashCode * 59 + this.Side.GetHashCode();
                 if (this.Symbol != null)

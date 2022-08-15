@@ -10,13 +10,14 @@ namespace Valloon.Trading
 {
     public class Logger
     {
-        public static readonly string LOG_DIRECTORY = "log";
+        public string LogDirectoryName { get; set; }
 
         public string LogFilename { get; set; }
 
-        public Logger(String filename)
+        public Logger(string filename, string directoryName = "log")
         {
             this.LogFilename = filename;
+            this.LogDirectoryName = directoryName;
         }
 
         public void WriteLine(string text = null, ConsoleColor color = ConsoleColor.White, bool writeFile = true)
@@ -34,9 +35,9 @@ namespace Valloon.Trading
 
         public bool ExistFile()
         {
-            DirectoryInfo logDirectoryInfo = new DirectoryInfo(LOG_DIRECTORY);
+            DirectoryInfo logDirectoryInfo = new DirectoryInfo(LogDirectoryName);
             if (!logDirectoryInfo.Exists) return false;
-            string logFilename = Path.Combine(LOG_DIRECTORY, LogFilename + ".txt");
+            string logFilename = Path.Combine(LogDirectoryName, LogFilename + ".txt");
             return File.Exists(logFilename);
         }
 
@@ -44,9 +45,9 @@ namespace Valloon.Trading
         {
             try
             {
-                DirectoryInfo logDirectoryInfo = new DirectoryInfo(LOG_DIRECTORY);
+                DirectoryInfo logDirectoryInfo = new DirectoryInfo(LogDirectoryName);
                 if (!logDirectoryInfo.Exists) logDirectoryInfo.Create();
-                string logFilename = Path.Combine(LOG_DIRECTORY, LogFilename + ".txt");
+                string logFilename = Path.Combine(LogDirectoryName, LogFilename + ".txt");
                 using (var streamWriter = new StreamWriter(logFilename, true))
                 {
                     streamWriter.WriteLine(text);

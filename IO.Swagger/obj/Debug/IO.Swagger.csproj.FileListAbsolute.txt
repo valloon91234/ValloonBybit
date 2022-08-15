@@ -1,5 +1,3 @@
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.csproj.AssemblyReference.cache
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.csproj.CoreCompileInputs.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\IO.Swagger.dll.config
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\IO.Swagger.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\JsonSubTypes.dll
@@ -7,5 +5,7 @@ D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\Newtonso
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\RestSharp.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\Newtonsoft.Json.xml
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\bin\Debug\RestSharp.xml
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.csproj.AssemblyReference.cache
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.csproj.CoreCompileInputs.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.csproj.CopyComplete
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\IO.Swagger\obj\Debug\IO.Swagger.dll

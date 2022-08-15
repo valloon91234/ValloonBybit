@@ -32,9 +32,27 @@ namespace Valloon.Trading
         {
             switch (symbol)
             {
+                case SYMBOL_BNBUSDT:
+                    return 100;
                 case SYMBOL_SOLUSDT:
                     return 1000;
+                case SYMBOL_AVAXUSDT:
+                    return 1000;
+                case SYMBOL_ADAUSDT:
+                    return 10000;
                 case SYMBOL_ALGOUSDT:
+                    return 10000;
+                case SYMBOL_MATICUSDT:
+                    return 10000;
+                case SYMBOL_TRXUSDT:
+                    return 100000;
+                case SYMBOL_NEARUSDT:
+                    return 1000;
+                case SYMBOL_FTMUSDT:
+                    return 10000;
+                case SYMBOL_DOGEUSDT:
+                    return 10000;
+                case SYMBOL_SANDUSDT:
                     return 10000;
                 default:
                     throw new ArgumentException($"Invalid symbol: {symbol}");
@@ -64,9 +82,19 @@ namespace Valloon.Trading
             }
         }
 
+        public const string SYMBOL_BNBUSDT = "BNBUSDT";
         public const string SYMBOL_SOLUSD = "SOLUSD";
         public const string SYMBOL_SOLUSDT = "SOLUSDT";
+        public const string SYMBOL_AVAXUSDT = "AVAXUSDT";
+
+        public const string SYMBOL_ADAUSDT = "ADAUSDT";
         public const string SYMBOL_ALGOUSDT = "ALGOUSDT";
+        public const string SYMBOL_MATICUSDT = "MATICUSDT";
+        public const string SYMBOL_TRXUSDT = "TRXUSDT";
+        public const string SYMBOL_NEARUSDT = "NEARUSDT";
+        public const string SYMBOL_FTMUSDT = "FTMUSDT";
+        public const string SYMBOL_DOGEUSDT = "DOGEUSDT";
+        public const string SYMBOL_SANDUSDT = "SANDUSDT";
         public const string TIME_IN_FORCE_GTC = "GoodTillCancel";
 
 
@@ -480,6 +508,46 @@ namespace Valloon.Trading
             if (obj.Result == null) throw new ApiResultException("GetWalletBalance", jObject);
             var balance = ((JObject)obj.Result)[coin].ToObject<WalletBalance>();
             return balance;
+        }
+
+        public static List<KlineRes> ConvertBinSize(List<KlineRes> list, int size, int offset)
+        {
+            if (size == 1) return list;
+            int count = list.Count;
+            var resultList = new List<KlineRes>();
+            int i = 0;
+            while (i < count)
+            {
+                if (list[i].Timestamp().Value.Hour % size != offset)
+                {
+                    i++;
+                    continue;
+                }
+                var openTime = list[i].OpenTime;
+                var open = list[i].Open;
+                var high = list[i].High;
+                var low = list[i].Low;
+                var close = list[i].Close;
+                var volume = list[i].Volume;
+                for (int j = i + 1; j < i + size && j < count; j++)
+                {
+                    if (high < list[j].High) high = list[j].High;
+                    if (low > list[j].Low) low = list[j].Low;
+                    close = list[j].Close;
+                    volume += list[j].Volume;
+                }
+                resultList.Add(new KlineRes
+                {
+                    OpenTime = openTime,
+                    Open = open,
+                    High = high,
+                    Low = low,
+                    Close = close,
+                    Volume = volume
+                });
+                i += size;
+            }
+            return resultList;
         }
 
     }
