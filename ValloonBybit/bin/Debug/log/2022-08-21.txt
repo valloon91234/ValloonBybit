@@ -1,0 +1,80 @@
+
+[2022-08-21  12:11:29]  MACD bot started.
+
+[2022-08-21  12:11:29]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-08-21  12:11:30]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_close": 0.075,
+  "long_stop": 0.04,
+  "short_close": 0.11,
+  "short_stop": 0.03,
+  "rsi_length": 6,
+  "rsi_long_open": 80.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 26.0,
+  "rsi_short_close": 7.5
+}
+[2022-08-21  12:11:33 006  (1)]    $ 36.230 / 36.238    1,571.21810539    1 / 1 / 100.00 %
+    Entry = 36.15    qty = 200    liq = 28.675    lv = 4.61    TP = 39    SL = 34.7    P&L = +16.8  (+1.07 %)
+        [12:11:33 034]  MACD = -0.1098 / -0.0450 / 0.0610 / 0.1446 	 RSI = 49.3785 / 50.3557
+
+[2022-08-21  12:16:28]  MACD bot started.
+
+[2022-08-21  12:16:28]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-08-21  12:16:29]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_close": 0.075,
+  "long_stop": 0.04,
+  "short_close": 0.11,
+  "short_stop": 0.03,
+  "rsi_length": 6,
+  "rsi_long_open": 80.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 26.0,
+  "rsi_short_close": 7.5
+}
+[2022-08-21  12:16:31 531  (1)]    $ 36.155 / 36.155    1,571.21810539    1 / 1 / 100.00 %
+    Entry = 36.15    qty = 200    liq = 28.675    lv = 4.61    TP = 39    SL = 34.7    P&L = +1  (+0.06 %)
+        [12:16:31 557]  MACD = -0.1098 / -0.0450 / 0.0610 / 0.1398 	 RSI = 49.3785 / 49.2294
+        [12:16:49 667]  Amend CLOSE order: price = 49.580
+--- {"order_id":"0dc060cd-b62f-4d04-af80-3bad4eccb10e"}

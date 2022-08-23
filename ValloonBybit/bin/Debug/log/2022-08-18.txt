@@ -1,0 +1,113 @@
+
+[2022-08-18  09:20:38]  MACD bot started.
+
+[2022-08-18  09:20:38]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-08-18  09:20:40]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_close": 0.075,
+  "long_stop": 0.04,
+  "short_close": 0.11,
+  "short_stop": 0.03,
+  "rsi_length": 6,
+  "rsi_long_open": 80.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 26.0,
+  "rsi_short_close": 10.0
+}
+[2022-08-18  09:20:43 536  (1)]    $ 40.775 / 40.786    1,618.67912783    0 / 0 / 100.00 %
+        [09:20:43 675]  MACD = -0.4093 / -0.3856 / -0.3394 / -0.2948 	 RSI = 28.4657 / 27.0795
+
+[2022-08-18  12:59:54]  MACD bot started.
+
+[2022-08-18  12:59:55]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-08-18  12:59:56]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_close": 0.075,
+  "long_stop": 0.04,
+  "short_close": 0.11,
+  "short_stop": 0.03,
+  "rsi_length": 6,
+  "rsi_long_open": 80.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 26.0,
+  "rsi_short_close": 10.0
+}
+[2022-08-18  13:00:00 345  (1)]    $ 41.580 / 41.583    1,618.26562783    1 / 1 / 100.00 %
+    <Position>    entry = 41.35    qty = 100    liq = 25.6    lv = 2.55    TP = 0    SL = 0    P&L = +23.3 USDT  (+1.44 %)
+
+[2022-08-18  14:51:25]  MACD bot started.
+
+[2022-08-18  14:51:25]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-08-18  14:51:27]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_close": 0.075,
+  "long_stop": 0.04,
+  "short_close": 0.11,
+  "short_stop": 0.03,
+  "rsi_length": 6,
+  "rsi_long_open": 80.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 26.0,
+  "rsi_short_close": 10.0
+}
+[2022-08-18  14:51:30 168  (1)]    $ 41.020 / 41.020    1,600.56062783    1 / 1 / 100.00 %
