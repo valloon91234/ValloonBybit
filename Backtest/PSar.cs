@@ -15,7 +15,7 @@ namespace Valloon.Trading.Backtest
         {
             Program.MoveWindow(20, 0, 1600, 140);
 
-            Loader.LoadCSV(BybitLinearApiHelper.SYMBOL_SOLUSDT, 60, new DateTime(2022, 8, 21, 0, 0, 0, DateTimeKind.Utc)); return;
+            Loader.LoadCSV(BybitLinearApiHelper.SYMBOL_SOLUSDT, 1, new DateTime(2022, 8, 12, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.LoadCSV(SYMBOL, 1, new DateTime(2022, 1, 29, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.Load(SYMBOL, 1, new DateTime(2022, 5, 10, 0, 0, 0, DateTimeKind.Utc)); return;
 
