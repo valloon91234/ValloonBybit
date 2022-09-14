@@ -85,7 +85,8 @@ namespace Valloon.Trading
             switch (config.Strategy.ToUpper())
             {
                 case "MACD":
-                    new MacdStrategy().Run();
+                    //new MacdStrategy().Run();
+                    new MacdBbwStrategy().Run();
                     break;
                 default:
                     Console.WriteLine($"\r\nInvalid Strategy.");

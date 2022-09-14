@@ -32,6 +32,8 @@ namespace Valloon.Trading
         {
             switch (symbol)
             {
+                case SYMBOL_ETHUSDT:
+                    return 100;
                 case SYMBOL_BNBUSDT:
                     return 100;
                 case SYMBOL_SOLUSDT:
@@ -82,6 +84,7 @@ namespace Valloon.Trading
             }
         }
 
+        public const string SYMBOL_ETHUSDT = "ETHUSDT";
         public const string SYMBOL_BNBUSDT = "BNBUSDT";
         public const string SYMBOL_SOLUSD = "SOLUSD";
         public const string SYMBOL_SOLUSDT = "SOLUSDT";

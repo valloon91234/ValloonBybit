@@ -21,19 +21,10 @@ using Valloon.Utils;
  */
 namespace Valloon.Trading
 {
-    public class MacdStrategy
+    public class MacdBbwStrategy
     {
         private class MacdConfig
         {
-            //[JsonProperty("bin_base")]
-            //public int BinBase { get; set; } = 60;
-
-            //[JsonProperty("bin_size")]
-            //public int BinSize { get; set; } = 4;
-
-            //[JsonProperty("bin_delay")]
-            //public int BinDelay { get; set; } = 0;
-
             [JsonProperty("fast_periods")]
             public int FastPeriods { get; set; } = 12;
 
@@ -43,32 +34,50 @@ namespace Valloon.Trading
             [JsonProperty("signal_periods")]
             public int SignalPeriods { get; set; } = 9;
 
+            [JsonProperty("long_bbw_length")]
+            public int LongBbwLength { get; set; } = 8;
+
+            [JsonProperty("long_bbw_open")]
+            public double LongBbwOpen { get; set; } = 0.088;
+
+            [JsonProperty("long_bbw_close")]
+            public double LongBbwClose { get; set; } = 0.085;
+
             [JsonProperty("long_close")]
-            public decimal LongCloseX { get; set; } = 0.075m;
+            public decimal LongCloseX { get; set; } = 0.06m;
 
             [JsonProperty("long_stop")]
-            public decimal LongStopX { get; set; } = 0.04m;
+            public decimal LongStopX { get; set; } = 0.01m;
+
+            [JsonProperty("short_bbw_length")]
+            public int ShortBbwLength { get; set; } = 4;
+
+            [JsonProperty("short_bbw_open")]
+            public double ShortBbwOpen { get; set; } = 0.058;
+
+            [JsonProperty("short_bbw_close")]
+            public double ShortBbwClose { get; set; } = 0;
 
             [JsonProperty("short_close")]
-            public decimal ShortCloseX { get; set; } = 0.11m;
+            public decimal ShortCloseX { get; set; } = 0.07m;
 
             [JsonProperty("short_stop")]
-            public decimal ShortStopX { get; set; } = 0.03m;
+            public decimal ShortStopX { get; set; } = 0.01m;
 
             [JsonProperty("rsi_length")]
-            public int RsiLength { get; set; } = 6;
+            public int RsiLength { get; set; } = 14;
 
             [JsonProperty("rsi_long_open")]
-            public double RsiLongOpen { get; set; } = 80;
+            public double RsiLongOpen { get; set; } = 69;
 
             [JsonProperty("rsi_long_close")]
             public double RsiLongClose { get; set; } = 90;
 
             [JsonProperty("rsi_short_open")]
-            public double RsiShortOpen { get; set; } = 26;
+            public double RsiShortOpen { get; set; } = 30;
 
             [JsonProperty("rsi_short_close")]
-            public double RsiShortClose { get; set; } = 10;
+            public double RsiShortClose { get; set; } = 7.5;
         }
 
         public static string LastMessage;
@@ -88,7 +97,6 @@ namespace Valloon.Trading
                 try
                 {
                     DateTime currentLoopTime = DateTime.UtcNow;
-                    bool retryLoop = false;
                     Config config = Config.Load(out bool configUpdated, lastLoopTime != null && lastLoopTime.Value.Day != currentLoopTime.Day);
                     var apiHelper = new BybitLinearApiHelper(config.ApiKey, config.ApiSecret, config.TestnetMode);
                     logger = new Logger($"{BybitLinearApiHelper.ServerTime:yyyy-MM-dd}");
@@ -106,7 +114,7 @@ namespace Valloon.Trading
                     int symbolX = BybitLinearApiHelper.GetX(symbol);
                     if (param == null || BybitLinearApiHelper.ServerTime.Minute == 0 && BybitLinearApiHelper.ServerTime.Second < 3)
                     {
-                        string url = $"https://raw.githubusercontent.com/valloon91234/_shared/master/bybit-solusdt-macd-0815.json";
+                        string url = $"https://raw.githubusercontent.com/valloon91234/_shared/master/bybit-solusdt-macd-0905.json";
                         string paramText = HttpClient2.HttpGet(url);
                         param = JsonConvert.DeserializeObject<MacdConfig>(paramText);
                         logger.WriteLine($"\r\n[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]  ParamMap loaded.", ConsoleColor.Green);
@@ -122,9 +130,6 @@ namespace Valloon.Trading
                     {
                         logger.WriteLine();
                     }
-                    //var candleList_1h = apiHelper.GetCandleList(symbol, param.BinBase.ToString(), BybitLinearApiHelper.ServerTime.AddMinutes(-60 * 195));
-                    //candleList_1h.AddRange(apiHelper.GetCandleList("1h", false, SYMBOL, 1000, null, true, null, binList[binList.Count - 1].Timestamp.Value.AddHours(-1)));
-                    //var candleList = BybitLinearApiHelper.ConvertBinSize(candleList_1h, param.BinSize, param.BinDelay);
                     var candleList = apiHelper.GetCandleList(symbol, "240", BybitLinearApiHelper.ServerTime.AddMinutes(-240 * 195));
                     var ticker = apiHelper.GetTicker(symbol);
                     decimal lastPrice = ticker.LastPrice.Value;
@@ -137,7 +142,6 @@ namespace Valloon.Trading
                     var usdtBalance = apiHelper.GetWalletBalance("USDT");
                     var walletBalance = usdtBalance._WalletBalance.Value;
                     {
-                        //decimal unavailableMarginPercent = 100m * position.OrderMargin.Value / position.WalletBalance.Value;
                         decimal unavailableMarginPercent = 100m * (position.OrderMargin == null ? 1 : (walletBalance - position.OrderMargin.Value) / walletBalance);
                         string balanceChange = null;
                         if (lastWalletBalance != 0 && lastWalletBalance != walletBalance)
@@ -177,8 +181,11 @@ namespace Valloon.Trading
                     var quoteList = IndicatorHelper.ToQuote(candleList);
                     var macdList = quoteList.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).ToList();
                     var rsiList = quoteList.GetRsi(param.RsiLength).ToList();
+                    var longBbwList = quoteList.GetBollingerBands(param.LongBbwLength, 2).ToList();
+                    var shortBbwList = quoteList.GetBollingerBands(param.ShortBbwLength, 2).ToList();
 
-                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  MACD = {macdList[macdList.Count - 4].Histogram:F4} / {macdList[macdList.Count - 3].Histogram:F4} / {macdList[macdList.Count - 2].Histogram:F4} / {macdList[macdList.Count - 1].Histogram:F4} \t RSI = {rsiList[rsiList.Count - 2].Rsi:F4} / {rsiList[rsiList.Count - 1].Rsi:F4}", ConsoleColor.DarkGray);
+                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  MACD = {macdList[macdList.Count - 3].Histogram:F4} / {macdList[macdList.Count - 2].Histogram:F4} / {macdList[macdList.Count - 1].Histogram:F4} \t RSI = {rsiList[rsiList.Count - 2].Rsi:F4} / {rsiList[rsiList.Count - 1].Rsi:F4}", ConsoleColor.DarkGray);
+                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  BBW({param.LongBbwLength}) = {longBbwList[longBbwList.Count - 3].Width:F4} / {longBbwList[longBbwList.Count - 2].Width:F4} / {longBbwList.Last().Width:F4} \t BBW({param.ShortBbwLength}) = {shortBbwList[shortBbwList.Count - 3].Width:F4} / {shortBbwList[shortBbwList.Count - 2].Width:F4} / {shortBbwList.Last().Width:F4}", ConsoleColor.DarkGray);
                     if (config.Exit == 2)
                     {
                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  No order. (exit = {config.Exit})", ConsoleColor.DarkGray);
@@ -194,150 +201,10 @@ namespace Valloon.Trading
                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Invalid Position Mode:  PositionIdx = {position.PositionIdx}    Mode = {position.Mode}", ConsoleColor.Red);
                         goto endLoop;
                     }
-                    if (positionQty == 0)
+
+                    if (positionQty != 0)
                     {
-#if LICENSE_MODE
-                        if (serverTime.Year != 2022 || serverTime.Month != 2)
-                        {
-                            List<string> cancelOrderList = new List<string>();
-                            foreach (Order order in botOrderList)
-                            {
-                                cancelOrderList.Add(order.OrderID);
-                            }
-                            if (cancelOrderList.Count > 0)
-                            {
-                                var canceledOrders = apiHelper.CancelOrders(cancelOrderList);
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrders.Count} old orders have been canceled.");
-                            }
-                            logger.WriteLine($"This bot is too old. Please contact support.  https://valloontrader.com", ConsoleColor.Green);
-                            goto endLoop;
-                        }
-#endif
-                        if (config.Exit == 1)
-                        {
-                            List<string> cancelOrderList = new List<string>();
-                            int canceledOrderCount = 0;
-                            foreach (var order in botOrderList)
-                            {
-                                apiHelper.CancelActiveOrder(symbol, order.OrderId);
-                                canceledOrderCount++;
-                            }
-                            if (canceledOrderCount > 0)
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
-                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  No order. (exit = {config.Exit})", ConsoleColor.DarkGray);
-                            goto endLoop;
-                        }
-                        {
-                            List<string> cancelOrderList = new List<string>();
-                            int canceledOrderCount = 0;
-                            if (botOrderList.Count > 1)
-                                foreach (var order in botOrderList)
-                                {
-                                    apiHelper.CancelActiveOrder(symbol, order.OrderId);
-                                    canceledOrderCount++;
-                                }
-                            if (canceledOrderCount > 0)
-                            {
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
-                                botOrderList = null;
-                            }
-                        }
-                        LinearListOrderResult activeOpenOrder = null;
-                        if (botOrderList != null && botOrderList.Count == 1)
-                            activeOpenOrder = botOrderList[0];
-                        if (isNewCandle && (config.BuyOrSell == 1 || config.BuyOrSell == 3) && rsiList[rsiList.Count - 2].Rsi < param.RsiLongOpen && macdList[macdList.Count - 3].Histogram < 0 && macdList[macdList.Count - 2].Histogram >= 0)
-                        {
-                            if (activeOpenOrder != null && activeOpenOrder.Side != "Buy")
-                            {
-                                apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (opposite side).");
-                                botOrderList = null;
-                            }
-                            if (botOrderList == null || botOrderList.Count == 0)
-                            {
-                                decimal limitPrice = candleList.Last().Open.Value;
-                                decimal qty = decimal.Round(walletBalance * config.Leverage * (1 - (0.0006m * 2)) / limitPrice, 1);
-                                decimal takeProfitPrice = decimal.Round(limitPrice * (1 + param.LongCloseX), 3);
-                                if (takeProfitPrice > lastPrice)
-                                {
-                                    decimal? stopLossPrice = decimal.Round(limitPrice * (1 - param.LongStopX), 3);
-                                    if (stopLossPrice > lastPrice) stopLossPrice = null;
-                                    var resultOrder = apiHelper.NewOrder(new OrderRes
-                                    {
-                                        Side = "Buy",
-                                        Symbol = symbol,
-                                        OrderType = "Limit",
-                                        Qty = qty,
-                                        Price = limitPrice,
-                                        OrderLinkId = $"<BOT><LONG><OPEN><{BybitLinearApiHelper.ServerTime:HHmmssfff}>",
-                                        TakeProfit = takeProfitPrice,
-                                        StopLoss = stopLossPrice,
-                                        PositionIdx = 0
-                                    });
-                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New LONG-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
-                                    logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>LONG-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
-                                }
-                            }
-                        }
-                        else if (isNewCandle && (config.BuyOrSell == 2 || config.BuyOrSell == 3) && rsiList[rsiList.Count - 2].Rsi > param.RsiShortOpen && macdList[macdList.Count - 3].Histogram > 0 && macdList[macdList.Count - 2].Histogram <= 0)
-                        {
-                            if (activeOpenOrder != null && activeOpenOrder.Side != "Sell")
-                            {
-                                apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (opposite side).");
-                                botOrderList = null;
-                            }
-                            if (botOrderList == null || botOrderList.Count == 0)
-                            {
-                                decimal limitPrice = candleList.Last().Open.Value;
-                                decimal qty = decimal.Round(walletBalance * config.Leverage * (1 - (0.0006m * 2)) / limitPrice, 1);
-                                decimal takeProfitPrice = decimal.Round(limitPrice * (1 - param.ShortCloseX), 3);
-                                if (takeProfitPrice < lastPrice)
-                                {
-                                    decimal? stopLossPrice = decimal.Round(limitPrice * (1 + param.ShortStopX), 3);
-                                    if (stopLossPrice < lastPrice) stopLossPrice = null;
-                                    var resultOrder = apiHelper.NewOrder(new OrderRes
-                                    {
-                                        Side = "Sell",
-                                        Symbol = symbol,
-                                        OrderType = "Limit",
-                                        Qty = qty,
-                                        Price = limitPrice,
-                                        OrderLinkId = $"<BOT><SHORT><OPEN><{BybitLinearApiHelper.ServerTime:HHmmssfff}>",
-                                        TakeProfit = takeProfitPrice,
-                                        StopLoss = stopLossPrice,
-                                        PositionIdx = 0
-                                    });
-                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New SHORT-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
-                                    logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>SHORT-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
-                                }
-                            }
-                        }
-                        else if (activeOpenOrder != null && (BybitLinearApiHelper.ServerTime - DateTime.ParseExact(activeOpenOrder.CreatedTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture)).TotalMinutes > 240)
-                        {
-                            apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
-                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (timeout).");
-                            TelegramClient.SendMessageToBroadcastGroup($"<pre>Old open order has been canceled (timeout).</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
-                            botOrderList = null;
-                        }
-                    }
-                    else
-                    {
-                        //List<string> cancelOrderList = new List<string>();
-                        //int canceledOrderCount = 0;
-                        //foreach (var order in botOrderList)
-                        //{
-                        //    apiHelper.CancelActiveOrder(symbol, order.OrderId);
-                        //    canceledOrderCount++;
-                        //}
-                        //if (canceledOrderCount > 0)
-                        //{
-                        //    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
-                        //    botOrderList = null;
-                        //}
-                        if (positionQty > 0 && macdList[macdList.Count - 3].Histogram >= 0 && macdList[macdList.Count - 2].Histogram < 0)
+                        if (isNewCandle && positionQty > 0 && (macdList[macdList.Count - 2].Histogram < 0 || longBbwList[longBbwList.Count - 3].Width >= param.LongBbwClose && longBbwList[longBbwList.Count - 2].Width < param.LongBbwClose))
                         {
                             var resultOrder = apiHelper.NewOrder(new OrderRes
                             {
@@ -351,9 +218,9 @@ namespace Valloon.Trading
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Long position closed by market.");
                             logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
                             TelegramClient.SendMessageToBroadcastGroup($"<pre>Long position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
-                            retryLoop = true;
+                            positionQty = 0;
                         }
-                        else if (positionQty < 0 && macdList[macdList.Count - 3].Histogram <= 0 && macdList[macdList.Count - 2].Histogram > 0)
+                        else if (isNewCandle && positionQty < 0 && (macdList[macdList.Count - 2].Histogram > 0 || shortBbwList[shortBbwList.Count - 3].Width >= param.ShortBbwClose && shortBbwList[shortBbwList.Count - 2].Width < param.ShortBbwClose))
                         {
                             var resultOrder = apiHelper.NewOrder(new OrderRes
                             {
@@ -367,7 +234,7 @@ namespace Valloon.Trading
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Short position closed by market.");
                             logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
                             TelegramClient.SendMessageToBroadcastGroup($"<pre>Short position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
-                            retryLoop = true;
+                            positionQty = 0;
                         }
                         else
                         {
@@ -489,9 +356,143 @@ namespace Valloon.Trading
                         }
                     }
 
+                    if (positionQty == 0)
+                    {
+#if LICENSE_MODE
+                        if (serverTime.Year != 2022 || serverTime.Month != 2)
+                        {
+                            List<string> cancelOrderList = new List<string>();
+                            foreach (Order order in botOrderList)
+                            {
+                                cancelOrderList.Add(order.OrderID);
+                            }
+                            if (cancelOrderList.Count > 0)
+                            {
+                                var canceledOrders = apiHelper.CancelOrders(cancelOrderList);
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrders.Count} old orders have been canceled.");
+                            }
+                            logger.WriteLine($"This bot is too old. Please contact support.  https://valloontrader.com", ConsoleColor.Green);
+                            goto endLoop;
+                        }
+#endif
+                        if (config.Exit == 1)
+                        {
+                            List<string> cancelOrderList = new List<string>();
+                            int canceledOrderCount = 0;
+                            foreach (var order in botOrderList)
+                            {
+                                apiHelper.CancelActiveOrder(symbol, order.OrderId);
+                                canceledOrderCount++;
+                            }
+                            if (canceledOrderCount > 0)
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  No order. (exit = {config.Exit})", ConsoleColor.DarkGray);
+                            goto endLoop;
+                        }
+                        {
+                            List<string> cancelOrderList = new List<string>();
+                            int canceledOrderCount = 0;
+                            if (botOrderList.Count > 1)
+                                foreach (var order in botOrderList)
+                                {
+                                    apiHelper.CancelActiveOrder(symbol, order.OrderId);
+                                    canceledOrderCount++;
+                                }
+                            if (canceledOrderCount > 0)
+                            {
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled.");
+                                botOrderList = null;
+                            }
+                        }
+                        LinearListOrderResult activeOpenOrder = null;
+                        if (botOrderList != null && botOrderList.Count == 1)
+                            activeOpenOrder = botOrderList[0];
+
+                        if (isNewCandle && (config.BuyOrSell == 1 || config.BuyOrSell == 3) && rsiList[rsiList.Count - 2].Rsi < param.RsiLongOpen
+                            && macdList[macdList.Count - 2].Histogram > 0 && macdList[macdList.Count - 2].Histogram > macdList[macdList.Count - 3].Histogram
+                            && longBbwList[longBbwList.Count - 3].Width < param.LongBbwOpen && longBbwList[longBbwList.Count - 2].Width >= param.LongBbwOpen)
+                        {
+                            if (activeOpenOrder != null && activeOpenOrder.Side != "Buy")
+                            {
+                                apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (opposite side).");
+                                botOrderList = null;
+                            }
+                            if (botOrderList == null || botOrderList.Count == 0)
+                            {
+                                decimal limitPrice = candleList.Last().Open.Value;
+                                decimal qty = decimal.Round(walletBalance * config.Leverage * (1 - (0.0006m * 2)) / limitPrice, 1);
+                                decimal takeProfitPrice = decimal.Round(limitPrice * (1 + param.LongCloseX), 3);
+                                if (takeProfitPrice > lastPrice)
+                                {
+                                    decimal? stopLossPrice = decimal.Round(limitPrice * (1 - param.LongStopX), 3);
+                                    if (stopLossPrice > lastPrice) stopLossPrice = null;
+                                    var resultOrder = apiHelper.NewOrder(new OrderRes
+                                    {
+                                        Side = "Buy",
+                                        Symbol = symbol,
+                                        OrderType = "Limit",
+                                        Qty = qty,
+                                        Price = limitPrice,
+                                        OrderLinkId = $"<BOT><LONG><OPEN><{BybitLinearApiHelper.ServerTime:HHmmssfff}>",
+                                        TakeProfit = takeProfitPrice,
+                                        StopLoss = stopLossPrice,
+                                        PositionIdx = 0
+                                    });
+                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New LONG-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
+                                    logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
+                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>LONG-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                }
+                            }
+                        }
+                        else if (isNewCandle && (config.BuyOrSell == 2 || config.BuyOrSell == 3) && rsiList[rsiList.Count - 2].Rsi > param.RsiShortOpen
+                            && macdList[macdList.Count - 2].Histogram < 0 && macdList[macdList.Count - 2].Histogram < macdList[macdList.Count - 3].Histogram
+                            && shortBbwList[shortBbwList.Count - 3].Width < param.ShortBbwOpen && shortBbwList[shortBbwList.Count - 2].Width >= param.ShortBbwOpen)
+                        {
+                            if (activeOpenOrder != null && activeOpenOrder.Side != "Sell")
+                            {
+                                apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (opposite side).");
+                                botOrderList = null;
+                            }
+                            if (botOrderList == null || botOrderList.Count == 0)
+                            {
+                                decimal limitPrice = candleList.Last().Open.Value;
+                                decimal qty = decimal.Round(walletBalance * config.Leverage * (1 - (0.0006m * 2)) / limitPrice, 1);
+                                decimal takeProfitPrice = decimal.Round(limitPrice * (1 - param.ShortCloseX), 3);
+                                if (takeProfitPrice < lastPrice)
+                                {
+                                    decimal? stopLossPrice = decimal.Round(limitPrice * (1 + param.ShortStopX), 3);
+                                    if (stopLossPrice < lastPrice) stopLossPrice = null;
+                                    var resultOrder = apiHelper.NewOrder(new OrderRes
+                                    {
+                                        Side = "Sell",
+                                        Symbol = symbol,
+                                        OrderType = "Limit",
+                                        Qty = qty,
+                                        Price = limitPrice,
+                                        OrderLinkId = $"<BOT><SHORT><OPEN><{BybitLinearApiHelper.ServerTime:HHmmssfff}>",
+                                        TakeProfit = takeProfitPrice,
+                                        StopLoss = stopLossPrice,
+                                        PositionIdx = 0
+                                    });
+                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New SHORT-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
+                                    logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
+                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>SHORT-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                }
+                            }
+                        }
+                        else if (activeOpenOrder != null && (BybitLinearApiHelper.ServerTime - DateTime.ParseExact(activeOpenOrder.CreatedTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture)).TotalMinutes > 240)
+                        {
+                            apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (timeout).");
+                            TelegramClient.SendMessageToBroadcastGroup($"<pre>Old open order has been canceled (timeout).</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                            botOrderList = null;
+                        }
+                    }
+
                 endLoop:;
                     {
-                        decimal targetPrice = 0;
                         {
                             var macd = macdList.Last().Histogram.Value;
                             var quoteList2 = new List<Quote>(quoteList);
@@ -504,24 +505,6 @@ namespace Valloon.Trading
                                 Close = quoteList.Last().Close,
                                 Volume = quoteList.Last().Volume
                             };
-                            if (macd > 0)
-                            {
-                                while (macd > 0)
-                                {
-                                    quoteList2.Last().Close -= .005m;
-                                    macd = quoteList2.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).Last().Histogram.Value;
-                                }
-                                targetPrice = quoteList2.Last().Close;
-                            }
-                            else if (macd < 0)
-                            {
-                                while (macd < 0)
-                                {
-                                    quoteList2.Last().Close += .005m;
-                                    macd = quoteList2.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).Last().Histogram.Value;
-                                }
-                                targetPrice = quoteList2.Last().Close;
-                            }
                         }
 
                         //decimal unavailableMarginPercent = 100m * (position.OrderMargin == null ? 1 : (walletBalance - position.OrderMargin.Value) / walletBalance);
@@ -559,45 +542,23 @@ namespace Valloon.Trading
                             forcastMacd3 = quoteList2.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).Last().Histogram.Value;
                         }
 
-                        text += $"\nMACD =  {macdList[macdList.Count - 4].Histogram:F4}    {macdList[macdList.Count - 3].Histogram:F4}    {macdList[macdList.Count - 2].Histogram:F4}    {macdList[macdList.Count - 1].Histogram:F4}    ({forcastMacd:F2}   {forcastMacd2:F2}   {forcastMacd3:F2})\nRSI =  {rsiList[rsiList.Count - 4].Rsi:F2}    {rsiList[rsiList.Count - 3].Rsi:F2}    {rsiList[rsiList.Count - 2].Rsi:F2}    {rsiList[rsiList.Count - 1].Rsi:F2}";
-                        text += $"\nTarget = {targetPrice}";
+                        text += $"\nMACD =  {macdList[macdList.Count - 4].Histogram:F4}    {macdList[macdList.Count - 3].Histogram:F4}    {macdList[macdList.Count - 2].Histogram:F4}    {macdList[macdList.Count - 1].Histogram:F4}    ({forcastMacd:F2}   {forcastMacd2:F2}   {forcastMacd3:F2})";
+                        text += $"\nRSI ({param.RsiLength}) =  {rsiList[rsiList.Count - 4].Rsi:F4}    {rsiList[rsiList.Count - 3].Rsi:F4}    {rsiList[rsiList.Count - 2].Rsi:F4}    {rsiList[rsiList.Count - 1].Rsi:F4}";
+                        text += $"\nBBW ({param.LongBbwLength}) =  {longBbwList[longBbwList.Count - 4].Width:F4}    {longBbwList[longBbwList.Count - 3].Width:F4}    {longBbwList[longBbwList.Count - 2].Width:F4}    {longBbwList[longBbwList.Count - 1].Width:F4}";
+                        text += $"\nBBW ({param.ShortBbwLength}) =  {shortBbwList[shortBbwList.Count - 4].Width:F4}    {shortBbwList[shortBbwList.Count - 3].Width:F4}    {shortBbwList[shortBbwList.Count - 2].Width:F4}    {shortBbwList[shortBbwList.Count - 1].Width:F4}";
                         string prefix = null;
                         if (isNewCandle)
                             prefix = "4H ";
                         text += $"\n<pre>{prefix}[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]{balanceChange}</pre>";
                         if (loopIndex == 1 || BybitLinearApiHelper.ServerTime.Minute % 30 == 0 || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
                             TelegramClient.SendMessageToBroadcastGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
-                        if (isNewCandle)
-                            TelegramClient.SendMessageToListenGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
+                        //if (isNewCandle || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
+                        //    TelegramClient.SendMessageToListenGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         LastMessage = text;
                     }
-                    if (lastCandleTime == null)
-                    {
-                        var macd = macdList.Last().Histogram.Value;
-                        var quoteList2 = new List<Quote>(quoteList);
-                        if (macd > 0)
-                        {
-                            while (macd > 0)
-                            {
-                                quoteList2.Last().Close -= .005m;
-                                macd = quoteList2.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).Last().Histogram.Value;
-                            }
-                            var text = $"<pre>Target = {quoteList2.Last().Close}</pre>";
-                            TelegramClient.SendMessageToBroadcastGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
-                        }
-                        else if (macd < 0)
-                        {
-                            while (macd < 0)
-                            {
-                                quoteList2.Last().Close += .005m;
-                                macd = quoteList2.GetMacd(param.FastPeriods, param.SlowPeriods, param.SignalPeriods).Last().Histogram.Value;
-                            }
-                            var text = $"<pre>Target = {quoteList2.Last().Close}</pre>";
-                            TelegramClient.SendMessageToBroadcastGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
-                        }
-                    }
-                    //margin = apiHelper.GetMargin(BybitLinearApiHelper.CURRENCY_XBt);
-                    //walletBalance = margin.WalletBalance.Value / 100000000m;
+
+                    usdtBalance = apiHelper.GetWalletBalance("USDT");
+                    walletBalance = usdtBalance._WalletBalance.Value;
                     if (lastWalletBalance != walletBalance)
                     {
                         if (lastWalletBalance != 0)
@@ -613,25 +574,18 @@ namespace Valloon.Trading
                     }
                     lastCandleTime = quoteList.Last().Date;
 
-                    if (retryLoop)
+                    DateTime now = BybitLinearApiHelper.ServerTime;
+                    TimeSpan d = new TimeSpan(1, 0, 0);
+                    int waitMilliseconds = (int)(new DateTime((now.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, now.Kind) - now).TotalMilliseconds % 300000 + 1000;
+                    if (waitMilliseconds >= 0)
                     {
-                        Thread.Sleep(1000);
+                        int waitSeconds = waitMilliseconds / 1000;
+                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Sleeping {waitSeconds:N0} seconds ({apiHelper.RequestCount} requests) ...", ConsoleColor.DarkGray, false);
+                        Thread.Sleep(waitMilliseconds);
                     }
                     else
                     {
-                        DateTime now = BybitLinearApiHelper.ServerTime;
-                        TimeSpan d = new TimeSpan(1, 0, 0);
-                        int waitMilliseconds = (int)(new DateTime((now.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, now.Kind) - now).TotalMilliseconds % 300000 + 1000;
-                        if (waitMilliseconds >= 0)
-                        {
-                            int waitSeconds = waitMilliseconds / 1000;
-                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Sleeping {waitSeconds:N0} seconds ({apiHelper.RequestCount} requests) ...", ConsoleColor.DarkGray, false);
-                            Thread.Sleep(waitMilliseconds);
-                        }
-                        else
-                        {
-                            Thread.Sleep(500);
-                        }
+                        Thread.Sleep(500);
                     }
                 }
                 catch (Exception ex)

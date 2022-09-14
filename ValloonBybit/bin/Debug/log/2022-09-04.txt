@@ -1,0 +1,46 @@
+
+[2022-09-04  17:36:30]  MACD bot started.
+
+[2022-09-04  17:36:30]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MACD",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": null,
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-09-04  17:36:31]  ParamMap loaded.
+{
+  "fast_periods": 12,
+  "slow_periods": 26,
+  "signal_periods": 9,
+  "long_bbw_length": 8,
+  "long_bbw_open": 0.088,
+  "long_bbw_close": 0.085,
+  "long_close": 0.06,
+  "long_stop": 0.01,
+  "short_bbw_length": 4,
+  "short_bbw_open": 0.058,
+  "short_bbw_close": 0.0,
+  "short_close": 0.07,
+  "short_stop": 0.01,
+  "rsi_length": 14,
+  "rsi_long_open": 69.0,
+  "rsi_long_close": 90.0,
+  "rsi_short_open": 30.0,
+  "rsi_short_close": 7.5
+}
+[2022-09-04  17:36:36 025  (1)]   $ 31.760 / 31.760   1,253.46392455   0 / 0 / 100.00 %
+        [17:36:36 502]  MACD = 0.0741 / 0.0978 / 0.1076 	 RSI = 53.4910 / 53.1777 	 BBW = 0.0434 / 0.0393
+[2022-09-04  17:40:03 664  (2)]   $ 31.735 / 31.735   1,253.46392455   0 / 0 / 100.00 %
+        [17:40:03 667]  MACD = 0.0741 / 0.0978 / 0.1060 	 RSI = 53.4910 / 52.8679 	 BBW = 0.0430 / 0.0390
