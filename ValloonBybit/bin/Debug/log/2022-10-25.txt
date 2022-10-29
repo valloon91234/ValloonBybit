@@ -1,0 +1,849 @@
+
+[2022-10-25  12:39:50]  MM bot started.
+
+[2022-10-25  12:39:50]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:39:50]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.9,
+  "stop_loss_reset": 0.005,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:39:52 953  (1)]   $ 0.2311 / 0.2310   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = -1.4019 (-0.09 %)
+
+[2022-10-25  12:40:57]  MM bot started.
+
+[2022-10-25  12:40:57]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:40:57]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.9,
+  "stop_loss_reset": 0.005,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:41:05 626  (1)]   $ 0.2308 / 0.2307   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = 0 (0.00 %)
+        [12:41:09 964]    ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130001,
+  "ret_msg": "position idx not match position mode",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701669.892212",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701669889,
+  "rate_limit": 75
+}
+Valloon.Trading.ApiResultException: ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130001,
+  "ret_msg": "position idx not match position mode",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701669.892212",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701669889,
+  "rate_limit": 75
+}
+   at Valloon.Trading.BybitLinearApiHelper.SetPositionStop(String symbol, String side, Nullable`1 takeProfit, Nullable`1 stopLoss, Nullable`1 trailingStop, String tpTriggerBy, String slTriggerBy, Nullable`1 slSize, Nullable`1 tpSize, Nullable`1 positionIdx) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 499
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 530
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&side=Buy&stop_loss=0.0241&symbol=1000LUNCUSDT&timestamp=1666701665632
+
+[2022-10-25  12:42:10]  MM bot started.
+
+[2022-10-25  12:42:10]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:42:10]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.9,
+  "stop_loss_reset": 0.005,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:42:12 961  (1)]   $ 0.2304 / 0.2304   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = +1.4019 (+0.09 %)
+        [12:42:14 225]    ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130029,
+  "ret_msg": "StopLoss:2410000 set for Sell position should should greater base_price:23040000??LastPrice",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701734.186076",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701734182,
+  "rate_limit": 75
+}
+Valloon.Trading.ApiResultException: ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130029,
+  "ret_msg": "StopLoss:2410000 set for Sell position should should greater base_price:23040000??LastPrice",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701734.186076",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701734182,
+  "rate_limit": 75
+}
+   at Valloon.Trading.BybitLinearApiHelper.SetPositionStop(String symbol, String side, Nullable`1 takeProfit, Nullable`1 stopLoss, Nullable`1 trailingStop, String tpTriggerBy, String slTriggerBy, Nullable`1 slSize, Nullable`1 tpSize, Nullable`1 positionIdx) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 499
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 530
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&position_idx=0&side=Buy&stop_loss=0.0241&symbol=1000LUNCUSDT&timestamp=1666701732967
+
+[2022-10-25  12:42:38]  MM bot started.
+
+[2022-10-25  12:42:38]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:42:38]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.9,
+  "stop_loss_reset": 0.005,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:42:41 094  (1)]   $ 0.2305 / 0.2305   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = +0.9346 (+0.06 %)
+
+[2022-10-25  12:44:14]  MM bot started.
+
+[2022-10-25  12:44:14]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:44:14]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.05,
+  "stop_loss_reset": 0.005,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:44:20 752  (1)]   $ 0.2305 / 0.2305   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = +0.9346 (+0.06 %)
+        [12:44:22 262]    ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130029,
+  "ret_msg": "StopLoss:22930000 set for Sell position should should greater base_price:23050000??LastPrice",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701862.218689",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701862216,
+  "rate_limit": 75
+}
+Valloon.Trading.ApiResultException: ApiResultException on SetPositionStopLoss: {
+  "ret_code": 130029,
+  "ret_msg": "StopLoss:22930000 set for Sell position should should greater base_price:23050000??LastPrice",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666701862.218689",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666701862216,
+  "rate_limit": 75
+}
+   at Valloon.Trading.BybitLinearApiHelper.SetPositionStop(String symbol, String side, Nullable`1 takeProfit, Nullable`1 stopLoss, Nullable`1 trailingStop, String tpTriggerBy, String slTriggerBy, Nullable`1 slSize, Nullable`1 tpSize, Nullable`1 positionIdx) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 499
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 530
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&position_idx=0&side=Buy&stop_loss=0.2293&symbol=1000LUNCUSDT&timestamp=1666701860757
+[2022-10-25  12:44:54 692  (2)]   $ 0.2305 / 0.2305   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = +0.9346 (+0.06 %)
+
+[2022-10-25  12:49:24]  MM bot started.
+
+[2022-10-25  12:49:24]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  12:49:24]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.002,
+  "stop_loss_reset": 0.001,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  12:49:28 443  (1)]   $ 0.2310 / 0.2310   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = -1.4019 (-0.09 %)
+        [12:49:29 737]    ApiResultException on SetPositionStopLoss: {
+  "ret_code": 0,
+  "ret_msg": "OK",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666702169.704591",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666702169702,
+  "rate_limit": 75
+}
+Valloon.Trading.ApiResultException: ApiResultException on SetPositionStopLoss: {
+  "ret_code": 0,
+  "ret_msg": "OK",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666702169.704591",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666702169702,
+  "rate_limit": 75
+}
+   at Valloon.Trading.BybitLinearApiHelper.SetPositionStop(String symbol, String side, Nullable`1 takeProfit, Nullable`1 stopLoss, Nullable`1 trailingStop, String tpTriggerBy, String slTriggerBy, Nullable`1 slSize, Nullable`1 tpSize, Nullable`1 positionIdx) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 499
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 530
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&position_idx=0&side=Buy&stop_loss=0.2409&symbol=1000LUNCUSDT&timestamp=1666702168451
+
+[2022-10-25  13:22:32]  MM bot started.
+
+[2022-10-25  13:22:32]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  13:22:32]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.002,
+  "stop_loss_reset": 0.001,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  13:22:38 057  (1)]   $ 0.2325 / 0.2326   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = -8.8787 (-0.54 %)
+        [13:22:39 401]    ApiResultException on SetPositionStopLoss: {
+  "ret_code": 0,
+  "ret_msg": "OK",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666704159.344235",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666704159341,
+  "rate_limit": 75
+}
+Valloon.Trading.ApiResultException: ApiResultException on SetPositionStopLoss: {
+  "ret_code": 0,
+  "ret_msg": "OK",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666704159.344235",
+  "rate_limit_status": 74,
+  "rate_limit_reset_ms": 1666704159341,
+  "rate_limit": 75
+}
+   at Valloon.Trading.BybitLinearApiHelper.SetPositionStop(String symbol, String side, Nullable`1 takeProfit, Nullable`1 stopLoss, Nullable`1 trailingStop, String tpTriggerBy, String slTriggerBy, Nullable`1 slSize, Nullable`1 tpSize, Nullable`1 positionIdx) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 499
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 530
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&position_idx=0&side=Sell&stop_loss=0.2409&symbol=1000LUNCUSDT&timestamp=1666704158065
+
+[2022-10-25  13:24:26]  MM bot started.
+
+[2022-10-25  13:24:26]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  13:24:26]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.002,
+  "stop_loss_reset": 0.001,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  13:24:30 861  (1)]   $ 0.2322 / 0.2323   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = -7.4768 (-0.46 %)
+
+[2022-10-25  13:27:53]  MM bot started.
+
+[2022-10-25  13:27:53]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-25  13:27:53]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "qty_max_limit": 30000,
+  "buy_or_sell": 2,
+  "upper_order_count": 7.0,
+  "upper_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "upper_reset_x": 0.008,
+  "lower_order_count": 7.0,
+  "lower_order_height": [
+    0.0075,
+    0.0225,
+    0.035,
+    0.04,
+    0.0475,
+    0.0525,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.005,
+  "lower_reset_x": 0.008,
+  "stop_loss": 0.002,
+  "stop_loss_reset": 0.001,
+  "invest_amount": 500.0,
+  "interval": 5
+}
+[2022-10-25  13:27:57 180  (1)]   $ 0.2315 / 0.2316   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0   P&L = -3.7384 (-0.23 %)
+        [13:27:58 415]  New Stop-Loss:  price = 0.2409
+[2022-10-25  13:28:07 366  (2)]   $ 0.2315 / 0.2316   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0.2409   P&L = -4.2057 (-0.26 %)
+[2022-10-25  13:28:17 299  (3)]   $ 0.2315 / 0.2315   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0.2409   P&L = -3.7384 (-0.23 %)
+[2022-10-25  13:28:25 905  (4)]   $ 0.2314 / 0.2314   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0.2409   P&L = -3.2711 (-0.20 %)
+[2022-10-25  13:28:35 619  (5)]   $ 0.2314 / 0.2315   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0.2409   P&L = -3.7384 (-0.23 %)
+[2022-10-25  13:28:45 943  (6)]   $ 0.2314 / 0.2315   1,638.5344   7 / 6 / 1 / 100.00 %
+    Entry = 0.2307   qty = -4673   liq = 0.2414   lv = 15.06   TP = 0   SL = 0.2409   P&L = -3.7384 (-0.23 %)

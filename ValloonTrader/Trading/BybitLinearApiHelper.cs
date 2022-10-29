@@ -56,6 +56,8 @@ namespace Valloon.Trading
                     return 10000;
                 case SYMBOL_SANDUSDT:
                     return 10000;
+                case SYMBOL_1000LUNCUSDT:
+                    return 10000;
                 default:
                     throw new ArgumentException($"Invalid symbol: {symbol}");
             }
@@ -98,6 +100,7 @@ namespace Valloon.Trading
         public const string SYMBOL_FTMUSDT = "FTMUSDT";
         public const string SYMBOL_DOGEUSDT = "DOGEUSDT";
         public const string SYMBOL_SANDUSDT = "SANDUSDT";
+        public const string SYMBOL_1000LUNCUSDT = "1000LUNCUSDT";
         public const string TIME_IN_FORCE_GTC = "GoodTillCancel";
 
 
@@ -472,29 +475,27 @@ namespace Valloon.Trading
             return data;
         }
 
-        public TradingStopRes SetPositionStop(string symbol, string side, decimal? takeProfit = null, decimal? stopLoss = null, decimal? trailingStop = null, string tpTriggerBy = null, string slTriggerBy = null, decimal? slSize = null, decimal? tpSize = null, int? positionIdx = null)
+        public void SetPositionStop(string symbol, string side, decimal? takeProfit = null, decimal? stopLoss = null, decimal? trailingStop = null, string tpTriggerBy = null, string slTriggerBy = null, decimal? slSize = null, decimal? tpSize = null, int? positionIdx = null)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("symbol", symbol),
                 new KeyValuePair<string, string>("side", side),
-                new KeyValuePair<string, string>("take_profit", takeProfit.ToString()),
-                new KeyValuePair<string, string>("stop_loss", stopLoss.ToString()),
-                new KeyValuePair<string, string>("trailing_stop", trailingStop.ToString()),
-                new KeyValuePair<string, string>("tp_trigger_by", tpTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_trigger_by", slTriggerBy.ToString()),
-                new KeyValuePair<string, string>("sl_size", slSize.ToString()),
-                new KeyValuePair<string, string>("tp_size", tpSize.ToString()),
-                new KeyValuePair<string, string>("position_idx", positionIdx.ToString()),
+                new KeyValuePair<string, string>("take_profit", takeProfit?.ToString()),
+                new KeyValuePair<string, string>("stop_loss", stopLoss?.ToString()),
+                new KeyValuePair<string, string>("trailing_stop", trailingStop?.ToString()),
+                new KeyValuePair<string, string>("tp_trigger_by", tpTriggerBy?.ToString()),
+                new KeyValuePair<string, string>("sl_trigger_by", slTriggerBy?.ToString()),
+                new KeyValuePair<string, string>("sl_size", slSize?.ToString()),
+                new KeyValuePair<string, string>("tp_size", tpSize?.ToString()),
+                new KeyValuePair<string, string>("position_idx", positionIdx?.ToString()),
             };
             CreateSignature(paramList);
             JObject jObject = (JObject)PositionsApiInstance.LinearPositionsTradingStop(symbol, side, takeProfit, stopLoss, trailingStop, tpTriggerBy, slTriggerBy, slSize, tpSize, positionIdx);
             ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
             var obj = jObject.ToObject<TradingStopBase>();
-            if (obj.Result == null) throw new ApiResultException("SetPositionStopLoss", jObject);
-            var data = ((JObject)obj.Result).ToObject<TradingStopRes>();
-            return data;
+            if (obj.RetCode != 0) throw new ApiResultException("SetPositionStopLoss", jObject);
         }
 
         public WalletBalance GetWalletBalance(string coin = null)

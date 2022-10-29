@@ -280,7 +280,15 @@ namespace Valloon.Trading
                                         rsi = quoteList2.GetRsi(param.RsiLength).Last().Rsi.Value;
                                     }
                                     var price = quoteList2.Last().Close;
-                                    if (botCloseOrder == null)
+                                    if (price > lastPrice * 1.2m)
+                                    {
+                                        if (botCloseOrder != null)
+                                        {
+                                            apiHelper.CancelActiveOrder(symbol, botCloseOrder.OrderId);
+                                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old close order has been canceled (too high).");
+                                        }
+                                    }
+                                    else if (botCloseOrder == null)
                                     {
                                         var resultOrder = apiHelper.NewOrder(new OrderRes
                                         {
@@ -320,7 +328,15 @@ namespace Valloon.Trading
                                         rsi = quoteList2.GetRsi(param.RsiLength).Last().Rsi.Value;
                                     }
                                     var price = quoteList2.Last().Close;
-                                    if (botCloseOrder == null)
+                                    if (lastPrice > price * 1.2m)
+                                    {
+                                        if (botCloseOrder != null)
+                                        {
+                                            apiHelper.CancelActiveOrder(symbol, botCloseOrder.OrderId);
+                                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old close order has been canceled (too low).");
+                                        }
+                                    }
+                                    else if (botCloseOrder == null)
                                     {
                                         var resultOrder = apiHelper.NewOrder(new OrderRes
                                         {

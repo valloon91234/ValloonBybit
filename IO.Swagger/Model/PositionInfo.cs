@@ -66,7 +66,7 @@ namespace IO.Swagger.Model
         /// <param name="positionSeq">positionSeq.</param>
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
-        public PositionInfo(decimal? id = default, int? positionIdx = default, string mode = default, decimal? userId = default, decimal? riskId = default, string symbol = default(string), string side = default(string), decimal? size = default, decimal? positionValue = default, decimal? entryPrice = default, bool? isIsolated = default, decimal? leverage = default, decimal? autoAddMargin = default, decimal? positionMargin = default, decimal? liqPrice = default, decimal? bustPrice = default, decimal? occClosingFee = default, decimal? occFundingFee = default, decimal? takeProfit = default, decimal? stopLoss = default, string positionStatus = default(string), string deleverageIndicator = default(string), string ocCalcData = default(string), decimal? orderMargin = default, decimal? walletBalance = default, decimal? unrealisedPnl = default, decimal? realisedPnl = default, decimal? cumRealisedPnl = default, decimal? cumCommission = default, decimal? crossSeq = default, decimal? positionSeq = default, string createdAt = default(string), string updatedAt = default(string))
+        public PositionInfo(decimal? id = default, int? positionIdx = default, string mode = default, decimal? userId = default, decimal? riskId = default, string symbol = default, string side = default, decimal? size = default, decimal? positionValue = default, decimal? entryPrice = default, bool? isIsolated = default, decimal? leverage = default, decimal? autoAddMargin = default, decimal? positionMargin = default, decimal? liqPrice = default, decimal? bustPrice = default, decimal? occClosingFee = default, decimal? occFundingFee = default, decimal? takeProfit = default, decimal? stopLoss = default, string positionStatus = default(string), string deleverageIndicator = default(string), string ocCalcData = default(string), decimal? orderMargin = default, decimal? walletBalance = default, decimal? unrealisedPnl = default, decimal? realisedPnl = default, decimal? cumRealisedPnl = default, decimal? cumCommission = default, decimal? crossSeq = default, decimal? positionSeq = default, string createdAt = default(string), string updatedAt = default(string))
         {
             this.Id = id;
             this.PositionIdx = positionIdx;
@@ -78,6 +78,7 @@ namespace IO.Swagger.Model
             this.Size = size;
             this.PositionValue = positionValue;
             this.EntryPrice = entryPrice;
+            this.IsIsolated = isIsolated;
             this.Leverage = leverage;
             this.AutoAddMargin = autoAddMargin;
             this.PositionMargin = positionMargin;
@@ -407,6 +408,11 @@ namespace IO.Swagger.Model
                     this.EntryPrice.Equals(input.EntryPrice))
                 ) &&
                 (
+                    this.IsIsolated == input.IsIsolated ||
+                    (this.IsIsolated != null &&
+                    this.IsIsolated.Equals(input.IsIsolated))
+                ) &&
+                (
                     this.Leverage == input.Leverage ||
                     (this.Leverage != null &&
                     this.Leverage.Equals(input.Leverage))
@@ -547,6 +553,8 @@ namespace IO.Swagger.Model
                     hashCode = hashCode * 59 + this.PositionValue.GetHashCode();
                 if (this.EntryPrice != null)
                     hashCode = hashCode * 59 + this.EntryPrice.GetHashCode();
+                if (this.IsIsolated != null)
+                    hashCode = hashCode * 59 + this.IsIsolated.GetHashCode();
                 if (this.Leverage != null)
                     hashCode = hashCode * 59 + this.Leverage.GetHashCode();
                 if (this.AutoAddMargin != null)

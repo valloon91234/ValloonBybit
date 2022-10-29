@@ -107,7 +107,7 @@ namespace Valloon.Trading
                                 }
                                 break;
                             case "/now":
-                                if (listenArray != null && listenArray.Contains(chatId.ToString()))
+                                if (isAdmin || listenArray != null && listenArray.Contains(chatId.ToString()))
                                 {
                                     string replyMessageText = MacdStrategy.LastMessage;
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);

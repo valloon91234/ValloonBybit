@@ -1,0 +1,455 @@
+
+[2022-10-22  13:18:54]  MM bot started.
+
+[2022-10-22  13:18:54]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-22  13:18:54]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "upper_order_count": 5.0,
+  "upper_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "lower_order_count": 4.0,
+  "lower_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.004,
+  "invest_amount": 700.0,
+  "interval": 5
+}
+[2022-10-22  13:18:56 521  (1)]   $ 0.2355 / 0.2354   1,593.3638   0 / 0 / 0 / 100.00 %
+        [13:18:58 321]    ApiResultException on OrderNew: {
+  "ret_code": 130023,
+  "ret_msg": "estimated will trigger liq",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666444737.581005",
+  "rate_limit_status": 99,
+  "rate_limit_reset_ms": 1666444737578,
+  "rate_limit": 100
+}
+Valloon.Trading.ApiResultException: ApiResultException on OrderNew: {
+  "ret_code": 130023,
+  "ret_msg": "estimated will trigger liq",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666444737.581005",
+  "rate_limit_status": 99,
+  "rate_limit_reset_ms": 1666444737578,
+  "rate_limit": 100
+}
+   at Valloon.Trading.BybitLinearApiHelper.NewOrder(OrderRes order) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 294
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 249
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&close_on_trigger=False&order_link_id=<BOT><131856649>&order_type=Limit&position_idx=0&price=0.1766&qty=4048&reduce_only=False&side=Sell&symbol=1000LUNCUSDT&time_in_force=PostOnly&timestamp=1666444736653
+
+[2022-10-22  13:20:10]  MM bot started.
+
+[2022-10-22  13:20:10]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-22  13:20:10]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "upper_order_count": 5.0,
+  "upper_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "lower_order_count": 4.0,
+  "lower_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.004,
+  "invest_amount": 700.0,
+  "interval": 5
+}
+[2022-10-22  13:20:12 592  (1)]   $ 0.2355 / 0.2355   1,593.3638   0 / 0 / 0 / 100.00 %
+
+[2022-10-22  13:22:28]  MM bot started.
+
+[2022-10-22  13:22:28]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-22  13:22:28]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "upper_order_count": 5.0,
+  "upper_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "lower_order_count": 4.0,
+  "lower_order_height": [
+    0.75,
+    2.0,
+    3.25,
+    4.5,
+    5.75
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.004,
+  "invest_amount": 700.0,
+  "interval": 5
+}
+[2022-10-22  13:22:31 296  (1)]   $ 0.2357 / 0.2358   1,593.3638   0 / 0 / 0 / 100.00 %
+        [13:23:02 608]  New Short Order:  price = 0.4125    qty = 4045
+--- {"order_id":"96ac35ee-3044-43ce-a0e1-a24019276ecd","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.4125,"qty":4045.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132301967>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:03 213]  New Short Order:  price = 0.7071    qty = 4045
+--- {"order_id":"a48ffe6f-5311-4d49-bbc7-3ec45412a7b0","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.7071,"qty":4045.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132302613>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:03 794]  New Short Order:  price = 1.0017    qty = 4045
+--- {"order_id":"bd8180b3-38a0-4fc5-93ee-e73eae110fa2","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":1.0017,"qty":4045.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132303214>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:04 370]  New Short Order:  price = 1.2964    qty = 8090
+--- {"order_id":"50f041b5-6d64-4551-bc63-f2d0e5c19e52","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":1.2964,"qty":8090.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132303795>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:05 005]    ApiResultException on OrderNew: {
+  "ret_code": 130021,
+  "ret_msg": "oc_diff[131105947776], new_oc[260594015744] with ob[129488067968]+AB[29848311442]",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666444984.993453",
+  "rate_limit_status": 95,
+  "rate_limit_reset_ms": 1666444984991,
+  "rate_limit": 100
+}
+Valloon.Trading.ApiResultException: ApiResultException on OrderNew: {
+  "ret_code": 130021,
+  "ret_msg": "oc_diff[131105947776], new_oc[260594015744] with ob[129488067968]+AB[29848311442]",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666444984.993453",
+  "rate_limit_status": 95,
+  "rate_limit_reset_ms": 1666444984991,
+  "rate_limit": 100
+}
+   at Valloon.Trading.BybitLinearApiHelper.NewOrder(OrderRes order) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 294
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 249
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&close_on_trigger=False&order_link_id=<BOT><132304374>&order_type=Limit&position_idx=0&price=1.5910&qty=12135&reduce_only=False&side=Sell&symbol=1000LUNCUSDT&time_in_force=PostOnly&timestamp=1666444984374
+[2022-10-22  13:23:38 313  (2)]   $ 0.2358 / 0.2359   1,593.3638   4 / 4 / 0 / 100.00 %
+        [13:23:41 052]  4 old orders have been canceled.
+        [13:23:41 687]  New Short Order:  price = 0.4126    qty = 4043
+--- {"order_id":"d95e8abd-c9bb-46b6-9dda-df4b4b59912b","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.4126,"qty":4043.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132341053>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:42 693]  New Short Order:  price = 0.7074    qty = 4043
+--- {"order_id":"992cd497-b8bf-4ae0-9c8a-bd6984d2f75b","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.7074,"qty":4043.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132341688>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:43 294]  New Short Order:  price = 1.0022    qty = 4043
+--- {"order_id":"a4d7419b-fd6f-47db-bf6d-087d4cbf5cf3","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":1.0022,"qty":4043.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132342699>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:43 869]  New Short Order:  price = 1.2969    qty = 8087
+--- {"order_id":"fc11e36d-c937-4027-b628-0d00f4d7f133","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":1.2969,"qty":8087.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132343295>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:23:44 503]    ApiResultException on OrderNew: {
+  "ret_code": 130021,
+  "ret_msg": "oc_diff[131101350494], new_oc[260586365378] with ob[129485014884]+AB[29851364526]",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666445024.493412",
+  "rate_limit_status": 86,
+  "rate_limit_reset_ms": 1666445024491,
+  "rate_limit": 100
+}
+Valloon.Trading.ApiResultException: ApiResultException on OrderNew: {
+  "ret_code": 130021,
+  "ret_msg": "oc_diff[131101350494], new_oc[260586365378] with ob[129485014884]+AB[29851364526]",
+  "ext_code": "",
+  "ext_info": "",
+  "result": null,
+  "time_now": "1666445024.493412",
+  "rate_limit_status": 86,
+  "rate_limit_reset_ms": 1666445024491,
+  "rate_limit": 100
+}
+   at Valloon.Trading.BybitLinearApiHelper.NewOrder(OrderRes order) in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\Trading\BybitLinearApiHelper.cs:line 294
+   at Valloon.Trading.MMStrategy.Run() in D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\MMStrategy.cs:line 249
+LastPlain4Sign = api_key=K0bGd382eCxLYKKAgM&close_on_trigger=False&order_link_id=<BOT><132343870>&order_type=Limit&position_idx=0&price=1.5916&qty=12130&reduce_only=False&side=Sell&symbol=1000LUNCUSDT&time_in_force=PostOnly&timestamp=1666445023870
+
+[2022-10-22  13:25:08]  MM bot started.
+
+[2022-10-22  13:25:08]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-22  13:25:08]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "upper_order_count": 5.0,
+  "upper_order_height": [
+    0.0075,
+    0.02,
+    0.0325,
+    0.045,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "lower_order_count": 4.0,
+  "lower_order_height": [
+    0.0075,
+    0.02,
+    0.0325,
+    0.045,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.004,
+  "invest_amount": 700.0,
+  "interval": 5
+}
+[2022-10-22  13:25:10 909  (1)]   $ 0.2359 / 0.2359   1,593.3638   0 / 0 / 0 / 100.00 %
+        [13:25:11 549]  New Short Order:  price = 0.2377    qty = 4042
+--- {"order_id":"71f82b2d-5ac6-43e7-90c8-3fd41332bb68","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2377,"qty":4042.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132510912>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:12 170]  New Short Order:  price = 0.2406    qty = 4042
+--- {"order_id":"73fd962c-d4f8-4aba-8fa5-2bd1dbdb5cc8","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2406,"qty":4042.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132511553>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:12 813]  New Short Order:  price = 0.2436    qty = 4042
+--- {"order_id":"7e06aaef-1356-44b8-90d2-18f4fe6dc6c7","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2436,"qty":4042.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132512171>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:13 455]  New Short Order:  price = 0.2465    qty = 8083
+--- {"order_id":"dcdf530d-48c8-43de-9f5e-9fb597258f5a","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2465,"qty":8083.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132512815>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:14 415]  New Short Order:  price = 0.2495    qty = 12125
+--- {"order_id":"71590855-e67b-490b-b871-4b308f7a9332","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2495,"qty":12125.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132513458>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:15 062]  New Long Order:  price = 0.2377    qty = 6351
+--- {"order_id":"6921cfb9-ff2e-4832-94c9-8cfb8ef533a8","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2377,"qty":6351.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132514416>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:16 216]  New Long Order:  price = 0.2406    qty = 6351
+--- {"order_id":"1a889758-a121-4ef0-bb17-b386c4c4164a","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2406,"qty":6351.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132515065>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:16 849]  New Long Order:  price = 0.2436    qty = 6351
+--- {"order_id":"d36d3436-2c8b-49bc-9082-12b2af7bd417","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2436,"qty":6351.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132516217>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:25:17 472]  New Long Order:  price = 0.2465    qty = 12702
+--- {"order_id":"ebe37286-bcce-4929-b708-119104f1a8ee","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2465,"qty":12702.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132516851>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+
+[2022-10-22  13:26:35]  MM bot started.
+
+[2022-10-22  13:26:35]  Config loaded.
+{
+  "username": "BBB",
+  "api_key": "K0bGd382eCxLYKKAgM",
+  "api_secret": "VkwEwMsvZTm24Z1Bn4NVnBL7dAbHMrzc7485",
+  "testnet_mode": false,
+  "symbol": "SOLUSDT",
+  "strategy": "MM",
+  "leverage": 4.0,
+  "buy_or_sell": 3,
+  "interval": 30,
+  "telegram_token": "5565263702:AAFgP4JC-AKP2oZuzIhC5VP9a5NZ8lxsPQc",
+  "telegram_admin": "valloon427428",
+  "telegram_listen": "-1001727978147",
+  "telegram_broadcast": "5590193797",
+  "exit": 0
+}
+
+[2022-10-22  13:26:35]  ParamMap loaded.
+{
+  "symbol": "1000LUNCUSDT",
+  "price_decimals": 4,
+  "qty_decimals": 0,
+  "upper_order_count": 5.0,
+  "upper_order_height": [
+    0.0075,
+    0.02,
+    0.0325,
+    0.045,
+    0.0575
+  ],
+  "upper_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "upper_pinned_x": 0.0,
+  "upper_close_x": 0.005,
+  "lower_order_count": 4.0,
+  "lower_order_height": [
+    0.0075,
+    0.02,
+    0.0325,
+    0.045,
+    0.0575
+  ],
+  "lower_order_qty": [
+    1.0,
+    1.0,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "lower_pinned_x": 0.0,
+  "lower_close_x": 0.004,
+  "invest_amount": 700.0,
+  "interval": 5
+}
+[2022-10-22  13:26:37 619  (1)]   $ 0.2361 / 0.2361   1,593.3638   0 / 0 / 0 / 100.00 %
+        [13:26:38 290]  New Short Order:  price = 0.2379    qty = 4038
+--- {"order_id":"011a260f-69bd-4faa-9249-ae9df372bc4c","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2379,"qty":4038.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132637626>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:39 129]  New Short Order:  price = 0.2408    qty = 4038
+--- {"order_id":"401a661c-1f33-4ca2-91ee-4d9befc64b90","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2408,"qty":4038.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132638299>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:40 215]  New Short Order:  price = 0.2438    qty = 4038
+--- {"order_id":"3058d303-dc1b-426b-9bdb-47e80420743a","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2438,"qty":4038.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132639129>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:40 844]  New Short Order:  price = 0.2467    qty = 8076
+--- {"order_id":"b920a925-7ee3-401e-bcce-3ce84e52ccde","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2467,"qty":8076.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132640230>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:41 538]  New Short Order:  price = 0.2497    qty = 12114
+--- {"order_id":"8f4154c5-0a74-4200-8599-640e9e35756a","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Sell","order_type":"Limit","price":0.2497,"qty":12114.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132640858>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:42 111]  New Long Order:  price = 0.2343    qty = 6346
+--- {"order_id":"0a170739-6004-4f81-ba74-20ad16428a96","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2343,"qty":6346.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132641542>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:43 100]  New Long Order:  price = 0.2314    qty = 6346
+--- {"order_id":"e790e92e-6cc0-4c98-9a75-56b430573f61","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2314,"qty":6346.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132642116>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:43 758]  New Long Order:  price = 0.2284    qty = 6346
+--- {"order_id":"bc616ba0-e84f-4a7a-ab86-a7ab37a93619","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2284,"qty":6346.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132643117>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+        [13:26:44 370]  New Long Order:  price = 0.2255    qty = 12691
+--- {"order_id":"733d6378-1687-47dc-8281-507126b48210","user_id":30678619.0,"symbol":"1000LUNCUSDT","side":"Buy","order_type":"Limit","price":0.2255,"qty":12691.0,"time_in_force":"PostOnly","order_status":"Created","last_exec_price":0.0,"cum_exec_qty":0.0,"cum_exec_value":0.0,"cum_exec_fee":0.0,"order_link_id":"<BOT><132643766>","reduce_only":false,"close_on_trigger":false,"take_profit":0.0,"stop_loss":0.0,"tp_trigger_by":"UNKNOWN","sl_trigger_by":"UNKNOWN","position_idx":0}
+[2022-10-22  13:26:52 387  (2)]   $ 0.2362 / 0.2362   1,593.3638   9 / 5 / 4 / 100.00 %
+[2022-10-22  13:26:59 985  (3)]   $ 0.2362 / 0.2362   1,593.3638   9 / 5 / 4 / 100.00 %
+[2022-10-22  13:27:07 312  (4)]   $ 0.2364 / 0.2363   1,593.3638   9 / 5 / 4 / 100.00 %
+[2022-10-22  13:27:14 877  (5)]   $ 0.2365 / 0.2365   1,593.3638   9 / 5 / 4 / 100.00 %
+[2022-10-22  13:27:22 284  (6)]   $ 0.2365 / 0.2365   1,593.3638   9 / 5 / 4 / 100.00 %
+[2022-10-22  13:27:29 854  (7)]   $ 0.2365 / 0.2365   1,593.3638   9 / 5 / 4 / 100.00 %

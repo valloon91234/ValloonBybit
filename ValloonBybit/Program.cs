@@ -77,7 +77,7 @@ namespace Valloon.Trading
         {
             QuickEditMode(false);
             //Console.BufferHeight = Int16.MaxValue - 1;
-            MoveWindow(GetConsoleWindow(), 20, 0, 900, 280, true);
+            MoveWindow(GetConsoleWindow(), 20, 0, 1000, 280, true);
             //CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
             //Thread.CurrentThread.CurrentCulture = culture;
             //Thread.CurrentThread.CurrentUICulture = culture;
@@ -87,6 +87,9 @@ namespace Valloon.Trading
                 case "MACD":
                     //new MacdStrategy().Run();
                     new MacdBbwStrategy().Run();
+                    break;
+                case "MM":
+                    new MMStrategy().Run();
                     break;
                 default:
                     Console.WriteLine($"\r\nInvalid Strategy.");
