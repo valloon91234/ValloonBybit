@@ -8,6 +8,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 /**
  * @author Valloon Present
@@ -19,9 +20,9 @@ namespace Valloon.Trading
     {
         public static TelegramBotClient Client;
         public static User Me { get; set; }
-        public static string[] adminArray;
-        public static string[] listenArray;
-        public static string[] broadcastArray;
+        public static string[] adminNameArray;
+        public static string[] chatAdminArray;
+        public static string[] chatGuestArray;
         public static Logger logger;
 
         public static void Init(Config config)
@@ -46,14 +47,14 @@ namespace Valloon.Trading
                     Me = Client.GetMeAsync().Result;
                 }
             }
-            adminArray = config.TelegramAdmin?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            listenArray = config.TelegramListen?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            broadcastArray = config.TelegramBroadcast?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            adminNameArray = config.TelegramAdmin?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            chatAdminArray = config.TelegramChatAdmin?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            chatGuestArray = config.TelegramChatGuest?.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
             logger = new Logger($"{BybitLinearApiHelper.ServerTime:yyyy-MM-dd}", "telegram_log");
             logger.WriteLine($"Telegram connected: username = {Me.Username}");
-            logger.WriteLine($"adminArray = {(adminArray == null ? "Null" : string.Join(",", adminArray))}");
-            logger.WriteLine($"listenArray = {(listenArray == null ? "Null" : string.Join(",", listenArray))}");
-            logger.WriteLine($"broadcastArray = {(broadcastArray == null ? "Null" : string.Join(",", broadcastArray))}");
+            logger.WriteLine($"adminArray = {(adminNameArray == null ? "Null" : string.Join(",", adminNameArray))}");
+            logger.WriteLine($"listenArray = {(chatAdminArray == null ? "Null" : string.Join(",", chatAdminArray))}");
+            logger.WriteLine($"broadcastArray = {(chatGuestArray == null ? "Null" : string.Join(",", chatGuestArray))}");
         }
 
         static readonly Dictionary<string, string> LastCommand = new Dictionary<string, string>();
@@ -89,7 +90,7 @@ namespace Valloon.Trading
                     if (receivedMessageText[0] == '/' && receivedMessageText.EndsWith($"@{Me.Username}"))
                     {
                         var command = receivedMessageText.Substring(0, receivedMessageText.Length - $"@{Me.Username}".Length);
-                        bool isAdmin = adminArray != null && adminArray.Contains(senderUsername);
+                        bool isAdmin = adminNameArray != null && adminNameArray.Contains(senderUsername);
                         switch (command)
                         {
                             case "/start":
@@ -107,7 +108,7 @@ namespace Valloon.Trading
                                 }
                                 break;
                             case "/now":
-                                if (isAdmin || listenArray != null && listenArray.Contains(chatId.ToString()))
+                                if (isAdmin || chatAdminArray != null && chatAdminArray.Contains(chatId.ToString()))
                                 {
                                     string replyMessageText = MacdStrategy.LastMessage;
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
@@ -128,7 +129,7 @@ namespace Valloon.Trading
                 else
                     return;
                 {
-                    bool isAdmin = adminArray != null && adminArray.Contains(senderUsername);
+                    bool isAdmin = adminNameArray != null && adminNameArray.Contains(senderUsername);
                     if (receivedMessageText[0] == '/')
                     {
                         var command = receivedMessageText;
@@ -146,6 +147,50 @@ namespace Valloon.Trading
                                 {
                                     string replyMessageText = chatId.ToString();
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken);
+                                }
+                                break;
+                            case "/no_buy":
+                                {
+                                    PaxgStrategy.NoBuyMode = true;
+                                    string replyMessageText = "No-Buy Mode";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html, replyMarkup: PaxgStrategy.GetReplyMarkup());
+                                }
+                                break;
+                            case "/no_close":
+                                {
+                                    PaxgStrategy.NoCloseMode = true;
+                                    string replyMessageText = "No-Close Mode";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html, replyMarkup: PaxgStrategy.GetReplyMarkup());
+                                }
+                                break;
+                            case "/no_buy_and_close":
+                                {
+                                    PaxgStrategy.NoBuyMode = true;
+                                    PaxgStrategy.NoCloseMode = true;
+                                    string replyMessageText = "No-Buy & No-Close Mode";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html, replyMarkup: PaxgStrategy.GetReplyMarkup());
+                                }
+                                break;
+                            case "/resume_buy":
+                                {
+                                    PaxgStrategy.NoBuyMode = false;
+                                    string replyMessageText = "Buy Resumed";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
+                                }
+                                break;
+                            case "/resume_close":
+                                {
+                                    PaxgStrategy.NoCloseMode = false;
+                                    string replyMessageText = "Close Resumed";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
+                                }
+                                break;
+                            case "/resume_buy_and_close":
+                                {
+                                    PaxgStrategy.NoBuyMode = false;
+                                    PaxgStrategy.NoCloseMode = false;
+                                    string replyMessageText = "Buy & Close Resumed";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
                                 }
                                 break;
                             case "/now":
@@ -202,16 +247,16 @@ namespace Valloon.Trading
             return Task.CompletedTask;
         }
 
-        public static void SendMessageToListenGroup(string text, ParseMode? parseMode = default)
+        public static void SendMessageToAdmin(string text, ParseMode? parseMode = default, IReplyMarkup replyMarkup = default)
         {
-            if (Client == null || listenArray == null) return;
+            if (Client == null || chatAdminArray == null) return;
             try
             {
                 int count = 0;
-                foreach (var chat in listenArray)
+                foreach (var chat in chatAdminArray)
                 {
                     if (string.IsNullOrWhiteSpace(chat)) continue;
-                    var result = Client.SendTextMessageAsync(chatId: chat, text: text, disableWebPagePreview: true, parseMode: parseMode).Result;
+                    var result = Client.SendTextMessageAsync(chatId: chat, text: text, disableWebPagePreview: true, parseMode: parseMode, replyMarkup: replyMarkup).Result;
                     count++;
                 }
                 logger.WriteFile($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd HH:mm:ss}]  Message sent to {count} chats: {text}");
@@ -223,16 +268,16 @@ namespace Valloon.Trading
             }
         }
 
-        public static void SendMessageToBroadcastGroup(string text, ParseMode? parseMode = default)
+        public static void SendMessageToGuest(string text, ParseMode? parseMode = default, IReplyMarkup replyMarkup = default)
         {
-            if (Client == null || broadcastArray == null) return;
+            if (Client == null || chatGuestArray == null) return;
             try
             {
                 int count = 0;
-                foreach (var chat in broadcastArray)
+                foreach (var chat in chatGuestArray)
                 {
                     if (string.IsNullOrWhiteSpace(chat)) continue;
-                    var result = Client.SendTextMessageAsync(chatId: chat, text: text, disableWebPagePreview: true, parseMode: parseMode).Result;
+                    var result = Client.SendTextMessageAsync(chatId: chat, text: text, disableWebPagePreview: true, parseMode: parseMode, replyMarkup: replyMarkup).Result;
                     count++;
                 }
                 logger.WriteFile($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd HH:mm:ss}]  Message sent to {count} chats: {text}");

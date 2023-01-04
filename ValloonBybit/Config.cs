@@ -48,11 +48,11 @@ namespace Valloon.Trading
         [JsonProperty("telegram_admin")]
         public string TelegramAdmin { get; set; }
 
-        [JsonProperty("telegram_listen")]
-        public string TelegramListen { get; set; }
+        [JsonProperty("telegram_chat_admin")]
+        public string TelegramChatAdmin { get; set; }
 
-        [JsonProperty("telegram_broadcast")]
-        public string TelegramBroadcast { get; set; }
+        [JsonProperty("telegram_chat_guest")]
+        public string TelegramChatGuest { get; set; }
 
         [JsonProperty("exit")]
         public int Exit { get; set; }

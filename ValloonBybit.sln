@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backtest", "Backtest\Backte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValloonBybit", "ValloonBybit\ValloonBybit.csproj", "{765C8C11-0E07-4A67-BA33-9C92D7848E05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notify", "Notify\Notify.csproj", "{BC2FAE1D-97E3-45D5-AC6E-6FEB4D731A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{765C8C11-0E07-4A67-BA33-9C92D7848E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{765C8C11-0E07-4A67-BA33-9C92D7848E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{765C8C11-0E07-4A67-BA33-9C92D7848E05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC2FAE1D-97E3-45D5-AC6E-6FEB4D731A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC2FAE1D-97E3-45D5-AC6E-6FEB4D731A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC2FAE1D-97E3-45D5-AC6E-6FEB4D731A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC2FAE1D-97E3-45D5-AC6E-6FEB4D731A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

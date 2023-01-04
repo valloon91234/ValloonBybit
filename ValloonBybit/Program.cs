@@ -91,6 +91,15 @@ namespace Valloon.Trading
                 case "MM":
                     new MMStrategy().Run();
                     break;
+                case "GRID":
+                    new GridStrategy().Run();
+                    break;
+                case "GRIDL":
+                    new GridLongStrategy().Run();
+                    break;
+                case "PAXG":
+                    new PaxgStrategy().Run();
+                    break;
                 default:
                     Console.WriteLine($"\r\nInvalid Strategy.");
                     break;

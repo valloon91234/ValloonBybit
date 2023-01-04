@@ -1,6 +1,7 @@
 ﻿using IO.Swagger.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,12 +13,12 @@ namespace Valloon.Trading.Backtest
 {
     static class Loader
     {
-        public static void LoadCSV(string symbol, int interval, DateTime startTime, DateTime? endTime = null)
+        public static void WriteCSV(string symbol, int interval, DateTime startTime, DateTime? endTime = null)
         {
             BybitLinearApiHelper apiHelper = new BybitLinearApiHelper();
             if (endTime == null) endTime = BybitLinearApiHelper.ServerTime;
-            string filename = $"data-{symbol}-{interval}  {startTime:yyyy-MM-dd} ~ {endTime:yyyy-MM-dd}.csv";
-            int x = BybitLinearApiHelper.GetX(symbol);
+            //string filename = $"data-{symbol}-{interval}  {startTime:yyyy-MM-dd} ~ {endTime:yyyy-MM-dd}.csv";
+            string filename = $"data-{symbol}-{interval}.csv";
             File.Delete(filename);
             using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
             {
@@ -38,7 +39,7 @@ namespace Valloon.Trading.Backtest
                             var t = list[i];
                             try
                             {
-                                writer.WriteLine($"{t.Timestamp():yyyy-MM-dd HH:mm:ss},{t.Timestamp():yyyy-MM-dd},{t.Timestamp():HH:mm},{(int)(t.Open.Value * x)},{(int)(t.High.Value * x)},{(int)(t.Low.Value * x)},{(int)(t.Close.Value * x)},{(long)(t.Volume.Value * x)}");
+                                writer.WriteLine($"{t.Timestamp():yyyy-MM-dd HH:mm:ss},{t.Timestamp():yyyy-MM-dd},{t.Timestamp():HH:mm},{t.Open},{t.High},{t.Low},{t.Close},{t.Volume.Value}");
                                 writer.Flush();
                             }
                             catch (Exception ex)
@@ -62,45 +63,60 @@ namespace Valloon.Trading.Backtest
             }
         }
 
-        public static void Load(string symbol, int interval, DateTime startTime, DateTime? endTime = null)
+        //public static List<CandleQuote> ReadCSV(string filename, int x)
+        //{
+        //    var lines = File.ReadAllLines(filename);
+        //    int lineCount = lines.Length;
+        //    var result = new List<CandleQuote>();
+        //    for (int i = 1; i < lineCount; i++)
+        //    {
+        //        var line = lines[i];
+        //        var values = line.Split(',');
+        //        result.Add(new CandleQuote
+        //        {
+        //            Timestamp = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture),
+        //            Open = (int)(decimal.Parse(values[3]) * x),
+        //            High = (int)(decimal.Parse(values[4]) * x),
+        //            Low = (int)(decimal.Parse(values[5]) * x),
+        //            Close = (int)(decimal.Parse(values[6]) * x),
+        //            Volume = (int)(decimal.Parse(values[7])),
+        //        });
+        //    }
+        //    return result;
+        //}
+
+        public static int ReadCSV(string filename, out List<Skender.Stock.Indicators.Quote> quoteList, out List<QuoteD> quoteDList)
         {
-            BybitLinearApiHelper apiHelper = new BybitLinearApiHelper();
-            if (endTime == null) endTime = BybitLinearApiHelper.ServerTime;
-            while (true)
+            var lines = File.ReadAllLines(filename);
+            int lineCount = lines.Length;
+            quoteList = new List<Skender.Stock.Indicators.Quote>();
+            quoteDList = new List<QuoteD>();
+            int count = 0;
+            for (int i = 1; i < lineCount; i++)
             {
-                try
+                var line = lines[i];
+                var values = line.Split(',');
+                quoteList.Add(new Skender.Stock.Indicators.Quote
                 {
-                    if (startTime > endTime.Value)
-                    {
-                        Console.WriteLine($"end: nextTime = {startTime:yyyy-MM-dd HH:mm:ss} > {endTime.Value:yyyy-MM-dd HH:mm:ss}");
-                        break;
-                    }
-                    var list = apiHelper.GetCandleList(symbol, interval.ToString(), startTime, 181);
-                    int count = list.Count;
-                    for (int i = 0; i < count - 1; i++)
-                    {
-                        var t = list[i];
-                        try
-                        {
-                            Dao.Insert(symbol, interval.ToString(), new CandleQuote(t, symbol));
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex.Message.ContainsIgnoreCase("UNIQUE constraint failed:"))
-                                Console.WriteLine($"Failed: {t.Timestamp():yyyy-MM-dd HH:mm:ss} - Already exists.");
-                            else
-                                Console.WriteLine($"Failed: {t.Timestamp():yyyy-MM-dd HH:mm:ss}\r\n{ex.StackTrace}");
-                        }
-                    }
-                    Console.WriteLine($"Inserted: {startTime:yyyy-MM-dd HH:mm:ss}");
-                    startTime = startTime.AddMinutes(interval * 180);
-                }
-                catch (Exception ex)
+                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture),
+                    Open = decimal.Parse(values[3]),
+                    High = decimal.Parse(values[4]),
+                    Low = decimal.Parse(values[5]),
+                    Close = decimal.Parse(values[6]),
+                    Volume = decimal.Parse(values[7]),
+                });
+                quoteDList.Add(new QuoteD
                 {
-                    Console.WriteLine($"Exception: {ex.Message}");
-                    Thread.Sleep(5000);
-                }
+                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture),
+                    Open = double.Parse(values[3]),
+                    High = double.Parse(values[4]),
+                    Low = double.Parse(values[5]),
+                    Close = double.Parse(values[6]),
+                    Volume = double.Parse(values[7]),
+                });
+                count++;
             }
+            return count;
         }
 
         public static List<CandleQuote> LoadBinListFrom1m(int size, List<CandleQuote> list)

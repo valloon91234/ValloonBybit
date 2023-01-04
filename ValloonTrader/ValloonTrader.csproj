@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Indicators\QuoteD.cs" />
     <Compile Include="Indicators\Sma.cs" />
     <Compile Include="Indicators\Rsi.cs" />
     <Compile Include="Test\HttpToSocks5Proxy\Dns\DefaultDnsResolver.cs" />

@@ -108,7 +108,7 @@ namespace Valloon.Trading
                         logger.WriteLine($"\r\n[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]  Config loaded.", ConsoleColor.Green);
                         logger.WriteLine(JObject.FromObject(config).ToString(Formatting.Indented));
                         TelegramClient.Init(config);
-                        TelegramClient.SendMessageToBroadcastGroup(JObject.FromObject(config).ToString(Formatting.Indented));
+                        TelegramClient.SendMessageToAdmin(JObject.FromObject(config).ToString(Formatting.Indented));
                     }
                     string symbol = config.Symbol.ToUpper();
                     int symbolX = BybitLinearApiHelper.GetX(symbol);
@@ -122,7 +122,7 @@ namespace Valloon.Trading
                         logger.WriteLine();
                         if (lastParamText == null || lastParamText != paramText)
                         {
-                            TelegramClient.SendMessageToBroadcastGroup(JObject.FromObject(param).ToString(Formatting.Indented));
+                            TelegramClient.SendMessageToAdmin(JObject.FromObject(param).ToString(Formatting.Indented));
                             lastParamText = paramText;
                         }
                     }
@@ -217,7 +217,7 @@ namespace Valloon.Trading
                             });
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Long position closed by market.");
                             logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                            TelegramClient.SendMessageToBroadcastGroup($"<pre>Long position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                            TelegramClient.SendMessageToAdmin($"<pre>Long position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                             positionQty = 0;
                         }
                         else if (isNewCandle && positionQty < 0 && (macdList[macdList.Count - 2].Histogram > 0 || shortBbwList[shortBbwList.Count - 3].Width >= param.ShortBbwClose && shortBbwList[shortBbwList.Count - 2].Width < param.ShortBbwClose))
@@ -233,7 +233,7 @@ namespace Valloon.Trading
                             });
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Short position closed by market.");
                             logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                            TelegramClient.SendMessageToBroadcastGroup($"<pre>Short position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                            TelegramClient.SendMessageToAdmin($"<pre>Short position closed by market.</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                             positionQty = 0;
                         }
                         else
@@ -303,7 +303,7 @@ namespace Valloon.Trading
                                         });
                                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New CLOSE order:  qty = {positionQty}  price = {price}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        TelegramClient.SendMessageToBroadcastGroup($"<pre>New Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                        TelegramClient.SendMessageToAdmin($"<pre>New Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                     }
                                     else if (botCloseOrder.Price != price || botCloseOrder.Qty != positionQty)
                                     {
@@ -317,7 +317,7 @@ namespace Valloon.Trading
                                         });
                                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Amend CLOSE order:  qty = {positionQty}  price = {price}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        TelegramClient.SendMessageToBroadcastGroup($"<pre>Amend Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                        TelegramClient.SendMessageToAdmin($"<pre>Amend Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                     }
                                 }
                                 else if (positionQty < 0)
@@ -351,7 +351,7 @@ namespace Valloon.Trading
                                         });
                                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New CLOSE order:  qty = {-positionQty}  price = {price}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        TelegramClient.SendMessageToBroadcastGroup($"<pre>New Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                        TelegramClient.SendMessageToAdmin($"<pre>New Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                     }
                                     else if (botCloseOrder.Price != price || botCloseOrder.Qty != -positionQty)
                                     {
@@ -365,7 +365,7 @@ namespace Valloon.Trading
                                         });
                                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Amend CLOSE order:  qty = {-positionQty}  price = {price}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        TelegramClient.SendMessageToBroadcastGroup($"<pre>Amend Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                        TelegramClient.SendMessageToAdmin($"<pre>Amend Close Order: Price = {price}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                     }
                                 }
                             }
@@ -457,7 +457,7 @@ namespace Valloon.Trading
                                     });
                                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New LONG-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
                                     logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>LONG-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                    TelegramClient.SendMessageToAdmin($"<pre>LONG-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                 }
                             }
                         }
@@ -494,7 +494,7 @@ namespace Valloon.Trading
                                     });
                                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New SHORT-OPEN order: qty = {qty}, price = {limitPrice}, TP = {takeProfitPrice}, SL = {stopLossPrice}");
                                     logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                    TelegramClient.SendMessageToBroadcastGroup($"<pre>SHORT-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                                    TelegramClient.SendMessageToAdmin($"<pre>SHORT-OPEN: Qty = {qty}  Price = {limitPrice}  TP = {takeProfitPrice}  SL = {stopLossPrice}</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                                 }
                             }
                         }
@@ -502,7 +502,7 @@ namespace Valloon.Trading
                         {
                             apiHelper.CancelActiveOrder(symbol, activeOpenOrder.OrderId);
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  old open order has been canceled (timeout).");
-                            TelegramClient.SendMessageToBroadcastGroup($"<pre>Old open order has been canceled (timeout).</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
+                            TelegramClient.SendMessageToAdmin($"<pre>Old open order has been canceled (timeout).</pre>", Telegram.Bot.Types.Enums.ParseMode.Html);
                             botOrderList = null;
                         }
                     }
@@ -567,7 +567,7 @@ namespace Valloon.Trading
                             prefix = "4H ";
                         text += $"\n<pre>{prefix}[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]{balanceChange}</pre>";
                         if (loopIndex == 1 || BybitLinearApiHelper.ServerTime.Minute % 30 == 0 || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
-                            TelegramClient.SendMessageToBroadcastGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
+                            TelegramClient.SendMessageToAdmin(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         //if (isNewCandle || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
                         //    TelegramClient.SendMessageToListenGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         LastMessage = text;
@@ -610,7 +610,7 @@ namespace Valloon.Trading
                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}", ConsoleColor.Red);
                     logger.WriteFile(ex.ToString());
                     logger.WriteFile($"LastPlain4Sign = {BybitLinearApiHelper.LastPlain4Sign}");
-                    TelegramClient.SendMessageToBroadcastGroup(ex.ToString());
+                    TelegramClient.SendMessageToAdmin(ex.ToString());
                     Thread.Sleep(30000);
                 }
                 lastLoopTime = DateTime.UtcNow;

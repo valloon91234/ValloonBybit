@@ -48,9 +48,9 @@ namespace IO.Swagger.Model
         /// <param name="cumExecQty">cumExecQty.</param>
         /// <param name="rejectReason">rejectReason.</param>
         /// <param name="orderLinkId">orderLinkId.</param>
-        /// <param name="createdAt">createdAt.</param>
-        /// <param name="updatedAt">updatedAt.</param>
-        public QueryOrderRes(string orderId = default(string), decimal? userId = default(decimal?), string symbol = default(string), string side = default(string), string orderType = default(string), double? price = default(double?), string qty = default(string), string timeInForce = default(string), string orderStatus = default(string), Object extFields = default(Object), decimal? leavesQty = default(decimal?), decimal? leavesValue = default(decimal?), decimal? cumExecQty = default(decimal?), string rejectReason = default(string), string orderLinkId = default(string), string createdAt = default(string), string updatedAt = default(string))
+        /// <param name="createdTime">createdAt.</param>
+        /// <param name="updatedTime">updatedAt.</param>
+        public QueryOrderRes(string orderId = default(string), decimal? userId = default(decimal?), string symbol = default(string), string side = default(string), string orderType = default(string), double? price = default(double?), string qty = default(string), string timeInForce = default(string), string orderStatus = default(string), Object extFields = default(Object), decimal? leavesQty = default(decimal?), decimal? leavesValue = default(decimal?), decimal? cumExecQty = default(decimal?), string rejectReason = default(string), string orderLinkId = default(string), string createdTime = default(string), string updatedTime = default(string))
         {
             this.OrderId = orderId;
             this.UserId = userId;
@@ -67,8 +67,8 @@ namespace IO.Swagger.Model
             this.CumExecQty = cumExecQty;
             this.RejectReason = rejectReason;
             this.OrderLinkId = orderLinkId;
-            this.CreatedAt = createdAt;
-            this.UpdatedAt = updatedAt;
+            this.CreatedTime = createdTime;
+            this.UpdatedTime = updatedTime;
         }
         
         /// <summary>
@@ -164,14 +164,14 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Gets or Sets CreatedAt
         /// </summary>
-        [DataMember(Name="created_at", EmitDefaultValue=false)]
-        public string CreatedAt { get; set; }
+        [DataMember(Name= "created_time", EmitDefaultValue=false)]
+        public string CreatedTime { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedAt
         /// </summary>
-        [DataMember(Name="updated_at", EmitDefaultValue=false)]
-        public string UpdatedAt { get; set; }
+        [DataMember(Name= "updated_time", EmitDefaultValue=false)]
+        public string UpdatedTime { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -196,8 +196,8 @@ namespace IO.Swagger.Model
             sb.Append("  CumExecQty: ").Append(CumExecQty).Append("\n");
             sb.Append("  RejectReason: ").Append(RejectReason).Append("\n");
             sb.Append("  OrderLinkId: ").Append(OrderLinkId).Append("\n");
-            sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
-            sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
+            sb.Append("  CreatedAt: ").Append(CreatedTime).Append("\n");
+            sb.Append("  UpdatedAt: ").Append(UpdatedTime).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -308,14 +308,14 @@ namespace IO.Swagger.Model
                     this.OrderLinkId.Equals(input.OrderLinkId))
                 ) && 
                 (
-                    this.CreatedAt == input.CreatedAt ||
-                    (this.CreatedAt != null &&
-                    this.CreatedAt.Equals(input.CreatedAt))
+                    this.CreatedTime == input.CreatedTime ||
+                    (this.CreatedTime != null &&
+                    this.CreatedTime.Equals(input.CreatedTime))
                 ) && 
                 (
-                    this.UpdatedAt == input.UpdatedAt ||
-                    (this.UpdatedAt != null &&
-                    this.UpdatedAt.Equals(input.UpdatedAt))
+                    this.UpdatedTime == input.UpdatedTime ||
+                    (this.UpdatedTime != null &&
+                    this.UpdatedTime.Equals(input.UpdatedTime))
                 );
         }
 
@@ -358,10 +358,10 @@ namespace IO.Swagger.Model
                     hashCode = hashCode * 59 + this.RejectReason.GetHashCode();
                 if (this.OrderLinkId != null)
                     hashCode = hashCode * 59 + this.OrderLinkId.GetHashCode();
-                if (this.CreatedAt != null)
-                    hashCode = hashCode * 59 + this.CreatedAt.GetHashCode();
-                if (this.UpdatedAt != null)
-                    hashCode = hashCode * 59 + this.UpdatedAt.GetHashCode();
+                if (this.CreatedTime != null)
+                    hashCode = hashCode * 59 + this.CreatedTime.GetHashCode();
+                if (this.UpdatedTime != null)
+                    hashCode = hashCode * 59 + this.UpdatedTime.GetHashCode();
                 return hashCode;
             }
         }

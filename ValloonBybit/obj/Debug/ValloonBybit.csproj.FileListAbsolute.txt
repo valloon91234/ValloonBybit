@@ -28,3 +28,5 @@ D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\Valloo
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.csproj.CoreCompileInputs.cache
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.csproj.CopyComplete
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\obj\Debug\ValloonBybit.exe
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\INIFileParser.dll
+D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonBybit\bin\Debug\INIFileParser.xml

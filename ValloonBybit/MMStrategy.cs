@@ -41,6 +41,12 @@ namespace Valloon.Trading
             [JsonProperty("buy_or_sell")]
             public int BuyOrSell { get; set; }
 
+            [JsonProperty("min_price")]
+            public decimal MinPrice { get; set; }
+
+            [JsonProperty("max_price")]
+            public decimal MaxPrice { get; set; }
+
             [JsonProperty("upper_order_count")]
             public decimal UpperOrderCount { get; set; }
 
@@ -120,7 +126,7 @@ namespace Valloon.Trading
                         if (!Debugger.IsAttached)
                         {
                             TelegramClient.Init(config);
-                            TelegramClient.SendMessageToBroadcastGroup(JObject.FromObject(config).ToString(Formatting.Indented));
+                            TelegramClient.SendMessageToAdmin(JObject.FromObject(config).ToString(Formatting.Indented));
                         }
                     }
                     string paramJson = File.ReadAllText("config-mm.json");
@@ -130,7 +136,7 @@ namespace Valloon.Trading
                         logger.WriteLine($"\r\n[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]  ParamMap loaded.", ConsoleColor.Green);
                         logger.WriteLine(JObject.FromObject(param).ToString(Formatting.Indented));
                         logger.WriteLine();
-                        TelegramClient.SendMessageToBroadcastGroup(JObject.FromObject(param).ToString(Formatting.Indented));
+                        TelegramClient.SendMessageToAdmin(JObject.FromObject(param).ToString(Formatting.Indented));
                         lastParamJson = paramJson;
                     }
                     else if (configUpdated)
@@ -245,10 +251,28 @@ namespace Valloon.Trading
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Invalid config: order count", ConsoleColor.DarkGray);
                             goto endLoop;
                         }
-                        if (walletBalance < param.InvestAmount * 1.1m)
+                        if (param.BuyOrSell == 1 && walletBalance < param.InvestAmount)
+                        {
+                            cancelAllBotOrders();
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Low balance.  now = {walletBalance}. min = {param.InvestAmount}", ConsoleColor.DarkGray);
+                            goto endLoop;
+                        }
+                        if (param.BuyOrSell != 1 && walletBalance < param.InvestAmount * 1.1m)
                         {
                             cancelAllBotOrders();
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Low balance.  now = {walletBalance}. min = {param.InvestAmount * 1.1m}", ConsoleColor.DarkGray);
+                            goto endLoop;
+                        }
+                        if (lastPrice < param.MinPrice)
+                        {
+                            cancelAllBotOrders();
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Too low price.  now = {lastPrice}. min = {param.MinPrice}", ConsoleColor.DarkGray);
+                            goto endLoop;
+                        }
+                        if (param.MaxPrice > 0 && lastPrice > param.MaxPrice)
+                        {
+                            cancelAllBotOrders();
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Too high price.  now = {lastPrice}. max = {param.MaxPrice}", ConsoleColor.DarkGray);
                             goto endLoop;
                         }
 
@@ -385,7 +409,7 @@ namespace Valloon.Trading
                         decimal closeQtySum = 0;
                         foreach (var order in activeOrderList)
                         {
-                            if (order.Side != "Sell" || order.CloseOnTrigger == null || !order.CloseOnTrigger.Value)
+                            if (order.Side != "Sell" /* || order.CloseOnTrigger == null || !order.CloseOnTrigger.Value */)
                                 continue;
                             closeQtySum += order.Qty.Value;
                         }
@@ -467,7 +491,7 @@ namespace Valloon.Trading
                         decimal closeQtySum = 0;
                         foreach (var order in activeOrderList)
                         {
-                            if (order.Side != "Buy" || order.CloseOnTrigger == null || !order.CloseOnTrigger.Value)
+                            if (order.Side != "Buy" /* || order.CloseOnTrigger == null || !order.CloseOnTrigger.Value */)
                                 continue;
                             closeQtySum += order.Qty.Value;
                         }
@@ -558,7 +582,7 @@ namespace Valloon.Trading
                             text += $"\n<pre>Entry = {positionEntryPrice}   Qty = {positionQty}   Liq = {position.LiqPrice}\nLv = {leverage:F2}   SL = {(position.StopLoss == null ? "None" : position.StopLoss.ToString())}   P&L = {pnlText}</pre>";
                         }
                         text += $"\n<pre>[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]</pre>";
-                        TelegramClient.SendMessageToBroadcastGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
+                        TelegramClient.SendMessageToAdmin(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         //if (isNewCandle || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
                         //    TelegramClient.SendMessageToListenGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         LastMessage = text;
@@ -589,7 +613,7 @@ namespace Valloon.Trading
                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    {(ex.InnerException == null ? ex.Message : ex.InnerException.Message)}", ConsoleColor.Red);
                     logger.WriteFile(ex.ToString());
                     logger.WriteFile($"LastPlain4Sign = {BybitLinearApiHelper.LastPlain4Sign}");
-                    TelegramClient.SendMessageToBroadcastGroup(ex.ToString());
+                    TelegramClient.SendMessageToAdmin(ex.ToString());
                     Thread.Sleep(param.Interval * 1000);
                 }
                 lastLoopTime = DateTime.UtcNow;

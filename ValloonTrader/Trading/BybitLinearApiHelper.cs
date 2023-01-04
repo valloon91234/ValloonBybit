@@ -32,6 +32,8 @@ namespace Valloon.Trading
         {
             switch (symbol)
             {
+                case SYMBOL_BTCUSDT:
+                    return 100;
                 case SYMBOL_ETHUSDT:
                     return 100;
                 case SYMBOL_BNBUSDT:
@@ -86,6 +88,7 @@ namespace Valloon.Trading
             }
         }
 
+        public const string SYMBOL_BTCUSDT = "BTCUSDT";
         public const string SYMBOL_ETHUSDT = "ETHUSDT";
         public const string SYMBOL_BNBUSDT = "BNBUSDT";
         public const string SYMBOL_SOLUSD = "SOLUSD";
@@ -195,11 +198,9 @@ namespace Valloon.Trading
             return null;
         }
 
-        public List<LinearListOrderResult> GetActiveOrders(string symbol)
+        public List<LinearListOrderResult> GetPastOrders(string symbol, string orderStatus, int limit = 50)
         {
             RequestCount++;
-            int limit = 50;
-            string orderStatus = "New,PartiallyFilled";
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("symbol", symbol),
@@ -215,12 +216,29 @@ namespace Valloon.Trading
             return data.Data ?? new List<LinearListOrderResult>();
         }
 
+
+        public List<LinearListOrderResult> GetFullyFilledOrders(string symbol, int limit = 50)
+        {
+            return GetPastOrders(symbol, "Filled", limit);
+        }
+
+        public List<LinearListOrderResult> GetFilledOrders(string symbol, int limit = 50)
+        {
+            return GetPastOrders(symbol, "Filled,PartiallyFilled", limit);
+        }
+
+        public List<LinearListOrderResult> GetActiveOrders(string symbol, int limit = 50)
+        {
+            return GetPastOrders(symbol, "New,PartiallyFilled", limit);
+        }
+
         public QueryOrderRes GetQueryActiveOrder(string symbol, string orderId, string orderLinkId = null)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("order_id", orderId),
+                new KeyValuePair<string, string>("order_link_id", orderLinkId),
                 new KeyValuePair<string, string>("symbol", symbol)
             };
             CreateSignature(paramList);
@@ -232,7 +250,7 @@ namespace Valloon.Trading
             return result;
         }
 
-        public OrderRes CancelActiveOrder(string symbol, string orderId, string orderLinkId = null)
+        public OrderCancelBase CancelActiveOrder(string symbol, string orderId, string orderLinkId = null)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
@@ -243,10 +261,11 @@ namespace Valloon.Trading
             CreateSignature(paramList);
             JObject jObject = (JObject)OrderApiInstance.LinearOrderCancel(orderId, orderLinkId, symbol);
             ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
-            var obj = jObject.ToObject<OrderCancelBase>();
-            if (obj.Result == null) return null;
-            var data = ((JObject)obj.Result).ToObject<OrderRes>();
-            return data;
+            return jObject.ToObject<OrderCancelBase>();
+            //var obj = jObject.ToObject<OrderCancelBase>();
+            //if (obj.Result == null) return null;
+            //var data = ((JObject)obj.Result).ToObject<OrderRes>();
+            //return data;
         }
 
         public List<OrderCancelAllRes> CancelAllActiveOrders(string symbol)

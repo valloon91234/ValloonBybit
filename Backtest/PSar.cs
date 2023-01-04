@@ -15,7 +15,7 @@ namespace Valloon.Trading.Backtest
         {
             Program.MoveWindow(20, 0, 1600, 140);
 
-            Loader.LoadCSV("1000LUNCUSDT", 1, new DateTime(2022, 10, 23, 0, 0, 0, DateTimeKind.Utc)); return;
+            Loader.WriteCSV("ETHUSDT", 1, new DateTime(2021, 1, 1, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.LoadCSV(SYMBOL, 1, new DateTime(2022, 1, 29, 0, 0, 0, DateTimeKind.Utc)); return;
             //Loader.Load(SYMBOL, 1, new DateTime(2022, 5, 10, 0, 0, 0, DateTimeKind.Utc)); return;
 
@@ -36,7 +36,7 @@ namespace Valloon.Trading.Backtest
             //DateTime startTime = new DateTime(2022, 3, 16, 0, 0, 0, DateTimeKind.Utc);
             DateTime startTime = new DateTime(2022, 5, 5, 0, 0, 0, DateTimeKind.Utc);
             DateTime? endTime = null;
-            var list1m = Dao.SelectAll(SYMBOL, "1");
+            var list1m = new List<CandleQuote>();// Dao.SelectAll(SYMBOL, "1");
             var list1 = Loader.LoadBinListFrom1m(interval, list1m);
             //List<SolBin> list2 = LoadBinListFrom1m(binSize2, list1m);
             int count1 = list1.Count;
@@ -364,7 +364,7 @@ namespace Valloon.Trading.Backtest
 
             //DateTime startTime = new DateTime(2021, 11, 1, 0, 0, 0, DateTimeKind.Utc);
             //DateTime? endTime = null;
-            var list1m = Dao.SelectAll(SYMBOL, "1m");
+            var list1m = new List<CandleQuote>();// Dao.SelectAll(SYMBOL, "1m");
             var list1 = Loader.LoadBinListFrom1m(binSize1, list1m);
             //List<SolBin> list2 = LoadBinListFrom1m(binSize2, list1m);
             int count1 = list1.Count;

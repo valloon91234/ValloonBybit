@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Valloon.Trading.Backtest
 {
@@ -28,8 +24,8 @@ namespace Valloon.Trading.Backtest
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
 
-            PSar.Run();
-            //SMA2.Run();
+            MoveWindow(16, 16, 960, 140);
+            Paxg.Run();
 
             Console.WriteLine($"\nCompleted. Press any key to exit... ");
             Console.ReadKey(false);

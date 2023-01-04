@@ -1,3 +1,9 @@
 start - start the bot
 stop - stop the bot
 now - get the last message
+no_buy - No-Buy Mode
+no_close - No-Close Mode
+no_buy_and_close - No-Buy & No-Close Mode
+resume_buy - Resume Buy
+resume_close - Resume Close
+resume_buy_and_close - Resume Buy & Close
