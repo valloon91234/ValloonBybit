@@ -198,7 +198,7 @@ namespace Valloon.Trading
             return null;
         }
 
-        public List<LinearListOrderResult> GetPastOrders(string symbol, string orderStatus, int limit = 50)
+        public List<LinearListOrderResult> GetLastOrders(string symbol, string orderStatus, int limit = 50)
         {
             RequestCount++;
             List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>
@@ -219,17 +219,17 @@ namespace Valloon.Trading
 
         public List<LinearListOrderResult> GetFullyFilledOrders(string symbol, int limit = 50)
         {
-            return GetPastOrders(symbol, "Filled", limit);
+            return GetLastOrders(symbol, "Filled", limit);
         }
 
         public List<LinearListOrderResult> GetFilledOrders(string symbol, int limit = 50)
         {
-            return GetPastOrders(symbol, "Filled,PartiallyFilled", limit);
+            return GetLastOrders(symbol, "Filled,PartiallyFilled", limit);
         }
 
         public List<LinearListOrderResult> GetActiveOrders(string symbol, int limit = 50)
         {
-            return GetPastOrders(symbol, "New,PartiallyFilled", limit);
+            return GetLastOrders(symbol, "New,PartiallyFilled", limit);
         }
 
         public QueryOrderRes GetQueryActiveOrder(string symbol, string orderId, string orderLinkId = null)

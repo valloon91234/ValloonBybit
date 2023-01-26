@@ -12,7 +12,8 @@ namespace Valloon.Trading.Backtest
     {
         public static void Run()
         {
-            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2022, 12, 21, 17, 45, 0, DateTimeKind.Utc)); return;
+            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2023, 1, 20, 14, 24, 0, DateTimeKind.Utc)); return;
+            //Loader.WriteCSV("BTCUSDT", 1, new DateTime(2020, 3, 25, 8, 0, 0, DateTimeKind.Utc)); return;
 
             Benchmark(5);
 

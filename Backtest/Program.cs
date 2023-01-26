@@ -26,6 +26,7 @@ namespace Valloon.Trading.Backtest
 
             MoveWindow(16, 16, 960, 140);
             Paxg.Run();
+            //Lbma.Run();
 
             Console.WriteLine($"\nCompleted. Press any key to exit... ");
             Console.ReadKey(false);

@@ -7,3 +7,5 @@ no_buy_and_close - No-Buy & No-Close Mode
 resume_buy - Resume Buy
 resume_close - Resume Close
 resume_buy_and_close - Resume Buy & Close
+get_config - get current config
+set_config - set new config

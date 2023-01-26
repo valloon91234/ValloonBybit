@@ -27,8 +27,20 @@ namespace Valloon.Trading
 
         private class GridConfig
         {
-            [JsonProperty("qty")]
-            public decimal Qty { get; set; }
+            [JsonProperty("qty_1")]
+            public decimal Qty1 { get; set; }
+
+            [JsonProperty("qty_2")]
+            public decimal Qty2 { get; set; }
+
+            [JsonProperty("qty_3")]
+            public decimal Qty3 { get; set; }
+
+            [JsonProperty("qty_hold_1")]
+            public decimal QtyHold1 { get; set; }
+
+            [JsonProperty("qty_hold_2")]
+            public decimal QtyHold2 { get; set; }
 
             [JsonProperty("min_price")]
             public decimal MinPrice { get; set; }
@@ -101,15 +113,15 @@ namespace Valloon.Trading
                     int lastPrice = (int)ticker.LastPrice.Value;
                     decimal markPrice = ticker.MarkPrice.Value;
                     var activeOrderList = apiHelper.GetActiveOrders(symbol);
-                    var botUpperOrderList = new List<LinearListOrderResult>();
-                    var botLowerOrderList = new List<LinearListOrderResult>();
+                    var upperOrderList = new List<LinearListOrderResult>();
+                    var lowerOrderList = new List<LinearListOrderResult>();
                     foreach (var order in activeOrderList)
                     {
-                        if (!order.OrderLinkId.Contains("<BOT>")) continue;
+                        //if (!order.OrderLinkId.Contains("<BOT>")) continue;
                         if (order.Side == "Sell")
-                            botUpperOrderList.Add(order);
+                            upperOrderList.Add(order);
                         else if (order.Side == "Buy")
-                            botLowerOrderList.Add(order);
+                            lowerOrderList.Add(order);
                     }
                     var position = apiHelper.GetPositionList(symbol, out var buyPosition, out var sellPosition).First();
                     var usdtBalance = apiHelper.GetWalletBalance("USDT");
@@ -126,7 +138,7 @@ namespace Valloon.Trading
                             else
                                 balanceChange = $"   ({value:N2} %)";
                         }
-                        logger.WriteLine($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss fff}  ({++loopIndex})]   $ {lastPrice} / {markPrice:F2}   {walletBalance:N4} / {availableBalance:N4}   {activeOrderList.Count} / {botUpperOrderList.Count} / {botLowerOrderList.Count} / {unavailableMarginPercent:N2} %{balanceChange}", ConsoleColor.White);
+                        logger.WriteLine($"[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss fff}  ({++loopIndex})]   $ {lastPrice} / {markPrice:F2}   {walletBalance:N4} / {availableBalance:N4}   {activeOrderList.Count} / {upperOrderList.Count} / {lowerOrderList.Count} / {unavailableMarginPercent:N2} %{balanceChange}", ConsoleColor.White);
                     }
                     decimal positionEntryPrice = 0;
                     decimal positionQty = position.Side == "Buy" ? position.Size.Value : -position.Size.Value;
@@ -150,6 +162,8 @@ namespace Valloon.Trading
                             logger.WriteLine($"    Entry = {positionEntryPrice}   qty = {positionQty}   liq = {position.LiqPrice}   lv = {leverage:F2}   TP = {(position.TakeProfit == null ? "None" : position.TakeProfit.ToString())}   SL = {(position.StopLoss == null ? "None" : position.StopLoss.ToString())}   P&L = {pnlText}", ConsoleColor.Green);
                         }
                     }
+                    LinearListOrderResult lastFilledOrder = null;
+                    string lastFilledOrderMessage = null;
                     if (config.Exit == 2)
                     {
                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  No order. (exit = {config.Exit})", ConsoleColor.DarkGray);
@@ -162,81 +176,66 @@ namespace Valloon.Trading
                         interval = 30;
                         goto endLoop;
                     }
-                    //if (positionQty < 0)
-                    //{
-                    //    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Short position exists:  Qty = {positionQty}", ConsoleColor.Red);
-                    //    interval = 30;
-                    //    goto endLoop;
-                    //}
-
-                    LinearListOrderResult getLastFilledOrder()
+                    if (param.Qty1 <= 0 || param.Qty2 <= 0)
                     {
-                        var lastFilledOrders = apiHelper.GetPastOrders(symbol, "New,Filled,PartiallyFilled", 50);
-                        if (lastFilledOrders.Count == 0) return null;
+                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Invalid Qty:  Qty1 = {param.Qty1}    Qty2 = {param.Qty2}", ConsoleColor.Red);
+                        interval = 30;
+                        goto endLoop;
+                    }
+                    if (param.PriceStep <= 0)
+                    {
+                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Invalid PriceStep:  {param.PriceStep}", ConsoleColor.Red);
+                        interval = 30;
+                        goto endLoop;
+                    }
+
+                    LinearListOrderResult getLastFilledOrder(out string message)
+                    {
+                        var lastFilledOrders = apiHelper.GetLastOrders(symbol, "New,PartiallyFilled", 50);
                         int count = lastFilledOrders.Count;
+                        if (activeOrderList.Count > 0 && count == 0)
+                        {
+                            message = $"No New or PartiallyFilled";
+                            return null;
+                        }
                         for (int i = 0; i < count; i++)
                         {
                             var order = lastFilledOrders[i];
-                            if (order.OrderStatus == "Filled") continue;
                             if (order.Price == null || Math.Abs(lastPrice - order.Price.Value) > param.PriceStep * 2) continue;
                             var queryResult = apiHelper.GetQueryActiveOrder(symbol, order.OrderId);
                             order.OrderStatus = queryResult.OrderStatus;
                             order.UpdatedTime = queryResult.UpdatedTime;
                         }
+                        var lastFilledOrders2 = apiHelper.GetLastOrders(symbol, "PartiallyFilled,Filled", 50);
+                        if (positionQty != 0 && lastFilledOrders2.Count == 0)
+                        {
+                            message = $"No Filled or PartiallyFilled";
+                            return null;
+                        }
+                        foreach (var order in lastFilledOrders2)
+                        {
+                            if (order.OrderStatus == "PartiallyFilled") continue;
+                            lastFilledOrders.Add(order);
+                        }
                         var sortedOrders = lastFilledOrders.OrderByDescending(o => DateTime.ParseExact(o.UpdatedTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                         foreach (var order in sortedOrders)
                         {
                             if (order.OrderStatus == "Filled" || order.OrderStatus == "PartiallyFilled")
+                            {
+                                message = null;
                                 return order;
+                            }
                         }
+                        message = $"No Filled or PartiallyFilled in {lastFilledOrders.Count} orders";
                         return null;
                     }
-                    LinearListOrderResult lastFilledOrder = getLastFilledOrder();
+                    lastFilledOrder = getLastFilledOrder(out lastFilledOrderMessage);
 
                     if (positionQty == 0)
                     {
-                        int cancelAllBotOrders()
+                        void cancelAllOrders()
                         {
-                            int canceledOrderCount = 0;
-                            int failedOrderCount = 0;
-                            foreach (var order in botUpperOrderList)
-                            {
-                                var canceledResult = apiHelper.CancelActiveOrder(symbol, order.OrderId);
-                                if (canceledResult.Result == null)
-                                {
-                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Failed to cancel order:  side = {order.Side}    title = {order.OrderLinkId}    id = {order.OrderId}");
-                                    logger.WriteFile("--- " + JObject.FromObject(canceledResult).ToString(Formatting.None));
-                                    failedOrderCount++;
-                                }
-                                else
-                                {
-                                    canceledOrderCount++;
-                                }
-                            }
-                            foreach (var order in botLowerOrderList)
-                            {
-                                var canceledResult = apiHelper.CancelActiveOrder(symbol, order.OrderId);
-                                if (canceledResult.Result == null)
-                                {
-                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Failed to cancel order:  side = {order.Side}    title = {order.OrderLinkId}    id = {order.OrderId}");
-                                    logger.WriteFile("--- " + JObject.FromObject(canceledResult).ToString(Formatting.None));
-                                    failedOrderCount++;
-                                }
-                                else
-                                {
-                                    canceledOrderCount++;
-                                }
-                            }
-                            if (canceledOrderCount > 0)
-                            {
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  {canceledOrderCount} old orders have been canceled. ({failedOrderCount} failed.)");
-                                if (failedOrderCount == 0)
-                                {
-                                    botUpperOrderList = null;
-                                    botLowerOrderList = null;
-                                }
-                            }
-                            return failedOrderCount;
+                            apiHelper.CancelAllActiveOrders(symbol);
                         }
 #if LICENSE_MODE
                         if (serverTime.Year != 2022 || serverTime.Month != 2)
@@ -248,21 +247,21 @@ namespace Valloon.Trading
 #endif
                         if (config.Exit == 1)
                         {
-                            cancelAllBotOrders();
+                            cancelAllOrders();
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  No order. (exit = {config.Exit})", ConsoleColor.DarkGray);
                             interval = 30;
                             goto endLoop;
                         }
                         if (lastPrice < param.MinPrice)
                         {
-                            cancelAllBotOrders();
+                            cancelAllOrders();
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Too low price.  now = {lastPrice}. min = {param.MinPrice}", ConsoleColor.DarkGray);
                             interval = 30;
                             goto endLoop;
                         }
                         if (param.MaxPrice > 0 && lastPrice > param.MaxPrice)
                         {
-                            cancelAllBotOrders();
+                            cancelAllOrders();
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Too high price.  now = {lastPrice}. max = {param.MaxPrice}", ConsoleColor.DarkGray);
                             interval = 30;
                             goto endLoop;
@@ -279,10 +278,15 @@ namespace Valloon.Trading
                                 continue;
                             closeQtySum += order.Qty.Value;
                         }
-                        var closePrice = (lastPrice / param.PriceStep + 1) * param.PriceStep;
-                        if (closePrice == lastFilledOrder.Price) closePrice += param.PriceStep;
-                        if (closeQtySum < position.Size.Value)
+                        if (lastFilledOrder == null)
                         {
+                            logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    lastFilledOrder is Null: {lastFilledOrderMessage}", ConsoleColor.Red);
+                            telegramMessage = $"lastFilledOrder is Null: {lastFilledOrderMessage}";
+                        }
+                        else if (closeQtySum < position.Size.Value)
+                        {
+                            var closePrice = (lastPrice / param.PriceStep + 1) * param.PriceStep;
+                            if (closePrice == lastFilledOrder.Price) closePrice += param.PriceStep;
                             if (closePrice <= lastFilledOrder.Price)
                             {
                             }
@@ -290,9 +294,13 @@ namespace Valloon.Trading
                             {
                                 logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  <No-Close Mode>", ConsoleColor.DarkGray);
                             }
-                            else if (botUpperOrderList.Where(o => o.Price.Value == closePrice).Count() == 0)
+                            else if (upperOrderList.Where(o => o.Price.Value == closePrice).Count() == 0)
                             {
-                                var qty = Math.Min(position.Size.Value - closeQtySum, param.Qty);
+                                var qty = position.Size.Value - closeQtySum;
+                                if (positionQty > param.QtyHold1)
+                                    qty = Math.Min(qty, param.Qty1);
+                                else
+                                    qty = Math.Min(qty, param.Qty2);
                                 var resultOrder = apiHelper.NewOrder(new OrderRes
                                 {
                                     Side = "Sell",
@@ -311,8 +319,12 @@ namespace Valloon.Trading
                             }
                             else
                             {
-                                var oldOrder = botUpperOrderList.Where(o => o.Price.Value == closePrice).First();
-                                var qty = Math.Min(position.Size.Value - closeQtySum + oldOrder.Qty.Value, param.Qty);
+                                var oldOrder = upperOrderList.Where(o => o.Price.Value == closePrice).First();
+                                var qty = position.Size.Value - closeQtySum + oldOrder.Qty.Value;
+                                if (positionQty > param.QtyHold1)
+                                    qty = Math.Min(qty, param.Qty1);
+                                else
+                                    qty = Math.Min(qty, param.Qty2);
                                 if (oldOrder.Qty < qty)
                                 {
                                     var resultOrder = apiHelper.AmendOrder(new OrderRes
@@ -347,9 +359,10 @@ namespace Valloon.Trading
                     {
                         var limitPrice = lastPrice / param.PriceStep * param.PriceStep;
                         if (positionQty == 0 && limitPrice >= lastPrice || positionQty > 0 && lastFilledOrder != null && limitPrice == lastFilledOrder.Price) limitPrice -= param.PriceStep;
-                        if (limitPrice >= param.MinPrice && (param.MaxPrice == 0 || limitPrice < param.MaxPrice) && limitPrice < lastPrice && botLowerOrderList.Where(o => o.Price.Value == limitPrice).Count() == 0)
+                        if (limitPrice >= param.MinPrice && (param.MaxPrice == 0 || limitPrice < param.MaxPrice) && limitPrice < lastPrice && lowerOrderList.Where(o => o.Price.Value == limitPrice).Count() == 0)
                         {
-                            var requiredBalance = param.Qty * lastPrice * 2 / position.Leverage;
+                            var qty = param.Qty1;
+                            var requiredBalance = qty * lastPrice * 2 / position.Leverage;
                             if (requiredBalance > availableBalance)
                             {
                                 logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Low available balance.  required = {requiredBalance}    available = {availableBalance}", ConsoleColor.DarkGray);
@@ -358,7 +371,12 @@ namespace Valloon.Trading
                             }
                             else
                             {
-                                if (positionQty > 0 && lastFilledOrder != null && limitPrice >= lastFilledOrder.Price)
+                                if (positionQty > 0 && lastFilledOrder == null)
+                                {
+                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    lastFilledOrder is Null: {lastFilledOrderMessage}", ConsoleColor.Red);
+                                    telegramMessage = $"lastFilledOrder is Null: {lastFilledOrderMessage}";
+                                }
+                                else if (positionQty > 0 && lastFilledOrder != null && limitPrice >= lastFilledOrder.Price)
                                 {
                                 }
                                 else if (NoBuyMode)
@@ -367,12 +385,14 @@ namespace Valloon.Trading
                                 }
                                 else
                                 {
+                                    if (positionQty > param.QtyHold2 && positionEntryPrice <= limitPrice)
+                                        qty = param.Qty3;
                                     var resultOrder = apiHelper.NewOrder(new OrderRes
                                     {
                                         Side = "Buy",
                                         Symbol = symbol,
                                         OrderType = "Limit",
-                                        Qty = param.Qty,
+                                        Qty = qty,
                                         Price = limitPrice,
                                         TimeInForce = "PostOnly",
                                         OrderLinkId = $"<BOT><LIMIT><{BybitLinearApiHelper.ServerTime:yyyyMMdd_HHmmssfff}>",
@@ -380,15 +400,15 @@ namespace Valloon.Trading
                                     });
                                     if (lastFilledOrder == null)
                                     {
-                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {param.Qty}    last = null");
+                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {qty}    last = Null / {lastFilledOrderMessage}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {param.Qty}    last = null";
+                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {qty}    last = Null / {lastFilledOrderMessage}";
                                     }
                                     else
                                     {
-                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {param.Qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}");
+                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {param.Qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
                                     }
                                 }
                             }
@@ -408,7 +428,7 @@ namespace Valloon.Trading
                             else
                                 balanceChange = $"{(walletBalance - lastWalletBalance)}   ({value:N4} %)";
                         }
-                        string text = $"<pre>{walletBalance:N4}   {lastPrice} / {markPrice:F2}   {activeOrderList.Count} / {(botUpperOrderList == null ? 0 : botUpperOrderList.Count)} / {(botLowerOrderList == null ? 0 : botLowerOrderList.Count)}</pre>";
+                        string text = $"<pre>{walletBalance:N4}   {lastPrice} / {markPrice:F2}   {activeOrderList.Count} / {(upperOrderList == null ? 0 : upperOrderList.Count)} / {(lowerOrderList == null ? 0 : lowerOrderList.Count)}</pre>";
                         if (balanceChange != null)
                             text += $"\n<pre>{balanceChange}</pre>";
                         if (positionQty != 0)
@@ -425,6 +445,11 @@ namespace Valloon.Trading
                         }
                         if (telegramMessage != null)
                             text += $"\n{telegramMessage}";
+                        else if (lastFilledOrder == null)
+                            text += $"\nlast = Null / {lastFilledOrderMessage}";
+                        else
+                            text += $"\nlast = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+
                         text += $"\n<pre>[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]</pre>";
                         TelegramClient.SendMessageToAdmin(text, Telegram.Bot.Types.Enums.ParseMode.Html, GetReplyMarkup());
                         //if (isNewCandle || lastWalletBalance != 0 && lastWalletBalance != walletBalance)

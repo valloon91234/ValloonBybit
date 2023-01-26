@@ -110,7 +110,7 @@ namespace Valloon.Trading
                             case "/now":
                                 if (isAdmin || chatAdminArray != null && chatAdminArray.Contains(chatId.ToString()))
                                 {
-                                    string replyMessageText = MacdStrategy.LastMessage;
+                                    string replyMessageText = PaxgStrategy.LastMessage;
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
                                 }
                                 break;
@@ -195,8 +195,22 @@ namespace Valloon.Trading
                                 break;
                             case "/now":
                                 {
-                                    string replyMessageText = MacdStrategy.LastMessage;
+                                    string replyMessageText = PaxgStrategy.LastMessage;
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
+                                }
+                                break;
+                            case "/get_config":
+                                {
+                                    string replyMessageText = System.IO.File.ReadAllText("config-paxg.json");
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
+                                }
+                                break;
+                            case string x when x.StartsWith("/set_config "):
+                                {
+                                    string value = x.Substring("/set_config ".Length).Trim();
+                                    System.IO.File.WriteAllText("config-paxg.json", value);
+                                    //string replyMessageText = value;
+                                    //await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
                                 }
                                 break;
                             default:

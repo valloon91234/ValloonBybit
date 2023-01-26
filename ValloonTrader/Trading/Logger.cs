@@ -59,6 +59,22 @@ namespace Valloon.Trading
             }
         }
 
+        public static void Write(string text = null, ConsoleColor? color = null)
+        {
+            if (text == null)
+                return;
+            if (color == null)
+            {
+                Console.Write(text);
+            }
+            else
+            {
+                Console.ForegroundColor = color.Value;
+                Console.Write(text);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+
         public static void WriteLine(string text = null, ConsoleColor? color = null)
         {
             if (text == null)

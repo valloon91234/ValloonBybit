@@ -18,7 +18,7 @@ namespace Valloon.Trading.Backtest
             BybitLinearApiHelper apiHelper = new BybitLinearApiHelper();
             if (endTime == null) endTime = BybitLinearApiHelper.ServerTime;
             //string filename = $"data-{symbol}-{interval}  {startTime:yyyy-MM-dd} ~ {endTime:yyyy-MM-dd}.csv";
-            string filename = $"data-{symbol}-{interval}.csv";
+            string filename = $"data-{symbol}-{interval}--{DateTime.Now:yyyyMMdd-HHmmss}.csv";
             File.Delete(filename);
             using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
             {
