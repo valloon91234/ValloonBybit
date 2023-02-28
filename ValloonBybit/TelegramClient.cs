@@ -171,6 +171,13 @@ namespace Valloon.Trading
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html, replyMarkup: PaxgStrategy.GetReplyMarkup());
                                 }
                                 break;
+                            case "/no_amend":
+                                {
+                                    PaxgStrategy.NoAmendMode = true;
+                                    string replyMessageText = "No-Amend Mode";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html, replyMarkup: PaxgStrategy.GetReplyMarkup());
+                                }
+                                break;
                             case "/resume_buy":
                                 {
                                     PaxgStrategy.NoBuyMode = false;
@@ -190,6 +197,13 @@ namespace Valloon.Trading
                                     PaxgStrategy.NoBuyMode = false;
                                     PaxgStrategy.NoCloseMode = false;
                                     string replyMessageText = "Buy & Close Resumed";
+                                    await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
+                                }
+                                break;
+                            case "/resume_amend":
+                                {
+                                    PaxgStrategy.NoAmendMode = false;
+                                    string replyMessageText = "Amend Resumed";
                                     await botClient.SendTextMessageAsync(chatId: chatId, text: replyMessageText, cancellationToken: cancellationToken, parseMode: ParseMode.Html);
                                 }
                                 break;

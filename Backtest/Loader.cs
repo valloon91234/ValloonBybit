@@ -98,7 +98,7 @@ namespace Valloon.Trading.Backtest
                 var values = line.Split(',');
                 quoteList.Add(new Skender.Stock.Indicators.Quote
                 {
-                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture),
+                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture),
                     Open = decimal.Parse(values[3]),
                     High = decimal.Parse(values[4]),
                     Low = decimal.Parse(values[5]),
@@ -107,7 +107,7 @@ namespace Valloon.Trading.Backtest
                 });
                 quoteDList.Add(new QuoteD
                 {
-                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture),
+                    Date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture),
                     Open = double.Parse(values[3]),
                     High = double.Parse(values[4]),
                     Low = double.Parse(values[5]),

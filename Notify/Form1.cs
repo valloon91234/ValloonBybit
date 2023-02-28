@@ -151,7 +151,7 @@ namespace Notify
             if (ticker != null)
             {
                 var lastPrice = ticker.LastPrice.Value;
-                this.Text = $"{lastPrice}  [{LastConnectedTime:HH:mm:ss}]";
+                this.Text = $"{lastPrice}  /  {ticker.MarkPrice.Value}";
                 textBox_Price.Text = lastPrice.ToString();
                 if (LastConnectedTime != null && (BybitLinearApiHelper.ServerTime - LastConnectedTime.Value).TotalMilliseconds < 5000)
                 {

@@ -4,8 +4,10 @@ now - get the last message
 no_buy - No-Buy Mode
 no_close - No-Close Mode
 no_buy_and_close - No-Buy & No-Close Mode
+no_amend - No-Amend Mode
 resume_buy - Resume Buy
 resume_close - Resume Close
 resume_buy_and_close - Resume Buy & Close
+resume_amend - Resume Amend
 get_config - get current config
 set_config - set new config

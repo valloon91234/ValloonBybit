@@ -58,6 +58,7 @@ namespace Valloon.Trading
         public static string LastMessage;
         public static bool NoBuyMode;
         public static bool NoCloseMode;
+        public static bool NoAmendMode;
 
         public void Run()
         {
@@ -65,6 +66,7 @@ namespace Valloon.Trading
             DateTime? lastLoopTime = null;
             //decimal? lastPositionQty = null;
             decimal lastWalletBalance = 0;
+            int lastActiveOrderCount = 0;
             string lastParamJson = null;
             GridConfig param = null;
             Logger logger = null;
@@ -73,7 +75,7 @@ namespace Valloon.Trading
             while (true)
             {
                 var interval = 30;
-                string telegramMessage = null;
+                string telegramMessage = "";
                 try
                 {
                     DateTime currentLoopTime = DateTime.UtcNow;
@@ -188,6 +190,12 @@ namespace Valloon.Trading
                         interval = 30;
                         goto endLoop;
                     }
+                    if (lastActiveOrderCount != 0 && activeOrderList.Count == 0)
+                    {
+                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  ActiveOrderCount = {activeOrderList.Count}, last = {lastActiveOrderCount}", ConsoleColor.Red);
+                        interval = 15;
+                        goto endLoop;
+                    }
 
                     LinearListOrderResult getLastFilledOrder(out string message)
                     {
@@ -214,7 +222,7 @@ namespace Valloon.Trading
                         }
                         foreach (var order in lastFilledOrders2)
                         {
-                            if (order.OrderStatus == "PartiallyFilled") continue;
+                            //if (order.OrderStatus == "PartiallyFilled") continue;
                             lastFilledOrders.Add(order);
                         }
                         var sortedOrders = lastFilledOrders.OrderByDescending(o => DateTime.ParseExact(o.UpdatedTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
@@ -281,12 +289,13 @@ namespace Valloon.Trading
                         if (lastFilledOrder == null)
                         {
                             logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    lastFilledOrder is Null: {lastFilledOrderMessage}", ConsoleColor.Red);
-                            telegramMessage = $"lastFilledOrder is Null: {lastFilledOrderMessage}";
+                            telegramMessage += $"lastFilledOrder is Null: {lastFilledOrderMessage}\n";
                         }
                         else if (closeQtySum < position.Size.Value)
                         {
                             var closePrice = (lastPrice / param.PriceStep + 1) * param.PriceStep;
                             if (closePrice == lastFilledOrder.Price) closePrice += param.PriceStep;
+                            if (lastFilledOrder.Side == "Buy" && lastFilledOrder.OrderStatus == "PartiallyFilled" && closePrice - lastFilledOrder.Price <= param.PriceStep) closePrice += param.PriceStep;
                             if (closePrice <= lastFilledOrder.Price)
                             {
                             }
@@ -301,6 +310,8 @@ namespace Valloon.Trading
                                     qty = Math.Min(qty, param.Qty1);
                                 else
                                     qty = Math.Min(qty, param.Qty2);
+                                if (lastFilledOrder.Side == "Buy" && lastFilledOrder.OrderStatus == "Filled")
+                                    qty = Math.Min(qty, lastFilledOrder.CumExecQty.Value);
                                 var resultOrder = apiHelper.NewOrder(new OrderRes
                                 {
                                     Side = "Sell",
@@ -313,9 +324,9 @@ namespace Valloon.Trading
                                     OrderLinkId = $"<BOT><CLOSE><{BybitLinearApiHelper.ServerTime:yyyyMMdd_HHmmssfff}>",
                                     PositionIdx = 0
                                 });
-                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}");
+                                logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}");
                                 logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                telegramMessage = $"New Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+                                telegramMessage += $"New Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}\n";
                             }
                             else
                             {
@@ -325,19 +336,28 @@ namespace Valloon.Trading
                                     qty = Math.Min(qty, param.Qty1);
                                 else
                                     qty = Math.Min(qty, param.Qty2);
+                                if (lastFilledOrder.Side == "Buy" && lastFilledOrder.OrderStatus == "Filled")
+                                    qty = Math.Min(qty, lastFilledOrder.CumExecQty.Value);
                                 if (oldOrder.Qty < qty)
                                 {
-                                    var resultOrder = apiHelper.AmendOrder(new OrderRes
+                                    if (NoAmendMode)
                                     {
-                                        OrderId = oldOrder.OrderId,
-                                        Symbol = symbol,
-                                        Qty = qty,
-                                        Price = closePrice,
-                                        OrderLinkId = $"<BOT><CLOSE><{BybitLinearApiHelper.ServerTime:yyyyMMdd_HHmmssfff}>",
-                                    });
-                                    logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Amend Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}    oldQty = {oldOrder.Qty}");
-                                    logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                    telegramMessage = $"Amend Close:  price = {closePrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  <No-Amend Mode>", ConsoleColor.DarkGray);
+                                    }
+                                    else
+                                    {
+                                        var resultOrder = apiHelper.AmendOrder(new OrderRes
+                                        {
+                                            OrderId = oldOrder.OrderId,
+                                            Symbol = symbol,
+                                            Qty = qty,
+                                            Price = closePrice,
+                                            OrderLinkId = $"<BOT><CLOSE><{BybitLinearApiHelper.ServerTime:yyyyMMdd_HHmmssfff}>",
+                                        });
+                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Amend Close:  price = {closePrice}    qty = {oldOrder.Qty} -> {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}");
+                                        logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
+                                        telegramMessage += $"Amend Close:  price = {closePrice}    qty = {oldOrder.Qty} -> {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}\n";
+                                    }
                                 }
                             }
                         }
@@ -359,6 +379,7 @@ namespace Valloon.Trading
                     {
                         var limitPrice = lastPrice / param.PriceStep * param.PriceStep;
                         if (positionQty == 0 && limitPrice >= lastPrice || positionQty > 0 && lastFilledOrder != null && limitPrice == lastFilledOrder.Price) limitPrice -= param.PriceStep;
+                        if (positionQty > 0 && lastFilledOrder.Side == "Sell" && lastFilledOrder.OrderStatus == "PartiallyFilled" && lastFilledOrder.Price - limitPrice <= param.PriceStep) limitPrice -= param.PriceStep;
                         if (limitPrice >= param.MinPrice && (param.MaxPrice == 0 || limitPrice < param.MaxPrice) && limitPrice < lastPrice && lowerOrderList.Where(o => o.Price.Value == limitPrice).Count() == 0)
                         {
                             var qty = param.Qty1;
@@ -374,7 +395,7 @@ namespace Valloon.Trading
                                 if (positionQty > 0 && lastFilledOrder == null)
                                 {
                                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]    lastFilledOrder is Null: {lastFilledOrderMessage}", ConsoleColor.Red);
-                                    telegramMessage = $"lastFilledOrder is Null: {lastFilledOrderMessage}";
+                                    telegramMessage += $"lastFilledOrder is Null: {lastFilledOrderMessage}\n";
                                 }
                                 else if (positionQty > 0 && lastFilledOrder != null && limitPrice >= lastFilledOrder.Price)
                                 {
@@ -402,13 +423,13 @@ namespace Valloon.Trading
                                     {
                                         logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {qty}    last = Null / {lastFilledOrderMessage}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {qty}    last = Null / {lastFilledOrderMessage}";
+                                        telegramMessage += $"New Long:  price = {limitPrice}    qty = {qty}    last = Null / {lastFilledOrderMessage}\n";
                                     }
                                     else
                                     {
-                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}");
+                                        logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}");
                                         logger.WriteFile("--- " + JObject.FromObject(resultOrder).ToString(Formatting.None));
-                                        telegramMessage = $"New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+                                        telegramMessage += $"New Long:  price = {limitPrice}    qty = {qty}    last = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}\n";
                                     }
                                 }
                             }
@@ -417,7 +438,6 @@ namespace Valloon.Trading
 
                 endLoop:;
                     //lastPositionQty = positionQty;
-                    if (telegramMessage != null || loopIndex == 1 || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
                     {
                         string balanceChange = null;
                         if (lastWalletBalance != 0 && lastWalletBalance != walletBalance)
@@ -428,7 +448,7 @@ namespace Valloon.Trading
                             else
                                 balanceChange = $"{(walletBalance - lastWalletBalance)}   ({value:N4} %)";
                         }
-                        string text = $"<pre>{walletBalance:N4}   {lastPrice} / {markPrice:F2}   {activeOrderList.Count} / {(upperOrderList == null ? 0 : upperOrderList.Count)} / {(lowerOrderList == null ? 0 : lowerOrderList.Count)}</pre>";
+                        string text = $"<pre>{walletBalance:N4}   {lastPrice} / {markPrice:F2}   #{loopIndex} / {activeOrderList.Count} / {(upperOrderList == null ? 0 : upperOrderList.Count)} / {(lowerOrderList == null ? 0 : lowerOrderList.Count)}</pre>";
                         if (balanceChange != null)
                             text += $"\n<pre>{balanceChange}</pre>";
                         if (positionQty != 0)
@@ -443,15 +463,16 @@ namespace Valloon.Trading
                                 pnlText = $"{unrealisedPnl}  ({unrealisedPercent:N2} %)";
                             text += $"\n<pre>Entry = {positionEntryPrice}   Qty = {positionQty}   Liq = {position.LiqPrice}\nLv = {leverage:F2}   SL = {(position.StopLoss == null ? "None" : position.StopLoss.ToString())}   P&L = {pnlText}</pre>";
                         }
-                        if (telegramMessage != null)
-                            text += $"\n{telegramMessage}";
+                        if (!string.IsNullOrWhiteSpace(telegramMessage))
+                            text += $"\n{telegramMessage.Trim()}";
                         else if (lastFilledOrder == null)
                             text += $"\nlast = Null / {lastFilledOrderMessage}";
                         else
-                            text += $"\nlast = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price}";
+                            text += $"\nlast = {lastFilledOrder.Side} / {lastFilledOrder.OrderStatus} / {lastFilledOrder.Price} / {lastFilledOrder.Qty} / {lastFilledOrder.CumExecQty}";
 
                         text += $"\n<pre>[{BybitLinearApiHelper.ServerTime:yyyy-MM-dd  HH:mm:ss}]</pre>";
-                        TelegramClient.SendMessageToAdmin(text, Telegram.Bot.Types.Enums.ParseMode.Html, GetReplyMarkup());
+                        if (!string.IsNullOrWhiteSpace(telegramMessage) || loopIndex == 1 || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
+                            TelegramClient.SendMessageToAdmin(text, Telegram.Bot.Types.Enums.ParseMode.Html, GetReplyMarkup());
                         //if (isNewCandle || lastWalletBalance != 0 && lastWalletBalance != walletBalance)
                         //    TelegramClient.SendMessageToListenGroup(text, Telegram.Bot.Types.Enums.ParseMode.Html);
                         LastMessage = text;
@@ -472,6 +493,7 @@ namespace Valloon.Trading
                         }
                         lastWalletBalance = walletBalance;
                     }
+                    lastActiveOrderCount = activeOrderList.Count;
 
                     logger.WriteLine($"        [{BybitLinearApiHelper.ServerTime:HH:mm:ss fff}]  Sleeping {interval} seconds ({apiHelper.RequestCount} requests) ...", ConsoleColor.DarkGray, false);
                     Thread.Sleep(interval * 1000);
@@ -496,7 +518,7 @@ namespace Valloon.Trading
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "Resume Buy & Close", callbackData: $"/resumeBuyAndClose"),
+                        InlineKeyboardButton.WithCallbackData(text: "Resume Buy & Close", callbackData: $"/resume_buy_and_close"),
                     },
                 });
             if (NoBuyMode)
@@ -504,7 +526,7 @@ namespace Valloon.Trading
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "Resume Buy", callbackData: $"/resumeBuy"),
+                        InlineKeyboardButton.WithCallbackData(text: "Resume Buy", callbackData: $"/resume_buy"),
                     },
                 });
             if (NoCloseMode)
@@ -512,7 +534,15 @@ namespace Valloon.Trading
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "Resume", callbackData: $"/resumeClose"),
+                        InlineKeyboardButton.WithCallbackData(text: "Resume Close", callbackData: $"/resume_close"),
+                    },
+                });
+            if (NoAmendMode)
+                return new InlineKeyboardMarkup(new[]
+                {
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData(text: "Resume Amend", callbackData: $"/resume_amend"),
                     },
                 });
             return null;

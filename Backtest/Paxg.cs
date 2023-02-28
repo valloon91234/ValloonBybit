@@ -12,29 +12,31 @@ namespace Valloon.Trading.Backtest
     {
         public static void Run()
         {
-            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2023, 1, 20, 14, 24, 0, DateTimeKind.Utc)); return;
+            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2023, 2, 10, 14, 17, 0, DateTimeKind.Utc)); return;
             //Loader.WriteCSV("BTCUSDT", 1, new DateTime(2020, 3, 25, 8, 0, 0, DateTimeKind.Utc)); return;
 
-            Benchmark(5);
+            Benchmark(5, 0);
 
             //ThreadPool.QueueUserWorkItem(state => runHCS(new DateTime(2021, 7, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2021, 11, 1, 0, 0, 0, DateTimeKind.Utc)));
         }
 
-        static double Benchmark(int step)
+        static double Benchmark(int heightOpen, int heightClose)
         {
+            if (heightClose == 0) heightClose = heightOpen;
+
             var filename = $"data-PAXGUSDT-1.csv";
 
             DateTime startTime = new DateTime(2022, 4, 1, 0, 0, 0, DateTimeKind.Utc);
             DateTime? endTime = null;// new DateTime(2022, 3, 1, 0, 0, 0, DateTimeKind.Utc);
             var totalCount = Loader.ReadCSV(filename, out var quoteList, out var quoteDList);
             int totalDays = (int)((endTime ?? quoteList.Last().Date) - startTime).TotalDays;
-            Logger logger = new Logger($"{DateTime.Now:yyyyMMddTHHmmss}    step = {step}    {startTime:yyyyMMdd} ~ {endTime:yyyyMMdd} ({totalDays:N0}) days");
+            Logger logger = new Logger($"{DateTime.Now:yyyyMMddTHHmmss}    step = {heightOpen} - {heightClose}    {startTime:yyyyMMdd} ~ {endTime:yyyyMMdd} ({totalDays:N0}) days");
             logger.WriteLine("\n" + logger.LogFilename + "\n");
             logger.WriteLine($"{totalCount} loaded. ({totalDays:N0} days)");
             Console.Title = logger.LogFilename;
 
             var list = new List<QuoteD>(quoteDList);
-            int basePrice = (((int)list[0].Open) / step + 1) * step;
+            int basePrice = (((int)list[0].Open) / heightOpen + 1) * heightOpen;
             int lastBasePrice = basePrice;
             list.RemoveAll(x => x.Date < startTime || endTime != null && x.Date > endTime.Value);
             int count = list.Count;
@@ -44,28 +46,28 @@ namespace Valloon.Trading.Backtest
                 var candle = list[i];
                 if (candle.Open > candle.Close)
                 {
-                    if ((int)candle.High - basePrice >= step)
+                    if ((int)candle.High - basePrice > heightClose)
                     {
-                        profitCount += ((int)candle.High) / step - basePrice / step;
-                        basePrice = ((int)candle.High) / step * step;
+                        profitCount += ((int)candle.High) / heightClose - basePrice / heightClose;
+                        basePrice = ((int)candle.High) / heightOpen * heightOpen;
                     }
-                    basePrice = Math.Min(basePrice, (((int)candle.Low) / step + 1) * step);
-                    if ((int)candle.Close - basePrice >= step)
+                    basePrice = Math.Min(basePrice, (((int)candle.Low) / heightOpen + 1) * heightOpen);
+                    if ((int)candle.Close - basePrice > heightClose)
                     {
-                        profitCount += ((int)candle.Close) / step - basePrice / step;
-                        basePrice = ((int)candle.Close) / step * step;
+                        profitCount += ((int)candle.Close) / heightClose - basePrice / heightClose;
+                        basePrice = ((int)candle.Close) / heightOpen * heightOpen;
                     }
-                    basePrice = Math.Min(basePrice, (((int)candle.Close) / step + 1) * step);
+                    basePrice = Math.Min(basePrice, (((int)candle.Close) / heightOpen + 1) * heightOpen);
                 }
                 else
                 {
-                    basePrice = Math.Min(basePrice, (((int)candle.Low) / step + 1) * step);
-                    if ((int)candle.High - basePrice >= step)
+                    basePrice = Math.Min(basePrice, (((int)candle.Low) / heightOpen + 1) * heightOpen);
+                    if ((int)candle.High - basePrice > heightClose)
                     {
-                        profitCount += ((int)candle.High) / step - basePrice / step;
-                        basePrice = ((int)candle.High) / step * step;
+                        profitCount += ((int)candle.High) / heightClose - basePrice / heightClose;
+                        basePrice = ((int)candle.High) / heightOpen * heightOpen;
                     }
-                    basePrice = Math.Min(basePrice, (((int)candle.Close) / step + 1) * step);
+                    basePrice = Math.Min(basePrice, (((int)candle.Close) / heightOpen + 1) * heightOpen);
                 }
                 if (profitCount > lastProfitcount)
                     logger.WriteLine($"{candle.Date:yyyy-MM-dd HH:mm:ss} \t {candle.Open} / {candle.High} / {candle.Low} / {candle.Close} \t base = {basePrice} \t profit = {profitCount}", ConsoleColor.Green);
@@ -75,7 +77,7 @@ namespace Valloon.Trading.Backtest
                 lastProfitcount = profitCount;
             }
 
-            double profit = step / 2000d * step / 10 * profitCount;
+            double profit = heightOpen / 2000d * heightOpen / 10 * profitCount;
             string result = $"{startTime} ~ {endTime} ({totalDays} days) \t count = {profitCount} \t profit = {profit}";
             logger.WriteLine($"\r\n{result}");
             return profit;
