@@ -1,24 +1,14 @@
 ﻿using IniParser;
-using IniParser.Parser;
 using IO.Swagger.Model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Skender.Stock.Indicators;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using Valloon.Indicators;
 using Valloon.Trading;
-using Valloon.Utils;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Notify
 {
@@ -92,7 +82,7 @@ namespace Notify
             this.Opacity = trackBar1.Value / 100d;
         }
 
-        SymbolTickInfo ticker;
+        List<SymbolTickInfo> tickerList;
         string ErrorMessage;
         DateTime? LastConnectedTime;
         DateTime? LastNotifyTime;
@@ -125,17 +115,9 @@ namespace Notify
                 {
                     try
                     {
-                        var symbol = textBox_Symbol.Text.Trim();
-                        if (symbol.Length > 3)
-                        {
-                            ticker = apiHelper.GetTicker(symbol);
-                            ErrorMessage = null;
-                            LastConnectedTime = BybitLinearApiHelper.ServerTime;
-                        }
-                        else
-                        {
-                            ErrorMessage = "Invalid Symbol";
-                        }
+                        tickerList = apiHelper.GetTickerList();
+                        ErrorMessage = null;
+                        LastConnectedTime = BybitLinearApiHelper.ServerTime;
                     }
                     catch (Exception ex)
                     {
@@ -148,53 +130,60 @@ namespace Notify
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (ticker != null)
+            if (tickerList != null)
             {
-                var lastPrice = ticker.LastPrice.Value;
-                this.Text = $"{lastPrice}  /  {ticker.MarkPrice.Value}";
-                textBox_Price.Text = lastPrice.ToString();
-                if (LastConnectedTime != null && (BybitLinearApiHelper.ServerTime - LastConnectedTime.Value).TotalMilliseconds < 5000)
+                var symbol = textBox_Symbol.Text.Trim();
+                var ticker = tickerList.Where(t => t.Symbol == symbol).FirstOrDefault();
+                var tickerBTC = tickerList.Where(t => t.Symbol == "BTCUSDT").FirstOrDefault();
+                if (ticker != null)
                 {
-                    var now = DateTime.Now;
-                    var iniData = IniDataParser.ReadFile(INI_FILENAME);
-                    bool playSound = int.Parse(iniData["CONFIG"]["SOUND"]) > 0;
-                    if (lastPrice <= numericUpDown1.Value)
+                    var lastPrice = ticker.LastPrice.Value;
+                    this.Text = $"{lastPrice}  /  {ticker.MarkPrice.Value.ToString().Substring(ticker.MarkPrice.Value.ToString().Length - 2)}  /  {tickerBTC.LastPrice:F0}";
+                    textBox_Price.Text = $"{lastPrice}";
+                    if (LastConnectedTime != null && (BybitLinearApiHelper.ServerTime - LastConnectedTime.Value).TotalMilliseconds < 5000)
                     {
-                        if (LastNotifyTime == null)
+                        var now = DateTime.Now;
+                        var iniData = IniDataParser.ReadFile(INI_FILENAME);
+                        bool playSound = int.Parse(iniData["CONFIG"]["SOUND"]) > 0;
+                        if (lastPrice <= numericUpDown1.Value)
                         {
-                            notifyIcon1.ShowBalloonTip(0, $"{lastPrice}\r\n", $"{lastPrice} <= {numericUpDown1.Value}", ToolTipIcon.Info);
-                            FlashWindow.Flash(this);
-                            if (playSound)
-                                PlayFile("down.mp3");
-                            LastNotifyTime = now;
+                            if (LastNotifyTime == null)
+                            {
+                                notifyIcon1.ShowBalloonTip(0, $"{lastPrice}\r\n", $"{lastPrice} <= {numericUpDown1.Value}", ToolTipIcon.Info);
+                                FlashWindow.Flash(this);
+                                if (playSound)
+                                    PlayFile("down.mp3");
+                                LastNotifyTime = now;
+                            }
+                            textBox_Price.ForeColor = Color.FromArgb(255, 65, 88);
                         }
-                        textBox_Price.ForeColor = Color.FromArgb(255, 65, 88);
-                    }
-                    else if (lastPrice >= numericUpDown2.Value && numericUpDown2.Value > numericUpDown1.Value)
-                    {
-                        if (LastNotifyTime == null)
+                        else if (lastPrice >= numericUpDown2.Value && numericUpDown2.Value > numericUpDown1.Value)
                         {
-                            notifyIcon1.ShowBalloonTip(0, $"{lastPrice}\r\n", $"{lastPrice} >= {numericUpDown2.Value}", ToolTipIcon.Info);
-                            FlashWindow.Flash(this);
-                            if (playSound)
-                                PlayFile("up.mp3");
-                            LastNotifyTime = now;
+                            if (LastNotifyTime == null)
+                            {
+                                notifyIcon1.ShowBalloonTip(0, $"{lastPrice}\r\n", $"{lastPrice} >= {numericUpDown2.Value}", ToolTipIcon.Info);
+                                FlashWindow.Flash(this);
+                                if (playSound)
+                                    PlayFile("up.mp3");
+                                LastNotifyTime = now;
+                            }
+                            textBox_Price.ForeColor = Color.FromArgb(0, 218, 133);
                         }
-                        textBox_Price.ForeColor = Color.FromArgb(0, 218, 133);
+                        else
+                        {
+                            textBox_Price.ForeColor = Color.FromArgb(227, 247, 237);
+                            LastNotifyTime = null;
+                        }
                     }
-                    else
-                    {
-                        textBox_Price.ForeColor = Color.FromArgb(227, 247, 237);
-                        LastNotifyTime = null;
-                    }
+                    if (ticker != null)
+                        textBox_Message.Text = $"{ticker.MarkPrice.Value}  /  {tickerBTC.LastPrice}    [{LastConnectedTime:yyyy-MM-dd HH:mm:ss}]";
+                }
+                else
+                {
+                    ErrorMessage = "Invalid Symbol";
+                    textBox_Message.Text = ErrorMessage;
                 }
             }
-
-            if (ErrorMessage != null)
-                textBox_Message.Text = ErrorMessage;
-            else if (ticker != null)
-                textBox_Message.Text = $"{ticker.LastPrice.Value}  /  {ticker.MarkPrice.Value}    [{LastConnectedTime:yyyy-MM-dd HH:mm:ss}]";
-
         }
 
         private void textBox_Symbol_TextChanged(object sender, EventArgs e)

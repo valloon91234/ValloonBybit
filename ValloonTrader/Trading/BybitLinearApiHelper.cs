@@ -198,6 +198,16 @@ namespace Valloon.Trading
             return null;
         }
 
+        public List<SymbolTickInfo> GetTickerList(string symbol = null)
+        {
+            RequestCount++;
+            JObject jObject = (JObject)MarketApiInstance.MarketSymbolInfo(symbol);
+            ServerTime = DateTimeExtensions.FromJavaMilliseconds((long)((decimal)jObject["time_now"] * 1000));
+            var obj = jObject.ToObject<SymbolInfoBase>();
+            List<SymbolTickInfo> resultList = obj.Result;
+            return resultList;
+        }
+
         public List<LinearListOrderResult> GetLastOrders(string symbol, string orderStatus, int limit = 50)
         {
             RequestCount++;
