@@ -16,7 +16,6 @@ D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\IO.
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\Newtonsoft.Json.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\Skender.Stock.Indicators.dll
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\RestSharp.dll
-D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\IO.Swagger.pdb
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\IO.Swagger.dll.config
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\Newtonsoft.Json.xml
 D:\Valloon\Workspace\VisualStudio2022\ValloonBybit\ValloonTrader\bin\Release\Skender.Stock.Indicators.xml

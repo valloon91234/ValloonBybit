@@ -139,7 +139,7 @@ namespace Notify
                 {
                     var lastPrice = ticker.LastPrice.Value;
                     this.Text = $"{lastPrice}  /  {ticker.MarkPrice.Value.ToString().Substring(ticker.MarkPrice.Value.ToString().Length - 2)}  /  {tickerBTC.LastPrice:F0}";
-                    textBox_Price.Text = $"{lastPrice}";
+                    textBox_Price.Text = $"{lastPrice} / {tickerBTC.LastPrice:F0}";
                     if (LastConnectedTime != null && (BybitLinearApiHelper.ServerTime - LastConnectedTime.Value).TotalMilliseconds < 5000)
                     {
                         var now = DateTime.Now;

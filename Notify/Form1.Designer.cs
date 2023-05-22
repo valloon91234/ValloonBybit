@@ -135,13 +135,14 @@
             // 
             this.textBox_Price.BackColor = System.Drawing.Color.Black;
             this.textBox_Price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_Price.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Price.Font = new System.Drawing.Font("Consolas", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Price.ForeColor = System.Drawing.Color.White;
             this.textBox_Price.Location = new System.Drawing.Point(3, 35);
             this.textBox_Price.Name = "textBox_Price";
             this.textBox_Price.ReadOnly = true;
-            this.textBox_Price.Size = new System.Drawing.Size(290, 64);
+            this.textBox_Price.Size = new System.Drawing.Size(290, 51);
             this.textBox_Price.TabIndex = 4;
+            this.textBox_Price.Text = "0000 / 00000";
             this.textBox_Price.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // trackBar1
@@ -152,7 +153,7 @@
             this.trackBar1.Minimum = 10;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar1.Size = new System.Drawing.Size(45, 86);
+            this.trackBar1.Size = new System.Drawing.Size(45, 74);
             this.trackBar1.TabIndex = 5;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Value = 50;
@@ -175,7 +176,7 @@
             this.textBox_Message.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_Message.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Message.ForeColor = System.Drawing.Color.White;
-            this.textBox_Message.Location = new System.Drawing.Point(3, 103);
+            this.textBox_Message.Location = new System.Drawing.Point(3, 90);
             this.textBox_Message.Name = "textBox_Message";
             this.textBox_Message.ReadOnly = true;
             this.textBox_Message.Size = new System.Drawing.Size(318, 23);
@@ -187,7 +188,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(325, 130);
+            this.ClientSize = new System.Drawing.Size(325, 117);
             this.Controls.Add(this.textBox_Message);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.textBox_Symbol);
