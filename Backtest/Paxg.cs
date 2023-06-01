@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Skender.Stock.Indicators;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Valloon.Indicators;
@@ -12,7 +9,7 @@ namespace Valloon.Trading.Backtest
     {
         public static void Run()
         {
-            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2023, 4, 10, 2, 26, 0, DateTimeKind.Utc)); return;
+            //Loader.WriteCSV("PAXGUSDT", 1, new DateTime(2023, 5, 8, 8, 0, 0, DateTimeKind.Utc)); return;
 
             Benchmark(5, 0);
 
