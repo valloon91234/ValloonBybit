@@ -1,1 +1,3 @@
-Simple Crypto Trading Bot on BitMEX.com using C#.
+# ValloonBybit
+
+Simple Crypto Trading Bot on Bybit.com using C#.
